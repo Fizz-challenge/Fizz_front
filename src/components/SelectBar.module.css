@@ -1,0 +1,24 @@
+.header {
+    width: inherit;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.bar {
+  width: 200px;
+  background-color: gray;
+  text-align: center;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+}
+
+.menuItem {
+  display: inline;
+  margin-bottom: 15px; 
+  font-size: 18px;
+  cursor: pointer;
+}

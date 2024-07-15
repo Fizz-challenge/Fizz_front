@@ -1,12 +1,15 @@
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import FollowPage from './pages/FollowPage';
 
-function App() {
-
+const App = () => {
   return (
-    <>
-    <h1>Fizz! 화이팅!</h1>
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<FollowPage />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;

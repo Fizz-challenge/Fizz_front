@@ -1,0 +1,9 @@
+.followPage {
+    display:flex;
+}
+
+.content {
+    flex: 1;
+    padding: 10px;
+    align-items: center;
+}
