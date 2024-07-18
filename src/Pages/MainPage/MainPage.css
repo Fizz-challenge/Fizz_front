@@ -1,0 +1,10 @@
+.main-page {
+  display: flex;
+  justify-content: center;
+  height: 95vh;
+}
+
+.video-wrapper {
+  display: flex;
+  align-items: flex-end;
+}

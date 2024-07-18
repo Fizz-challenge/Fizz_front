@@ -5,3 +5,15 @@ a {
 a:visited {
   color: black;
 }
+
+.content-wrapper {
+  margin-left: 200px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 100px;
+  }
+}

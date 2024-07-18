@@ -1,0 +1,46 @@
+.video-feed {
+  display: flex;
+
+  align-items: center;
+
+  height: 100%;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  min-width: 500px;
+  margin: 20px 0;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+}
+
+.video-info {
+  position: absolute; 
+  bottom: 5%; 
+  left: 0;
+  width: 100%;
+  color: white;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.video-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.video-details {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,49 @@
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 20px;
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 15px 10px;
+  border-radius: 10px; 
+}
+
+.buttons-container span {
+  font-weight: 900;
+  font-family: 'Pretendard-Regular';
+}
+
+.button-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+  color: white;
+  background-color: #2DA7FF;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 22px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-fill {
+  fill: white;
+}
+
+.animate .icon-fill {
+  animation: fillUp 1s ease-in-out forwards;
+}
+
+@keyframes fillUp {
+  0% {
+    clip-path: inset(100% 0 0 0);
+    fill: white;
+  }
+  100% {
+    clip-path: inset(0% 0 0 0);
+    fill: red;
+  }
+}

@@ -1,11 +1,19 @@
 import './App.css'
+import Header from './Components/Header'
+import { Route, Routes } from 'react-router-dom';
+import MainPage from './Pages/MainPage/MainPage';
 
 function App() {
 
   return (
     <>
-    <h1>Fizz! 화이팅!</h1>
-    </>
+      <Header />
+      <div className='content-wrapper'>
+      <Routes>
+        <Route exact path="/" element={<MainPage />} />
+        </Routes>
+        </div>
+</>
   )
 }
 
