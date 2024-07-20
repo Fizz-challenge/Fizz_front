@@ -9,7 +9,7 @@ import {
 	IoHeartOutline,
 	IoHeart,
 } from "react-icons/io5";
-import Nav from "../components/Nav.jsx";
+import Nav from "../../Components/Nav.jsx";
 import "./UserPage.css";
 
 const User = () => {
