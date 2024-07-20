@@ -1,0 +1,44 @@
+.post-section {
+  background-color: #f7f7f7;
+  margin: 10px;
+  padding: 20px 10px;
+  border-radius: 10px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.user-info p {
+  margin: 0;
+  color: #777;
+}
+
+h2 {
+  margin: 15px 0;
+  font-size: 20px;
+}
+
+p {
+  margin: 0;
+  line-height: 1.5;
+}

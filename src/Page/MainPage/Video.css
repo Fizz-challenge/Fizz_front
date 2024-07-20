@@ -1,0 +1,122 @@
+.video-feed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.video-container {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 90vh;
+  cursor: pointer;
+}
+
+.video {
+  width: 500px;
+  height: auto;
+}
+
+.video-info {
+  position: absolute; 
+  bottom: 0; 
+  left: 0;
+  width: 100%;
+  padding: 10px 15px 0px 15px;
+  color: white;
+  box-sizing: border-box;
+  transition: bottom 0.3s ease-in-out;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.05));
+}
+
+.video-container:hover .video-info {
+  bottom: 40px;
+}
+
+.video-container:hover .custom-controls {
+  visibility: visible;
+  opacity: 1;
+}
+
+.video-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.video-details {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.custom-controls {
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 1);
+  padding: 10px;
+  align-items: center;
+  transition: visibility 0.3s, opacity 0.3s linear;
+  user-select: none;
+}
+
+.custom-controls button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  width: 20px;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out; 
+}
+
+.custom-controls input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 70%;
+  background: #444;
+  height: 5px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+.custom-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.time-info {
+  color: white;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.volume-control {
+  position: relative;
+}
+
+.volume-slider {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  width: 60px !important;
+}

@@ -1,0 +1,95 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #ccc;
+  user-select: none;
+}
+
+.header-top {
+  color: black;
+  font-size: 24px;
+  margin: 30px;
+  cursor: pointer;
+}
+
+.header-sections {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-sections ul {
+  list-style-type: none;
+}
+
+.header-sections li {
+  margin: 10px;
+}
+
+.header-sections a {
+  font-family: 'Pretendard-Regular';
+  color: #2da7ff;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px 35px;
+  border: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.header-sections a:hover {
+  background-color: rgba(45, 167, 255, 0.1);
+}
+
+.header-sections a.active {
+  color: white;
+  background-color: #2da7ff;
+}
+
+.icon {
+  margin-right: 20px;
+  font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+  .header {
+    width: 80px;
+    height: 100%;
+  }
+
+  .header-sections ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header-sections a {
+    font-size: 0;
+    padding: 10px;
+  }
+
+  .header-sections .icon {
+    margin-right: 0;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+  display: none;
+  }
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
