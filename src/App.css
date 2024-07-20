@@ -21,3 +21,54 @@ a:visited {
     margin-left: 0px;
   }
 }
+
+@font-face {
+  font-family: "IrishGrover";
+  src: url("../font/IrishGrover-Regular.ttf");
+}
+
+
+
+
+@font-face {
+  font-family: "NanumGothicR";
+  src: url("../font/NanumGothic-Regular.ttf");
+}
+
+@font-face {
+  font-family: "NanumGothicB";
+  src: url("../font/NanumGothic-Bold.ttf");
+}
+
+@font-face {
+  font-family: "NanumGothicEB";
+  src: url("../font/NanumGothic-ExtraBold.ttf");
+}
+
+
+
+
+@font-face {
+  font-family: "NanumSquareNeoLT";
+  src: url("../font/NanumSquareNeo-aLt.ttf");
+}
+
+@font-face {
+  font-family: "NanumSquareNeoRG";
+  src: url("../font/NanumSquareNeo-bRg.ttf");
+}
+
+@font-face {
+  font-family: "NanumSquareNeoBD";
+  src: url("../font/NanumSquareNeo-cBd.ttf");
+}
+
+@font-face {
+  font-family: "NanumSquareNeoEB";
+  src: url("../font/NanumSquareNeo-dEb.ttf");
+}
+
+@font-face {
+  font-family: "NanumSquareNeoHV";
+  src: url("../font/NanumSquareNeo-eHv.ttf");
+}
