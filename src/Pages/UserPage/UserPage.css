@@ -1,0 +1,184 @@
+.content {
+    position: absolute;
+    width: calc(100% - 250px);
+    height: 100vh;
+    right: 0;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
+.profileImg {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: 50px;
+    left: 100px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+}
+
+.profileName {
+    position: absolute;
+    top: 80px;
+    left: 270px;
+    font-size: 40px;
+    font-family: "NanumSquareNeoBD";
+}
+
+.profileDesc {
+    position: absolute;
+    top: 130px;
+    left: 270px;
+    font-size: 20px;
+    font-family: "NanumSquareNeoRG";
+}
+
+.profileStat {
+    position: absolute;
+    top: 80px;
+    right: 100px;
+    text-align: center;
+}
+
+.profileStat div {
+    display: inline-block;
+    font-family: "NanumSquareNeoRG";
+    font-size: 20px;
+    margin-left: 30px;
+}
+
+.profileStat div div {
+    display: block;
+    font-family: "NanumSquareNeoBD";
+    font-size: 40px;
+    color: #2DA7FF;
+    cursor: pointer;
+    margin-left: 0;
+}
+
+.contentNav {
+    position: absolute;
+    background-color: #f0f0f0;
+    width: 500px;
+    height: 60px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    user-select: none;
+    left: calc(50% - 250px);
+    top: 220px;
+}
+
+.slideBtn {
+    position: absolute;
+    width: calc((500px / 3) - 10px);
+    height: 50px;
+    background-color: #ffffff;
+    z-index: 0;
+    top: 5px;
+    border-radius: 20px;
+    transition: .3s ease;
+}
+
+.contentBtn {
+    padding-left: 20px;
+    width: calc((500px / 3) - 10px);
+    height: 50px;
+    border-radius: 20px;
+    text-align: center;
+    color: #898989;
+    line-height: 50px;
+    font-size: 20px;
+    font-family: "NanumSquareNeoRG";
+    z-index: 1;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.contentBtn:not(.selectedContent):hover {
+    background-color: #dfdfdf;
+}
+
+.selectedContent {
+    color: #000000;
+    font-family: "NanumSquareNeoBD";
+}
+
+.select0 {
+    left: 5px;
+}
+
+.select1 {
+    left: calc(5px + 500px / 3);
+}
+
+.select2 {
+    left: calc(5px + 1000px / 3);
+}
+
+.contentBtn .ionicon {
+    position: absolute;
+    margin-top: 14px;
+    margin-left: -25px;
+}
+
+.contents {
+    position: absolute;
+    width: calc(100% - 100px);
+    /* height: calc(100% - 300px); */
+    /* overflow: scroll; */
+    /* background-color: red; */
+    top: 330px;
+    left: 50px;
+}
+
+.contentChallenge {
+    display: inline-block;
+    width: calc((100% / 5) - 10px);
+    height: calc((((100vw - 350px)) / 5) - 10px);
+    background-color: #d9d9d9;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+.contentChallenge div {
+    font-size: 18px;
+    font-family: "NanumSquareNeoRG";
+    margin-top: calc((((100vw - 350px)) / 5) - 45px);
+    margin-left: 15px;
+}
+
+.categoryNav {
+    position: absolute;
+    width: calc(100% - 100px);
+    height: 50px;
+    top: 280px;
+    left: 50px;
+    /* background-color: red; */
+    user-select: none;
+}
+
+.categories {
+    display: inline-block;
+    width: auto;
+    height: 40px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    line-height: 30px;
+    padding: 5px 15px;
+    font-family: "NanumSquareNeoRG";
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.selectedCategory {
+    background-color: #2DA7FF;
+    color: #ffffff;
+}

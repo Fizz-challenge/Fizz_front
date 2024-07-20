@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.backgroundLeft {
+    position: absolute;
+    background-color: #2995e2;
+    width: 50%;
+    height: 100vh;
+}
+
+.backgroundRight {
+    position: absolute;
+    background-color: #d1d1d1;
+    width: 50%;
+    height: 100vh;
+    right: 0;
+}
+
+.allWrap {
+    position: absolute;
+    width: 60%;
+    height: 80%;
+    top: 10%;
+    left: 20%;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.backWrap {
+    position: absolute;
+    background-color: #2DA7FF;
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.title {
+    position: absolute;
+    font-family: "IrishGrover";
+    font-size: 100px;
+    color: #ffffff;
+    width: 100%;
+    line-height: 80vh;
+    text-align: center;
+    user-select: none;
+}
+
+/* .desc {
+    position: absolute;
+    font-family: "NanumSquareNeoBD";
+    font-size: 20px;
+    color: #ffffff;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    top: calc(50% + 40px);
+} */
+
+.loginWrap {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+    background-color: #ffffff;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.loginTitle {
+    position: absolute;
+    font-size: 40px;
+    text-align: center;
+    font-family: "NanumSquareNeoEB";
+    width: 100%;
+    height: 40px;
+    top: calc(25% - 20px);
+}
+
+.loginDescLine {
+    position: absolute;
+    top: calc(50% - 45px);
+    width: 80%;
+    left: 10%;
+    border: 0.5px solid black;
+}
+
+.loginDesc {
+    position: absolute;
+    width: 150px;
+    height: 30px;
+    background-color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+    font-family: "NanumSquareNeoBD";
+    left: calc(50% - 75px);
+    top: calc(50% - 50px);
+}
+
+.loginKakaoBtn {
+    background-color: #FEE500;
+    top: calc(50%);
+    color: #191919;
+}
+
+.kakaoIcon {
+    position: absolute;
+    width: 25px;
+    top: calc(50% - 12.5px);
+    left: 20px;
+}
+
+.naverIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(50% - 10px);
+    left: 22.5px;
+}
+
+.loginNaverBtn {
+    background-color: #03C75A;
+    top: calc(50% + 70px);
+    color: #ffffff;
+}
+
+.loginKakaoBtn, .loginNaverBtn {
+    position: absolute;
+    width: 80%;
+    height: 60px;
+    left: 10%;
+    border-radius: 20px;
+    font-family: "NanumSquareNeoBD";
+    font-size: 20px;
+    line-height: 60px;
+    text-align: center;
+    cursor: pointer;      
+    transition: .1s;   
+    user-select: none;       
+}
+
+.loginKakaoBtn:hover, .loginNaverBtn:hover {
+    transform: scale(1.01);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
+}

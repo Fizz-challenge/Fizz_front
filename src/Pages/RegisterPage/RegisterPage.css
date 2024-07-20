@@ -1,0 +1,105 @@
+.registerTitle {
+    position: absolute;
+    font-size: 30px;
+    text-align: center;
+    font-family: "NanumSquareNeoBD";
+    width: 100%;
+    height: 60px;
+    top: calc(20% - 30px);
+}
+
+.registerBtn {
+    position: absolute;
+    width: 80%;
+    height: 60px;
+    left: 10%;
+    border-radius: 20px;
+    font-family: "NanumSquareNeoBD";
+    font-size: 20px;
+    line-height: 60px;
+    text-align: center;
+    cursor: pointer;
+    transition: .1s;
+    background-color: #2DA7FF;
+    bottom: 20px;
+    color: #ffffff;
+    border: none;
+    user-select: none;
+}
+
+.registerBtn:hover {
+    transform: scale(1.01);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
+}
+
+.categoryForm {
+    width: 100%;
+    height: 100%;
+}
+
+.categoryDiv {
+    margin-bottom: 5px;
+    width: 60%;
+    margin-left: calc(20%);
+}
+
+.categoryDiv:first-child {
+    padding-top: calc(30vh);
+}
+
+.categoryInput {
+    display: none;
+}
+
+.categoryInput + label {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #E1F3FF;
+    border-radius: 6px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+
+.categoryInput:checked + label {
+    background-color: #2DA7FF;
+    box-shadow: #2da7ff88 0px 0px 5px 2px;
+}
+
+.categoryInput:checked + label::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 15px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    position: relative;
+    top: 4px;
+    left: 10px;
+}
+
+.categoryInput + label + label {
+    user-select: none;
+    font-size: 20px;
+    font-family: "NanumSquareNeoRG";
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.categoryContact {
+    position: absolute;
+    font-family: "NanumSquareNeoRG";
+    width: 100%;
+    bottom: 90px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.categoryContact span {
+    color: #2DA7FF;
+    font-family: "NanumSquareNeoBD";
+    cursor: pointer;
+}
