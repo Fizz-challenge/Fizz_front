@@ -1,13 +1,13 @@
 import "./App.css";
 import Header from "./Components/Header";
 import { Route, Routes } from "react-router-dom";
-import MainPage from "./Pages/MainPage/MainPage";
-import VideoDetail from "./Pages/DetailVideoPage/VideoDetail";
-import FollowPage from "./pages/FollowPage";
-import SearchPage from "./pages/SearchPage";
-import LoginPage from "./Pages/LoginPage/LoginPage.jsx";
-import RegisterPage from "./Pages/RegisterPage/RegisterPage.jsx";
-import UserPage from "./Pages/UserPage/UserPage.jsx";
+import MainPage from "./Page/MainPage/MainPage";
+import VideoDetail from "./Page/DetailVideoPage/VideoDetail";
+import FollowPage from "./Page/FollowPage/FollowPage";
+import SearchPage from "./Page/SearchPage/SearchPage";
+import LoginPage from "./Page/LoginPage/LoginPage.jsx";
+import RegisterPage from "./Page/RegisterPage/RegisterPage.jsx";
+import UserPage from "./Page/UserPage/UserPage.jsx";
 
 function App() {
 	return (
