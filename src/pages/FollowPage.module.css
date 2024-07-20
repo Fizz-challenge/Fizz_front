@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.mainContent {
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: flex-start;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.searchBar {
+  margin: 20px 0;
+  width: 30vw;
+}
+
+.searchBar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 1.2rem;
+  height: 2.4rem;
+}
+
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 3rem;
+  width: 30vw;
+}
