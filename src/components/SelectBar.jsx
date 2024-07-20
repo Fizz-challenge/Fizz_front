@@ -1,16 +1,13 @@
-import styles from './SelectBar.module.css'
+import React from 'react';
+import styles from './SelectBar.module.css';
 
 const SelectBar = () => {
-    return (
-        <div className={styles.header}>
-            <div className={styles.bar}>
-                <ul className={styles.menuList}>
-                    <li className={styles.menuItem}>팔로워</li>
-                    <li className={styles.menuItem}>팔로잉</li>
-                </ul>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.selectBar}>
+      <button className={styles.toggleBtn}>팔로워 00명</button>
+      <button className={`${styles.toggleBtn} ${styles.active}`}>팔로잉 00명</button>
+    </div>
+  );
 };
 
 export default SelectBar;

@@ -1,24 +1,24 @@
-.header {
-    width: inherit;
-    text-align: center;
-    display: flex;
-    align-items: center;
+.selectBar {
+  display: inline-flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-radius: 1.3rem;
+  background-color: rgb(241, 241, 241);
+  margin: 0 auto;
 }
 
-.bar {
-  width: 200px;
-  background-color: gray;
-  text-align: center;
-}
-
-.menuList {
-  list-style: none;
-  padding: 0;
-}
-
-.menuItem {
-  display: inline;
-  margin-bottom: 15px; 
-  font-size: 18px;
+.toggleBtn {
+  padding: 10px 20px;
+  margin: 0.3rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: inherit;
   cursor: pointer;
+  color: gray;
+  width: 8rem;
+}
+
+.toggleBtn.active {
+  background-color: white;
+  color: black;
 }
