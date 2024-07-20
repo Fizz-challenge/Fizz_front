@@ -12,82 +12,105 @@ const Video = ({ video, isActive }) => {
   const [showVolumeControl, setShowVolumeControl] = useState(false);
 
   const handleVideoClick = (id) => {
-    const currentTime = videoRef.current.currentTime;
+    const currentTime = videoRef.current ? videoRef.current.currentTime : 0;
     localStorage.setItem('videoCurrentTime', currentTime);
     navigate(`/video/${video.id}`);
   };
 
   useEffect(() => {
-    const savedVideoId = localStorage.getItem('currentVideoId');
-    const savedTime = localStorage.getItem('videoCurrentTime');
-    const savedVolume = parseFloat(localStorage.getItem('videoVolume')) || 0.5;
+    const attemptSetVideoState = () => {
+      if (!videoRef.current) {
+        setTimeout(attemptSetVideoState, 200); // 200ms 후에 다시 시도
+        return;
+      }
 
-    if (videoRef.current) {
+      const savedVideoId = localStorage.getItem('currentVideoId');
+      const savedTime = localStorage.getItem('videoCurrentTime');
+      const savedVolume = parseFloat(localStorage.getItem('videoVolume')) || 0.5;
+
       videoRef.current.volume = savedVolume;
-      console.log(`로컬 ${savedVideoId}`);
-      console.log(`지금 ${video.id}`);
       if (savedVideoId === String(video.id) && savedTime) {
         videoRef.current.currentTime = savedTime;
-        console.log("어 맞다");
       } else {
         localStorage.setItem('videoCurrentTime', 0);
       }
-    }
 
-    const handleTimeUpdate = () => {
-      setCurrentTime(videoRef.current.currentTime);
+      const handleTimeUpdate = () => {
+        setCurrentTime(videoRef.current.currentTime);
+      };
+
+      const handleLoadedMetadata = () => {
+        setDuration(videoRef.current.duration);
+      };
+
+      videoRef.current.addEventListener('timeupdate', handleTimeUpdate);
+      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
+
+      return () => {
+        videoRef.current.removeEventListener('timeupdate', handleTimeUpdate);
+        videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      };
     };
 
-    const handleLoadedMetadata = () => {
-      setDuration(videoRef.current.duration);
-    };
-
-    const videoElement = videoRef.current;
-    videoElement.addEventListener('timeupdate', handleTimeUpdate);
-    videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-
-    return () => {
-      videoElement.removeEventListener('timeupdate', handleTimeUpdate);
-      videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-    };
+    attemptSetVideoState();
   }, [video.id]);
 
   useEffect(() => {
-    if (isActive) {
-      const savedVolume = parseFloat(localStorage.getItem('videoVolume'))
+    const attemptPlayVideo = () => {
+      if (!videoRef.current) {
+        setTimeout(attemptPlayVideo, 200); // 200ms 후에 다시 시도
+        return;
+      }
+
+      const savedVolume = parseFloat(localStorage.getItem('videoVolume')) || 0.5;
       videoRef.current.volume = savedVolume;
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-      setIsPlaying(true);
-      localStorage.setItem('currentVideoId', video.id);
-      console.log("저장", video.id)
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
-  }, [isActive]);
+
+      if (isActive) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().then(() => {
+          setIsPlaying(true);
+          localStorage.setItem('currentVideoId', video.id);
+        }).catch(error => {
+          console.error("Error playing video:", error);
+        });
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    attemptPlayVideo();
+  }, [isActive, video.id]);
 
   const togglePlayPause = (event) => {
     event.stopPropagation();
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(error => {
+          console.error("Error playing video:", error);
+        });
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleVolumeChange = (event) => {
     event.stopPropagation();
     const newVolume = parseFloat(event.target.value);
-    videoRef.current.volume = newVolume;
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume;
+    }
     localStorage.setItem('videoVolume', newVolume);
   };
 
   const handleTimeChange = (event) => {
     event.stopPropagation();
     const newTime = parseFloat(event.target.value);
-    videoRef.current.currentTime = newTime;
+    if (videoRef.current) {
+      videoRef.current.currentTime = newTime;
+    }
     setCurrentTime(newTime);
   };
 
@@ -105,7 +128,13 @@ const Video = ({ video, isActive }) => {
   return (
     <div className='video-feed'>
       <div className="video-container">
-        <video className="video" loop ref={videoRef} playsInline onClick={() => handleVideoClick(video.id)}>
+        <video
+          className="video"
+          loop
+          ref={videoRef}
+          playsInline
+          onClick={() => handleVideoClick(video.id)}
+        >
           <source src={video.src} type="video/mp4" />
         </video>
         <div className="video-info">
