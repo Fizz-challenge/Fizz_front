@@ -1,10 +1,10 @@
 import './App.css'
 import Header from './Components/Header'
 import { Route, Routes } from 'react-router-dom';
-import MainPage from './Pages/MainPage/MainPage';
-import VideoDetail from './Pages/DetailVideoPage/VideoDetail';
-import FollowPage from './pages/FollowPage';
-import SearchPage from './pages/SearchPage';
+import MainPage from './Page/MainPage/MainPage';
+import VideoDetail from './Page/DetailVideoPage/VideoDetail';
+import FollowPage from './Page/FollowPage/FollowPage';
+import SearchPage from './Page/SearchPage/SearchPage';
 
 function App() {
 

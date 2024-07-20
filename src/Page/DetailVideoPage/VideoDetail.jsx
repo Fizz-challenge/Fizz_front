@@ -5,7 +5,7 @@ import Post from './DetailPost';
 import CommentSection from './Comment';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdArrowBack } from 'react-icons/md';
-import getVideoData from '../videosData';
+import getVideoData from '../videosData/videosData';
 
 const VideoDetail = () => {
   const { id } = useParams();
