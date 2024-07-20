@@ -5,3 +5,19 @@ a {
 a:visited {
   color: black;
 }
+
+.content-wrapper {
+  margin-left: 200px;
+}
+
+@media (max-width: 1024px) {
+  .content-wrapper {
+    margin-left: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 0px;
+  }
+}
