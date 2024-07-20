@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import MenuBar from '../components/MenuBar';
-import ChallengeBlock from '../components/ChallengeBlock';
+import MenuBar from '../../Components/MenuBar';
+import ChallengeBlock from '../../Components/ChallengeBlock';
 import styles from './SearchPage.module.css';
 
 const SearchPage = () => {

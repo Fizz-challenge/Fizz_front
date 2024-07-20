@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './MainPage.css';
 import Video from './Video';
 import Buttons from './Buttons';
-import getVideoData from '../videosData';
+import getVideoData from '../videosData/videosData';
 
 const MainPage = () => {
   const [videos, setVideos] = useState([]);

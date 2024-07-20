@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import MenuBar from '../components/MenuBar';
-import SelectBar from '../components/SelectBar';
-import UserBlock from '../components/UserBlock';
-import Hashtag from '../components/Hashtag';
+import MenuBar from '../../Components/MenuBar';
+import SelectBar from '../../Components/SelectBar';
+import UserBlock from '../../Components/UserBlock';
+import Hashtag from '../../Components/Hashtag';
 import styles from './FollowPage.module.css';
 
 const FollowPage = () => {
