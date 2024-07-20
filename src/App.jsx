@@ -1,18 +1,25 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css'
+import Header from './Components/Header'
+import { Route, Routes } from 'react-router-dom';
+import MainPage from './Pages/MainPage/MainPage';
+import VideoDetail from './Pages/DetailVideoPage/VideoDetail';
 import FollowPage from './pages/FollowPage';
 import SearchPage from './pages/SearchPage';
 
-//123
 const App = () => {
   return (
-    <Router>
+    <>
+      <Header />
+      <div className='content-wrapper'>
       <Routes>
-        <Route path="/" element={<FollowPage />} />
-        <Route path="/search" element={<SearchPage />} />
+          <Route exact path="/" element={<MainPage />} />
+          <Route path="/video/:id" element={<VideoDetail />} />
+          <Route path="/follow" element={<FollowPage />} />
+          <Route path="/search" element={<SearchPage />} />
       </Routes>
-    </Router>
-  );
-};
+      </div>
+</>
+  )
+}
 
 export default App;
