@@ -1,0 +1,38 @@
+
+.buttons-container span {
+  font-weight: 900;
+  font-family: 'Pretendard-Regular';
+}
+
+.button-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px 0;
+  color: #2DA7FF;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-fill {
+  fill: #2DA7FF ;
+}
+
+.animate .icon-fill {
+  animation: fillUp 1s ease-in-out forwards;
+}
+
+@keyframes fillUp {
+  0% {
+    clip-path: inset(100% 0 0 0);
+    fill: white;
+  }
+  100% {
+    clip-path: inset(0% 0 0 0);
+    fill: red;
+  }
+}
