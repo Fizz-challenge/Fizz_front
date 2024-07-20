@@ -9,10 +9,9 @@ import {
 	IoHeartOutline,
 	IoHeart,
 } from "react-icons/io5";
-import Nav from "../../Components/Nav.jsx";
 import "./UserPage.css";
 
-const User = () => {
+const UserPage = () => {
     // const params = useParams();
     const [userInfo, setUserInfo] = useState({});
 	const [nowSelected, setNowSelected] = useState(0);
@@ -180,9 +179,8 @@ const User = () => {
 						))}
 				</div>
 			</div>
-			<Nav />
 		</>
 	);
 }
 
-export default User;
+export default UserPage;

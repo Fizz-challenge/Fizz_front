@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 // import axios from "axios";
 import "./RegisterPage.css";
 
-const Register = () => {
+const RegisterPage = () => {
 	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
@@ -65,4 +65,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default RegisterPage;

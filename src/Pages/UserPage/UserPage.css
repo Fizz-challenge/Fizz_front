@@ -87,7 +87,7 @@
 
 .contentBtn {
     padding-left: 20px;
-    width: calc((500px / 3) - 30px);
+    width: calc((500px / 3) - 10px);
     height: 50px;
     border-radius: 20px;
     text-align: center;
@@ -166,7 +166,7 @@
 .categories {
     display: inline-block;
     width: auto;
-    height: 30px;
+    height: 40px;
     margin: 5px;
     background-color: #f0f0f0;
     line-height: 30px;

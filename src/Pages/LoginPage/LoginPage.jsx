@@ -2,7 +2,7 @@ import { SiNaver } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
-const Login = () => {
+const LoginPage = () => {
 
 	const navigate = useNavigate();
 
@@ -35,4 +35,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default LoginPage;
