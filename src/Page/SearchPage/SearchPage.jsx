@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import MenuBar from '../../Components/MenuBar';
 import ChallengeBlock from '../../Components/ChallengeBlock';
 import './SearchPage.css';
 
