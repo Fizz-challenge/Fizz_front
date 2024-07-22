@@ -3,7 +3,7 @@ import MenuBar from '../../Components/MenuBar';
 import SelectBar from '../../Components/SelectBar';
 import UserBlock from '../../Components/UserBlock';
 import Hashtag from '../../Components/Hashtag';
-import styles from './FollowPage.module.css';
+import './FollowPage.css';
 
 const FollowPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,11 +41,10 @@ const FollowPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <MenuBar />
-      <div className={styles.mainContent}>
+    <div className="container">
+      <div className="mainContent">
         <SelectBar />
-        <div className={styles.searchBar}>
+        <div className="searchBar">
           <input
             type="text"
             placeholder="검색"
@@ -53,13 +52,13 @@ const FollowPage = () => {
             onChange={handleSearch}
           />
         </div>
-        <div className={styles.List}>
+        <div className="List">
           <h1>태그</h1>
           {filteredHashtags.map((tag, index) => (
             <Hashtag key={index} tag={tag} />
           ))}
         </div>
-        <div className={styles.List}>
+        <div className="List">
           <h1>계정</h1>
           {filteredUsers.map((user, index) => (
             <UserBlock

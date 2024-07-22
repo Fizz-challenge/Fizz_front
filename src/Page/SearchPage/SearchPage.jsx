@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MenuBar from '../../Components/MenuBar';
 import ChallengeBlock from '../../Components/ChallengeBlock';
-import styles from './SearchPage.module.css';
+import './SearchPage.css';
 
 const SearchPage = () => {
   const categories = ["헬스", "악기", "독서", "금융", "스포츠", "공부"]; // 예시 카테고리 리스트
@@ -54,10 +54,9 @@ const SearchPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <MenuBar />
-      <div className={styles.mainContent}>
-        <form className={styles.searchBar} onSubmit={handleSearchSubmit}>
+    <div className="container">
+      <div className="mainContent">
+        <form className="searchBar" onSubmit={handleSearchSubmit}>
           <input
             type="text"
             placeholder="검색"
@@ -65,17 +64,17 @@ const SearchPage = () => {
             onChange={handleSearch}
           />
         </form>
-        <div className={styles.categories}>
+        <div className="categories">
           {categories.map((category, index) => (
-            <button key={index} className={styles.categoryButton}>
+            <button key={index} className="categoryButton">
               {category}
             </button>
           ))}
         </div>
-        <div className={styles.allChallenges}>
+        <div className="allChallenges">
           {categories.map((category, index) => (
-            <div key={index} className={styles.categorySection}>
-              <div className={styles.challenges}>
+            <div key={index} className="categorySection">
+              <div className="challenges">
                 {filteredChallenges
                   .filter(challenge => challenge.tag === category)
                   .map((challenge, index) => (
