@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './UserBlock.module.css';
-import humanIcon from '../assets/human.png';
+import humanIcon from '../../assets/human.png';
 
 const UserBlock = ({ username, description }) => {
   return (

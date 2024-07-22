@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import UserBlock from '../../Components/UserBlock';
-import Hashtag from '../../Components/Hashtag';
+import UserBlock from './UserBlock';
+import Hashtag from './Hashtag';
 import getFollowData from './FollowData';
 import './FollowPage.css';
 
