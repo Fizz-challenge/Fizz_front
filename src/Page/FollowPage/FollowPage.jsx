@@ -5,6 +5,8 @@ import UserBlock from '../../Components/UserBlock';
 import Hashtag from '../../Components/Hashtag';
 import './FollowPage.css';
 
+//팔로우 페이지 테스트
+
 const FollowPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredHashtags, setFilteredHashtags] = useState([]);
