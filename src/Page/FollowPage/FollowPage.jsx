@@ -9,7 +9,7 @@ const FollowPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredHashtags, setFilteredHashtags] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [viewType, setViewType] = useState('followers'); // 'followers' 또는 'following'으로 설정
+  const [viewType, setViewType] = useState('followers'); // 'followers', 'following', 또는 'hashtags'으로 설정
   const [data, setData] = useState({
     following: '0',
     follower: '0',
@@ -33,8 +33,10 @@ const FollowPage = () => {
     if (searchTerm === "") {
       if (viewType === 'followers') {
         setFilteredUsers(data.followerInfo);
-      } else {
+      } else if (viewType === 'following') {
         setFilteredUsers(data.followingInfo);
+        setFilteredHashtags(data.followingChallenge);
+      } else if (viewType === 'hashtags') {
         setFilteredHashtags(data.followingChallenge);
       }
     } else {
@@ -49,7 +51,7 @@ const FollowPage = () => {
             user.nickname.toLowerCase().includes(searchTerm.toLowerCase())
           )
         );
-      } else {
+      } else if (viewType === 'following') {
         setFilteredUsers(
           data.followingInfo.filter((user) =>
             user.nickname.toLowerCase().includes(searchTerm.toLowerCase())
@@ -69,7 +71,10 @@ const FollowPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="main-page">
+      <div>
+        
+      </div>
       <div className="mainContent">
         <div className="buttonContainer">
           <button
@@ -84,6 +89,12 @@ const FollowPage = () => {
           >
             팔로잉 {data.following}명
           </button>
+          <button
+            className={`toggleButton ${viewType === 'hashtags' ? 'active' : ''}`}
+            onClick={() => handleViewChange('hashtags')}
+          >
+            #해시태그
+          </button>
         </div>
         <div className="searchBar">
           <input
@@ -93,7 +104,7 @@ const FollowPage = () => {
             onChange={handleSearch}
           />
         </div>
-        {viewType === 'following' && (
+        {viewType === 'hashtags' && (
           <div className="List">
             <h1>태그</h1>
             {filteredHashtags.map((tag, index) => (
@@ -101,17 +112,19 @@ const FollowPage = () => {
             ))}
           </div>
         )}
-        <div className="List">
-          <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
-          {filteredUsers.map((user, index) => (
-            <UserBlock
-              key={index}
-              username={user.nickname}
-              description={user.describe}
-              profileImage={user.profileImage}
-            />
-          ))}
-        </div>
+        {viewType !== 'hashtags' && (
+          <div className="List">
+            <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
+            {filteredUsers.map((user, index) => (
+              <UserBlock
+                key={index}
+                username={user.nickname}
+                description={user.describe}
+                profileImage={user.profileImage}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
