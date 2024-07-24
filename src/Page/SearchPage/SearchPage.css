@@ -1,67 +1,95 @@
+/* SearchPage.css */
+
 .container {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
 .mainContent {
-  display: flex;
-  width: 50vw;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto; /* 세로 스크롤 활성화 */
+  width: 100%;
+  max-width: 1200px;
 }
 
 .searchBar {
-  margin: 20px 0;
-  width: 50%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .searchBar input {
   width: 100%;
+  max-width: 600px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 1.2rem;
-  height: 2.4rem;
+  border-radius: 4px;
 }
 
-.categories {
+.categoryBar {
   display: flex;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.categoryButton {
+.categoryBar button {
   padding: 10px 20px;
-  border: 1px solid #ccc;
-  border-radius: 1.2rem;
-  background-color: white;
+  border: none;
+  background-color: #eee;
+  border-radius: 4px;
   cursor: pointer;
-  flex-shrink: 0;
 }
 
-.categoryButton:hover {
-  background-color: #f0f0f0;
+.categoryBar button:hover {
+  background-color: #ddd;
 }
 
-.allChallenges {
-  width: 100%;
-}
-
-.categorySection {
-  margin-bottom: 40px;
-}
-
-.categorySection h2 {
-  margin-bottom: 20px;
-}
-
-.challenges {
+.videoList {
   display: flex;
-  flex-direction: row; /* 가로로 나열되도록 설정 */
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.videoItem {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.videoItem:hover {
+  transform: scale(1.05);
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
   align-items: center;
+  height: 100px;
+  font-size: 1.2em;
+  color: #666;
+}
+
+.videoThumbnail img {
   width: 100%;
-  overflow-x: auto; /* 가로 스크롤 활성화 */
+  height: auto;
+  display: block;
+}
+
+.videoThumbnail h2 {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.videoThumbnail p {
+  margin: 5px 0;
+}
+
+.videoThumbnail img[alt*="profile"] {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
