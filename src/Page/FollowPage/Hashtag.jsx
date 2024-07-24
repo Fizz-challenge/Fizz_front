@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './Hashtag.module.css';
+import './Hashtag.css';
 
 const Hashtag = ({ tag }) => {
   return (
-    <div className={styles.tagBox}>
-      <div className={styles.tag}>{tag}</div>
+    <div className='tagBox'>
+      <div className='tag'>{'#'+tag}</div>
     </div>
   );
 };
