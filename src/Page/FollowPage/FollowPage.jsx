@@ -4,12 +4,11 @@ import Hashtag from './Hashtag';
 import getFollowData from './FollowData';
 import './FollowPage.css';
 
-// 팔로우 페이지
 const FollowPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredHashtags, setFilteredHashtags] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [viewType, setViewType] = useState('followers'); // 'followers', 'following', 또는 'hashtags'으로 설정
+  const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
     following: '0',
     follower: '0',
@@ -20,7 +19,7 @@ const FollowPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const followData = await getFollowData(0); // 첫 번째 인덱스의 데이터 가져오기
+      const followData = await getFollowData(0);
       setData(followData);
       setFilteredHashtags(followData.followingChallenge);
       setFilteredUsers(followData.followerInfo);
@@ -71,7 +70,7 @@ const FollowPage = () => {
   };
 
   return (
-    <div className="main-page">
+    <div className="follow-page">
       <div>
         
       </div>

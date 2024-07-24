@@ -8,8 +8,9 @@
 }
 
 .mainContent {
-  width: 100%;
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .searchBar {
@@ -53,7 +54,7 @@
 }
 
 .videoItem {
-  width: 300px;
+  width: 250px;
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
