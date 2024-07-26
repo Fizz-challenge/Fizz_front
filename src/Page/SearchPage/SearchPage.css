@@ -73,10 +73,14 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  width: 1200px;
+  max-width: 1200px; /* Adjust this value to control the width of the video list */
 }
 
 .video-item {
   width: 250px;
+  height: auto;
+  min-height: 100px;
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;

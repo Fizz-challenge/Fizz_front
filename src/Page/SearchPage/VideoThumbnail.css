@@ -8,9 +8,6 @@
   transition: transform 0.3s;
 }
 
-.video-thumbnail:hover {
-  transform: scale(1.05);
-}
 
 .thumbnail {
   width: 100%;

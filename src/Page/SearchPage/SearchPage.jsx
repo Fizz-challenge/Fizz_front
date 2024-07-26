@@ -86,9 +86,9 @@ const SearchPage = () => {
           <div className="spinner">Loading videos...</div>
         ) : (
           <div className="video-list">
-            {filteredVideos.map((video, index) => (
+            {filteredVideos.map((item, index) => (
               <div key={index} className="video-item">
-                <VideoThumbnail video={video} />
+                <VideoThumbnail item={item} />
               </div>
             ))}
           </div>
