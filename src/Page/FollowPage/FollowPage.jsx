@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import UserBlock from './UserBlock';
-import Hashtag from './Hashtag';
 import getFollowData from './FollowData';
+import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
 
 const FollowPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredHashtags, setFilteredHashtags] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
     following: '0',
     follower: '0',
     followingInfo: [],
-    followingChallenge: [],
     followerInfo: []
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 12;
 
   useEffect(() => {
     const fetchData = async () => {
       const followData = await getFollowData(0);
       setData(followData);
-      setFilteredHashtags(followData.followingChallenge);
       setFilteredUsers(followData.followerInfo);
     };
 
@@ -29,21 +27,18 @@ const FollowPage = () => {
   }, []);
 
   useEffect(() => {
+    handleSearch(""); // Clear search when viewType changes
+  }, [viewType]);
+
+  const handleSearch = (searchTerm) => {
+    setCurrentPage(1);
     if (searchTerm === "") {
       if (viewType === 'followers') {
         setFilteredUsers(data.followerInfo);
       } else if (viewType === 'following') {
         setFilteredUsers(data.followingInfo);
-        setFilteredHashtags(data.followingChallenge);
-      } else if (viewType === 'hashtags') {
-        setFilteredHashtags(data.followingChallenge);
       }
     } else {
-      setFilteredHashtags(
-        data.followingChallenge.filter((tag) =>
-          tag.challengeName.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
       if (viewType === 'followers') {
         setFilteredUsers(
           data.followerInfo.filter((user) =>
@@ -58,72 +53,60 @@ const FollowPage = () => {
         );
       }
     }
-  }, [searchTerm, viewType, data]);
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
   };
 
   const handleViewChange = (type) => {
     setViewType(type);
-    setSearchTerm("");
   };
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="follow-page">
-      <div>
-        
-      </div>
-      <div className="mainContent">
-        <div className="buttonContainer">
+      <div className="main-content">
+        <div className="button-container">
           <button
-            className={`toggleButton ${viewType === 'followers' ? 'active' : ''}`}
+            className={`toggle-button ${viewType === 'followers' ? 'active' : ''}`}
             onClick={() => handleViewChange('followers')}
           >
             팔로워 {data.follower}명
           </button>
           <button
-            className={`toggleButton ${viewType === 'following' ? 'active' : ''}`}
+            className={`toggle-button ${viewType === 'following' ? 'active' : ''}`}
             onClick={() => handleViewChange('following')}
           >
             팔로잉 {data.following}명
           </button>
-          <button
-            className={`toggleButton ${viewType === 'hashtags' ? 'active' : ''}`}
-            onClick={() => handleViewChange('hashtags')}
-          >
-            #해시태그
-          </button>
         </div>
-        <div className="searchBar">
-          <input
-            type="text"
-            placeholder="검색"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
+        <SearchBar onSearch={handleSearch} />
+        <div className="list">
+          <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
+          {currentUsers.map((user, index) => (
+            <UserBlock
+              key={index}
+              userId={user.userID}
+              username={user.nickname}
+              description={user.describe}
+              profileImage={user.profileImage}
+            />
+          ))}
         </div>
-        {viewType === 'hashtags' && (
-          <div className="List">
-            <h1>태그</h1>
-            {filteredHashtags.map((tag, index) => (
-              <Hashtag key={index} tag={tag.challengeName} />
-            ))}
-          </div>
-        )}
-        {viewType !== 'hashtags' && (
-          <div className="List">
-            <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
-            {filteredUsers.map((user, index) => (
-              <UserBlock
-                key={index}
-                username={user.nickname}
-                description={user.describe}
-                profileImage={user.profileImage}
-              />
-            ))}
-          </div>
-        )}
+        <ul className="page-numbers">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <li
+              key={index + 1}
+              onClick={() => paginate(index + 1)}
+              className={currentPage === index + 1 ? 'active' : ''}
+            >
+              {index + 1}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
