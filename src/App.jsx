@@ -8,6 +8,7 @@ import SearchPage from "./Page/SearchPage/SearchPage";
 import LoginPage from "./Page/LoginPage/LoginPage.jsx";
 import RegisterPage from "./Page/RegisterPage/RegisterPage.jsx";
 import UserPage from "./Page/UserPage/UserPage.jsx";
+import NewPost from './Page/NewPostPage/NewPost.jsx';
 
 function App() {
 	return (
@@ -21,7 +22,8 @@ function App() {
 					<Route path="/search" element={<SearchPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
-					<Route path="/user/:userId" element={<UserPage />} />
+					<Route path="/profile" element={<UserPage />} />
+					<Route path="/new-post" element={<NewPost />} />
 				</Routes>
 			</div>
 		</>

@@ -1,7 +1,7 @@
 const videoData = [
   {
     id: '1',
-    src: '/img/Download2.mp4',
+    src: '/img/test.mp4',
     title: '나두 챌린지 참여',
     user: '사용자 1',
     userProfile: '/img/test.jpg',
