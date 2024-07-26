@@ -35,7 +35,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/profile" className={urlPath === '/profile' ? 'active' : ''}>
+            <Link to="/profile/my-page" className={urlPath === '/profile/my-page' ? 'active' : ''}>
               <FaUser className="icon" /> 프로필
             </Link>
           </li>

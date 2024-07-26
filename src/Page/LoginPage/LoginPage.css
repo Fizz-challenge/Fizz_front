@@ -81,7 +81,7 @@ body {
 
 .loginDescLine {
     position: absolute;
-    top: calc(50% - 45px);
+    top: calc(50% - 35px);
     width: 80%;
     left: 10%;
     border: 0.5px solid black;
