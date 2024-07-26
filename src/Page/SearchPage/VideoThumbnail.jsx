@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import './VideoThumbnail.css';
 
 const VideoThumbnail = ({ video }) => {
   const videoRef = useRef(null);
@@ -34,17 +35,16 @@ const VideoThumbnail = ({ video }) => {
   }, [video.src]);
 
   return (
-    <div className="videoThumbnail">
+    <div className="video-thumbnail">
       <video ref={videoRef} src={video.src} style={{ display: 'none' }} />
       <canvas ref={canvasRef} width="300" style={{ display: 'none' }} />
       {thumbnail ? (
         <div>
-          <img src={thumbnail} alt="Video Thumbnail" />
-          <h2>{video.title}</h2>
-          <p>By: {video.user}</p>
-          <img src={video.userProfile} alt={`${video.user} profile`} />
-          <p>{video.description}</p>
-          <p>Views: {video.views}</p>
+          <img src={thumbnail} alt="Video Thumbnail" className="thumbnail" />
+          <div className="overlay">
+            <img src={video.userProfile} alt={`${video.user} profile`} className="user-profile" />
+            <p className="video-views">Views: {video.views}</p>
+          </div>
         </div>
       ) : (
         <div className="spinner">Loading...</div>
