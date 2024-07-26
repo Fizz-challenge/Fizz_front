@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FaHome, FaSearch, FaHeart, FaUser } from 'react-icons/fa';
 import { LuPlusSquare } from "react-icons/lu";
+import FizzLogo from '../assets/Fizz.png';
 
 const Header = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className='header-top' onClick={() => navigate('/')}>Fizz!</div>
+      <div className='header-top' onClick={() => navigate('/')}><img src={FizzLogo} alt="Fizz Logo" /></div>
       <nav className="header-sections">
         <ul>
           <li>
