@@ -8,7 +8,6 @@
   transition: transform 0.3s;
 }
 
-
 .thumbnail {
   width: 100%;
   height: auto;
@@ -16,30 +15,32 @@
 }
 
 .overlay {
+  height: 50px;
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0 10px;
 }
 
 .user-profile {
-  width: 50px;
-  height: 50px;
+  width: 40px; /* 프로필 이미지를 오버레이 높이에 맞추기 위해 크기 조정 */
+  height: 40px;
   border-radius: 50%;
   border: 2px solid #fff;
 }
 
 .video-views {
-  background: rgba(0, 0, 0, 0.7);
   color: #fff;
   padding: 5px 10px;
   border-radius: 4px;
 }
 
 .video-info {
-  
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
