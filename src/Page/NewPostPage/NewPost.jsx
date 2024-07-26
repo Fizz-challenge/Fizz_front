@@ -199,13 +199,14 @@ const NewPost = () => {
                         <button
                       type="submit"
                       onClick={handleSubmit}
-                            style={{backgroundColor: "#2DA7FF", color:"white"}}
+                      className='post-submit'
                     >
                       게시
                           </button>
                           <button
                       type="submit"
-                      onClick={handleCancel}
+                            onClick={handleCancel}
+                            className='post-cancel'
                           >
                             업로드 취소
                           </button>

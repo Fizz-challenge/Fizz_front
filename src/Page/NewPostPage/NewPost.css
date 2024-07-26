@@ -184,8 +184,8 @@
 }
 
 .add-post-video {
-  background-color: #f5b3b3; 
-  color: white;
+  background-color: #f1f1f1; 
+  color: grey;
   cursor: not-allowed;  
 }
 
@@ -216,8 +216,32 @@
   padding: 10px 50px;
   cursor: pointer;
   width: 200px;
+  transition: background-color 0.5s ease;
 }
 
+.post-submit {
+  background-color: #2DA7FF;
+  color: white;
+}
+
+.post-cancel {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.post-submit:hover {
+  background-color:  white;
+  color: #2DA7FF;
+  border: 1px solid #ccc;
+  padding: 9px 49px;
+}
+
+.post-cancel:hover {
+  background-color: whitesmoke; 
+  color:  black;
+  border: 1px solid #ccc;
+  padding: 9px 49px;
+}
 .new-post-title {
   width: 100%;
 }
