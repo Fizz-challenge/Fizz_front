@@ -1,95 +1,98 @@
-import React, { useState } from 'react';
-import MenuBar from '../../Components/MenuBar';
-import ChallengeBlock from '../../Components/ChallengeBlock';
-import styles from './SearchPage.module.css';
+import React, { useState, useEffect } from 'react';
+import './SearchPage.css';
+import VideoThumbnail from './VideoThumbnail';
+import getVideoData from '../videosData/videosData2';
+import SearchBar from '../../Components/SearchBar'; // Import the SearchBar component
 
 const SearchPage = () => {
-  const categories = ["헬스", "악기", "독서", "금융", "스포츠", "공부"]; // 예시 카테고리 리스트
+  const [videos, setVideos] = useState([]);
+  const [filteredVideos, setFilteredVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sortMethod, setSortMethod] = useState('popularity'); // 'popularity' or 'recency'
 
-  const challenges = [
-    { title: "헬스 챌린지 1", tag: "헬스", likes: 42 },
-    { title: "헬스 챌린지 2", tag: "헬스", likes: 67 },
-    { title: "헬스 챌린지 3", tag: "헬스", likes: 89 },
-    { title: "헬스 챌린지 4", tag: "헬스", likes: 12 },
-    { title: "악기 챌린지 1", tag: "악기", likes: 54 },
-    { title: "악기 챌린지 2", tag: "악기", likes: 37 },
-    { title: "악기 챌린지 3", tag: "악기", likes: 78 },
-    { title: "악기 챌린지 4", tag: "악기", likes: 61 },
-    { title: "독서 챌린지 1", tag: "독서", likes: 25 },
-    { title: "독서 챌린지 2", tag: "독서", likes: 90 },
-    { title: "독서 챌린지 3", tag: "독서", likes: 46 },
-    { title: "독서 챌린지 4", tag: "독서", likes: 74 },
-    { title: "금융 챌린지 1", tag: "금융", likes: 58 },
-    { title: "금융 챌린지 2", tag: "금융", likes: 33 },
-    { title: "금융 챌린지 3", tag: "금융", likes: 95 },
-    { title: "금융 챌린지 4", tag: "금융", likes: 47 },
-    { title: "스포츠 챌린지 1", tag: "스포츠", likes: 86 },
-    { title: "스포츠 챌린지 2", tag: "스포츠", likes: 14 },
-    { title: "스포츠 챌린지 3", tag: "스포츠", likes: 70 },
-    { title: "스포츠 챌린지 4", tag: "스포츠", likes: 21 },
-    { title: "공부 챌린지 1", tag: "공부", likes: 63 },
-    { title: "공부 챌린지 2", tag: "공부", likes: 29 },
-    { title: "공부 챌린지 3", tag: "공부", likes: 88 },
-    { title: "공부 챌린지 4", tag: "공부", likes: 35 }
-  ];
+  useEffect(() => {
+    const loadInitialVideos = async () => {
+      const videoData = [];
+      let index = 0;
+      let video = await getVideoData(index);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredChallenges, setFilteredChallenges] = useState(challenges);
+      while (video) {
+        videoData.push(video);
+        index++;
+        video = await getVideoData(index);
+      }
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
+      setVideos(videoData);
+      setFilteredVideos(videoData);
+      setLoading(false);
+    };
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
+    loadInitialVideos();
+  }, []);
+
+  const handleSearch = (searchTerm) => {
     if (searchTerm.trim() === "") {
-      setFilteredChallenges(challenges);
+      setFilteredVideos(videos);
     } else {
-      setFilteredChallenges(
-        challenges.filter(challenge =>
-          challenge.title.toLowerCase().includes(searchTerm.toLowerCase())
+      setFilteredVideos(
+        videos.filter(video =>
+          video.title.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }
   };
 
+  const handleSortByPopularity = () => {
+    setSortMethod('popularity');
+    setFilteredVideos(prevVideos =>
+      [...prevVideos].sort((a, b) => b.likes - a.likes)
+    );
+  };
+
+  const handleSortByRecency = () => {
+    setSortMethod('recency');
+    setFilteredVideos(prevVideos =>
+      [...prevVideos].sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
+    );
+  };
+
   return (
-    <div className={styles.container}>
-      <MenuBar />
-      <div className={styles.mainContent}>
-        <form className={styles.searchBar} onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            placeholder="검색"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </form>
-        <div className={styles.categories}>
-          {categories.map((category, index) => (
-            <button key={index} className={styles.categoryButton}>
-              {category}
-            </button>
-          ))}
+    <div className="container">
+      <div className="main-content">
+        <SearchBar onSearch={handleSearch} /> {/* Use the SearchBar component */}
+        <div className="category-bar">
+          <button>전체</button>
+          <button>헬스</button>
+          <button>음악</button>
+          <button>독서</button>
+          <button>금욕</button>
+          <button>스포츠</button>
         </div>
-        <div className={styles.allChallenges}>
-          {categories.map((category, index) => (
-            <div key={index} className={styles.categorySection}>
-              <div className={styles.challenges}>
-                {filteredChallenges
-                  .filter(challenge => challenge.tag === category)
-                  .map((challenge, index) => (
-                    <ChallengeBlock
-                      key={index}
-                      title={challenge.title}
-                      tag={challenge.tag}
-                      likes={challenge.likes}
-                    />
-                  ))}
+        <div className="sort-bar">
+          <button
+            className={sortMethod === 'popularity' ? 'active' : ''}
+            onClick={handleSortByPopularity}
+          >
+            인기순
+          </button>
+          <button
+            className={sortMethod === 'recency' ? 'active' : ''}
+            onClick={handleSortByRecency}
+          >
+            최신순
+          </button>
+        </div>
+        {loading ? (
+          <div className="spinner">Loading videos...</div>
+        ) : (
+          <div className="video-list">
+            {filteredVideos.map((item, index) => (
+              <div key={index} className="video-item">
+                <VideoThumbnail item={item} />
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
