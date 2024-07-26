@@ -1,0 +1,283 @@
+.new-post-background {
+  background-color: #f0f0f0;
+  padding: 20px;
+  font-family: 'Pretendard-Regular';
+  height: 100vh;
+}
+
+.new-post-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 1200px;
+  min-width: 1000px;
+  margin: 0 auto;
+}
+
+.new-post-drop {
+  height: 360px;
+  border: 1px solid #ccc;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.dropzone {
+  width: 100%;
+  height: 480px;
+  padding: 10px;
+  border: 3px dashed #ccc;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropzone svg {
+  font-size: 40px;
+}
+
+.dropzone p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 100;
+}
+
+.dropzone span {
+  font-size: 14px;
+  color: grey;
+}
+
+.upload-header {
+  margin-bottom: 10px;
+}
+
+.upload-header h2 {
+  margin: 0px;
+  font-size: 20px;
+  color: #2DA7FF;
+}
+
+.upload-header p {
+  margin: 0;
+  font-size: 14px;
+  color: grey;
+}
+
+.upload-header span {
+  color: black;
+  font-weight: 900;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.upload-complete {
+  color: green;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.video-preview {
+  width: 400px;
+  height: 480px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.preview-container {
+  background-color: black;
+  width: 400px;
+  height: 480px;
+  position: relative;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-bar .progress {
+  height: 5px;
+  background-color: #2DA7FF;
+}
+
+.new-post-media {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  height: 650px;
+}
+
+.upload-info {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12px;
+  color: #666;
+}
+
+.upload-info div {
+  display: flex;
+  align-items: center;
+}
+
+.upload-info span {
+  margin: 0 10px;
+}
+
+.upload-info .upload-required span {
+  color: red;
+  font-weight: bold;
+}
+
+.media-and-description {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.description-input {
+  user-select: none;
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.description-input label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.title-wrapper {
+  position: relative;
+  width: 60%;
+}
+
+.description-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.char-count {
+  position: absolute;
+  right: 5px;
+  bottom: -5px;
+  font-size: 12px;
+  color: gray;
+}
+
+
+.add-post-image, .add-post-video {
+  border: none;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 10px 50px;
+}
+
+.add-post-video {
+  background-color: #f1f1f1; 
+  color: grey;
+  cursor: not-allowed;  
+}
+
+.add-post-image {
+  color: white;
+  background-color: #f77c7c;
+  cursor: pointer;
+}
+
+.new-post-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 200px;
+  margin: 20px 0;
+}
+
+.new-post-submit-buttons {
+  display: flex;
+  gap: 40px;
+  width: 440px;
+}
+
+.new-post-submit-buttons button {
+  border: none;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 10px 50px;
+  cursor: pointer;
+  width: 200px;
+  transition: background-color 0.5s ease;
+}
+
+.post-submit {
+  background-color: #2DA7FF;
+  color: white;
+}
+
+.post-cancel {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.post-submit:hover {
+  background-color:  white;
+  color: #2DA7FF;
+  border: 1px solid #ccc;
+  padding: 9px 49px;
+}
+
+.post-cancel:hover {
+  background-color: whitesmoke; 
+  color:  black;
+  border: 1px solid #ccc;
+  padding: 9px 49px;
+}
+.new-post-title {
+  width: 100%;
+}
+
+.new-post-description {
+  width: 100%;
+}
+
+.new-post-title, .new-post-description {
+  outline: none;
+  border: none;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+
+}
+
+.new-post-title:focus, .new-post-description:focus {
+  border-color: #ccc;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}

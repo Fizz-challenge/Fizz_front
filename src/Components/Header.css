@@ -13,9 +13,13 @@
 
 .header-top {
   color: black;
-  font-size: 24px;
   margin: 30px;
   cursor: pointer;
+}
+
+.header-top img {
+  width: 120px;
+  height: auto;
 }
 
 .header-sections {
@@ -63,6 +67,11 @@
   .header {
     width: 80px;
     height: 100%;
+  }
+
+  .header-top img {
+    width: 60px;
+    height: auto;
   }
 
   .header-sections ul {

@@ -58,7 +58,7 @@ const Video = ({ video, isActive }) => {
   useEffect(() => {
     const attemptPlayVideo = () => {
       if (!videoRef.current) {
-        setTimeout(attemptPlayVideo, 200); // 200ms 후에 다시 시도
+        setTimeout(attemptPlayVideo, 200);
         return;
       }
 
