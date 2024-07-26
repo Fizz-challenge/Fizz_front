@@ -57,6 +57,24 @@ const FollowPage = () => {
 
   const handleViewChange = (type) => {
     setViewType(type);
+    handleSearch("");  // Clear search when changing view
+  };
+
+  const handleFollowToggle = (userId) => {
+    setFilteredUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+    if (viewType === 'followers') {
+      setData(prevData => ({
+        ...prevData,
+        followerInfo: prevData.followerInfo.filter(user => user.id !== userId),
+        follower: (parseInt(prevData.follower) - 1).toString()
+      }));
+    } else if (viewType === 'following') {
+      setData(prevData => ({
+        ...prevData,
+        followingInfo: prevData.followingInfo.filter(user => user.id !== userId),
+        following: (parseInt(prevData.following) - 1).toString()
+      }));
+    }
   };
 
   const indexOfLastUser = currentPage * usersPerPage;
@@ -89,10 +107,11 @@ const FollowPage = () => {
           {currentUsers.map((user, index) => (
             <UserBlock
               key={index}
-              userId={user.userID}
+              userId={user.id}
               username={user.nickname}
               description={user.describe}
               profileImage={user.profileImage}
+              onFollowToggle={() => handleFollowToggle(user.id)}
             />
           ))}
         </div>
