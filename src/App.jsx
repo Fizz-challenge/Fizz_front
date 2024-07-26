@@ -9,6 +9,7 @@ import LoginPage from "./Page/LoginPage/LoginPage.jsx";
 import RegisterPage from "./Page/RegisterPage/RegisterPage.jsx";
 import UserPage from "./Page/UserPage/UserPage.jsx";
 import NewPost from './Page/NewPostPage/NewPost.jsx';
+import ChallengePage from './Page/ChallengePage/ChallengePage.jsx';
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/profile" element={<UserPage />} />
 					<Route path="/new-post" element={<NewPost />} />
+					<Route path="/challenge/:challenge" element={<ChallengePage />} />
 				</Routes>
 			</div>
 		</>
