@@ -10,6 +10,7 @@ import RegisterPage from "./Page/RegisterPage/RegisterPage.jsx";
 import UserPage from "./Page/UserPage/UserPage.jsx";
 import NewPost from './Page/NewPostPage/NewPost.jsx';
 import ChallengePage from './Page/ChallengePage/ChallengePage.jsx';
+import OAuth2Callback from "./Page/LoginPage/OAuth2Callback.jsx";
 
 function App() {
 	return (
@@ -23,9 +24,10 @@ function App() {
 					<Route path="/search" element={<SearchPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
-					<Route path="/profile" element={<UserPage />} />
+               <Route path="/profile/:userId" element={<UserPage />} />
 					<Route path="/new-post" element={<NewPost />} />
 					<Route path="/challenge/:challenge" element={<ChallengePage />} />
+               <Route path="/oauth2/callback" element={<OAuth2Callback />} />
 				</Routes>
 			</div>
 		</>
