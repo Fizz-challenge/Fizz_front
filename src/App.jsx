@@ -21,7 +21,7 @@ function App() {
 					<Route path="/search" element={<SearchPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
-					<Route path="/user/:userId" element={<UserPage />} />
+					<Route path="/profile" element={<UserPage />} />
 				</Routes>
 			</div>
 		</>
