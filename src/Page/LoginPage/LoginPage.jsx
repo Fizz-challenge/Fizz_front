@@ -1,10 +1,22 @@
 import { SiNaver } from "react-icons/si";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./LoginPage.css";
 
 const LoginPage = () => {
 
-	const navigate = useNavigate();
+	const oauth2Login = async (registration) => {
+		try {
+			const res = await axios.post(`http://localhost:8080/api/user/oauth2/${registration}`, {
+				redirect_uri: "http://localhost:5173/oauth2/callback",
+				mode: "login"
+			});
+
+			window.location.href = res.data.authorizationUrl;
+			setCategories(res.data);
+		} catch (err) {
+			console.error(`err: ${err}`);
+		}
+	};
 
 	return (
 		<>
@@ -22,11 +34,11 @@ const LoginPage = () => {
 						&nbsp;5초만에{" "}
 						<span style={{ color: "#2DA7FF" }}>Fizz!</span>🍹
 					</div>
-					<div className="loginKakaoBtn" onClick={() => navigate("../register")}>
+					<div className="loginKakaoBtn" onClick={() => oauth2Login("kakao")}>
 						<img className="kakaoIcon" src="../img/kakao.svg" />
 						카카오 로그인
 					</div>
-					<div className="loginNaverBtn" onClick={() => navigate("../register")}>
+					<div className="loginNaverBtn" onClick={() => oauth2Login("naver")}>
 						<SiNaver className="naverIcon" />
 						네이버 로그인</div>
 				</div>
