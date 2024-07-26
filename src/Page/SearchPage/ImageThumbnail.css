@@ -1,0 +1,70 @@
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+  height: auto; /* Ensures all thumbnails have a consistent height */
+}
+
+.video-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.thumbnail {
+  width: 100%;
+  height: auto;
+  min-height: 100px;
+  object-fit: cover;
+  display: block;
+  bottom: 0px;
+}
+
+.thumbnail.image {
+  min-height: 100px;
+  object-fit: fill; /* Maintains the aspect ratio while fitting the width */
+}
+
+.overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.video-views {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.video-info {
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.video-title {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-size: 1.2em;
+  color: #666;
+}
