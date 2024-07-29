@@ -1,0 +1,136 @@
+.new-challenge-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+  font-family: 'Pretendard-Regular';
+  user-select: none;
+}
+
+.new-challenge-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(14, 11, 11, 0.1);
+  width: 80%;
+  min-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-challenge-container form {
+  width: 90%;
+}
+.new-challenge-container img {
+  display: block;
+  margin: 0 auto 20px;
+  width: 250px;
+}
+
+.challenge-form {
+  width: 100%;
+}
+
+.challenge-form label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-plus {
+  font-size: 14px;
+  color: #666;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.form-plus svg {
+  margin-right: 5px;
+}
+
+.challenge-form input,
+.challenge-date-input,
+.challenge-form-description {
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 18px;
+  word-wrap: break-word;
+  width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.challenge-form input:focus,
+.challenge-date-input:focus,
+.challenge-form-description:focus {
+  border: 3px solid #2DA7FF;
+  padding: 8px;
+  animation: border-focus 0.3s forwards;
+}
+
+@keyframes border-focus {
+  0% {
+    border: 3px solid transparent;
+  }
+  100% {
+    border: 3px solid #2DA7FF;
+  }
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.char-count {
+  position: absolute;
+  bottom: -3px;
+  left: 5px;
+  font-size: 12px;
+  color: #999;
+}
+
+.date-picker-icon {
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.upload-info {
+  margin-top: 20px;
+}
+
+.upload-required {
+  display: flex;
+  align-items: center;
+}
+
+.upload-required span {
+  margin-left: 5px;
+}
+
+.create-challenge-button {
+  background-color: #2DA7FF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-challenge-button:hover {
+  background-color: #1A76D2;
+}

@@ -157,9 +157,9 @@ const NewPost = () => {
                       <span className="char-count">{descriptionCharCount}/30</span>
                       </div>
                     <div className="upload-info">
-                      <div className='upload-required'>
+                      <div>
                         <IoInformationCircleOutline />
-                        <span>영상또는 이미지는 필수 항목입니다.</span>
+                        <span style={{ color: "red", fontWeight:"bold" }}>영상또는 이미지는 필수 항목입니다.</span>
                         </div>
                       <div>
                         <IoInformationCircleOutline />
@@ -218,10 +218,10 @@ const NewPost = () => {
             )}
           {!video && (
             <div className="upload-info">
-              <div className='upload-required'>
+              <div>
                 <IoInformationCircleOutline />
-                <span>영상또는 이미지는 필수 항목입니다.</span>
-                </div>
+                <span style={{ color: "red", fontWeight:"bold" }}>영상또는 이미지는 필수 항목입니다.</span>
+              </div>
                 <div>
                 <IoInformationCircleOutline />
                 <span>최대 크기: 2GB, 동영상 길이: 10분.</span>
