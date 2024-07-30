@@ -22,6 +22,7 @@
 
 .new-challenge-container form {
   width: 90%;
+  max-width: 1200px;
 }
 .new-challenge-container img {
   display: block;

@@ -16,11 +16,11 @@ const NewChallengePage = () => {
   const datePickerRef = useRef(null);
 
   const handleTitleChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value.replace(/#/g, ''); // # 문자를 제거합니다.
     setTitle(value.substring(0, 20));
     setTitleCharCount(value.length > 20 ? 20 : value.length);
   };
-
+  
   const handleDescriptionChange = (event) => {
     const value = event.target.value;
     setDescription(value.substring(0, 30));
@@ -41,7 +41,7 @@ const NewChallengePage = () => {
         <form onSubmit={handleSubmit}>
           <div className="challenge-form">
             <label>챌린지 제목
-              <span className='form-plus'><IoInformationCircleOutline />작성한 챌린지명은 #OOO 으로 생성됩니다. 예시)오운완 => #오운완</span>
+              <span className='form-plus'><IoInformationCircleOutline />작성한 챌린지명은 #OOO 으로 생성됩니다. ex.오운완 → #오운완</span>
             </label>
             <div className="input-wrapper">
               <input
@@ -51,17 +51,19 @@ const NewChallengePage = () => {
                 onChange={handleTitleChange}
                 className="challenge-input"
                 placeholder='챌린지명을 작성해주세요'
+                style={{width:"50%"}}
               />
               <span className="char-count">{titleCharCount}/20</span>
             </div>
             <label>해당 챌린지 설명</label>
             <div className="input-wrapper">
-              <textarea
+              <input
                 id="description"
                 value={description}
                 onChange={handleDescriptionChange}
                 className='challenge-form-description'
                 placeholder='챌린지에 대한 간단한 소개를 작성해주세요'
+                style={{width:"60%"}}
               />
               <span className="char-count">{descriptionCharCount}/30</span>
             </div>
@@ -78,23 +80,19 @@ const NewChallengePage = () => {
           <div className="upload-info">
             <div>
               <IoInformationCircleOutline />
-              <span>영상또는 이미지는 필수 항목입니다.</span>
+              <span>챌린지 주제는 법적 문제를 일으킬 수 있는 내용을 포함하지 않아야 합니다.</span>
             </div>
             <div>
               <IoInformationCircleOutline />
-              <span>최대 크기: 2GB, 동영상 길이: 10분.</span>
+              <span>참가자가 안전하게 챌린지에 참여할 수 있도록 유의하세요.</span>
             </div>
             <div>
               <IoInformationCircleOutline />
-              <span>파일 형식: 영상 파일의 권장 형식은 "mp4"입니다.</span>
+              <span>챌린지 관련 정보는 정확하고 신뢰할 수 있는 자료를 바탕으로 제공되어야 합니다.</span>
             </div>
             <div>
               <IoInformationCircleOutline />
-              <span>가로 세로 비율: 가로의 경우 16:9, 세로의 경우 9:16이 권장됩니다.</span>
-            </div>
-            <div>
-              <IoInformationCircleOutline />
-              <span>영상과 이미지는 한번에 업로드할 수 없습니다</span>
+              <span>챌린지를 주최할 때는 Fizz 커뮤니티 가이드라인을 준수해야 합니다.</span>
             </div>
           </div>
           <button type="submit" className="create-challenge-button">챌린지 생성</button>

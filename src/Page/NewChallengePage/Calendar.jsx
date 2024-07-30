@@ -58,11 +58,21 @@ const Calendar = ({ dateRange, setDateRange, placeholderText }) => {
               >
                 {YEARS.map((option) => (
                   <option key={option} value={option}>
-                    {option}
+                    {option}년
+                  </option>
+                ))}년
+              </select>
+              <select
+                value={getMonth(date)}
+                className="month"
+                onChange={({ target: { value } }) => changeMonth(+value)}
+              >
+                {MONTHS.map((month, index) => (
+                  <option key={month} value={index}>
+                    {month}
                   </option>
                 ))}
               </select>
-              <span className="month">{MONTHS[getMonth(date)]}</span>
             </div>
             <div>
               <button
