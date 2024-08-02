@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './UserBlock.css';
 import humanIcon from '../../assets/human.png';
+import { FaUserAltSlash } from "react-icons/fa";
 
 const UserBlock = ({ userId, username, description, profileImage, onFollowToggle }) => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const UserBlock = ({ userId, username, description, profileImage, onFollowToggle
         </div>
       </div>
       <button className='followToggleButton' onClick={(e) => { e.stopPropagation(); openModal(); }}>
-        팔로우 취소
+        <FaUserAltSlash />
       </button>
       <Modal
         isOpen={modalIsOpen}
