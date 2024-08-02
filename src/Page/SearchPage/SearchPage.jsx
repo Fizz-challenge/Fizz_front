@@ -1,33 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './SearchPage.css';
-import VideoThumbnail from './VideoThumbnail';
-import getVideoData from '../videosData/videosData2';
 import SearchBar from '../../Components/SearchBar'; // Import the SearchBar component
+import categoryData from './Category.json'; // Import the local JSON file
+import CategoryThumbnail from './CategoryThumbnail'; // Import the CategoryThumbnail component
 
 const SearchPage = () => {
   const [videos, setVideos] = useState([]);
-  const [filteredVideos, setFilteredVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortMethod, setSortMethod] = useState('popularity'); // 'popularity' or 'recency'
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const loadInitialVideos = async () => {
-      const videoData = [];
-      let index = 0;
-      let video = await getVideoData(index);
-
-      while (video) {
-        videoData.push(video);
-        index++;
-        video = await getVideoData(index);
-      }
-
-      setVideos(videoData);
-      setFilteredVideos(videoData);
-      setLoading(false);
-    };
-
-    loadInitialVideos();
+    // Load categories from local JSON file
+    setCategories(categoryData.data);
   }, []);
 
   const handleSearch = (searchTerm) => {
@@ -57,42 +42,17 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="container">
-      <div className="main-content">
-        <SearchBar onSearch={handleSearch} /> {/* Use the SearchBar component */}
+    <div className="search-page-container">
+      <div className="search-page-main-content">
+        <SearchBar className="search-page-search-bar" onSearch={handleSearch} /> {/* Use the SearchBar component */}
         <div className="category-bar">
-          <button>전체</button>
-          <button>헬스</button>
-          <button>음악</button>
-          <button>독서</button>
-          <button>금욕</button>
-          <button>스포츠</button>
         </div>
-        <div className="sort-bar">
-          <button
-            className={sortMethod === 'popularity' ? 'active' : ''}
-            onClick={handleSortByPopularity}
-          >
-            인기순
-          </button>
-          <button
-            className={sortMethod === 'recency' ? 'active' : ''}
-            onClick={handleSortByRecency}
-          >
-            최신순
-          </button>
+        {/* Category thumbnails rendering */}
+        <div className="categories-grid">
+          {categories.map((category, index) => (
+            <CategoryThumbnail key={index} category={category} />
+          ))}
         </div>
-        {loading ? (
-          <div className="spinner">Loading videos...</div>
-        ) : (
-          <div className="video-list">
-            {filteredVideos.map((item, index) => (
-              <div key={index} className="video-item">
-                <VideoThumbnail item={item} />
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
