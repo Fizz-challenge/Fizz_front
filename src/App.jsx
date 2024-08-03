@@ -14,6 +14,7 @@ import NewPost from './Page/NewPostPage/NewPost.jsx';
 import ChallengePage from './Page/ChallengePage/ChallengePage.jsx';
 import OAuth2Callback from "./Page/LoginPage/OAuth2Callback.jsx";
 import DeleteProfilePage from "./Page/DeleteProfilePage/DeleteProfilePage.jsx";
+import NewChallengePage from './Page/NewChallengePage/NewChallengePage.jsx';
 
 function App() {
 	const navigate = useNavigate();
@@ -37,6 +38,8 @@ function App() {
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/delete-profile" element={<DeleteProfilePage />} />
+					<Route path="/:id" element={<MainPage />} />
+					<Route path="/new-challenge" element={<NewChallengePage />} />
 				</Routes>
 			</div>
 		</>

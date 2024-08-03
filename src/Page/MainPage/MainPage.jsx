@@ -1,29 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './MainPage.css';
 import Video from './Video';
 import Buttons from './Buttons';
-import getVideoData from '../videosData/videosData';
 
 const MainPage = () => {
   const [videos, setVideos] = useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const mainPageRef = useRef(null);
   const isScrollingRef = useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadInitialVideos = async () => {
-      const firstVideo = await getVideoData(0);
-      const secondVideo = await getVideoData(1);
-      if (firstVideo) {
-        setVideos(secondVideo ? [firstVideo, secondVideo] : [firstVideo]);
-      } else {
+      try {
+        const response = await axios.get('https://gunwoo.store/api/posts?page=0&size=10');
+        const fetchedVideos = response.data.data.content;
+        setVideos(fetchedVideos);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
       }
     };
     loadInitialVideos();
   }, []);
 
   useEffect(() => {
-    const handleScroll = async (event) => {
+    if (videos.length > 0) {
+      if (currentVideoIndex === 0) {
+        navigate('/');
+      } else {
+        navigate(`/${videos[currentVideoIndex].id}`);
+      }
+    }
+  }, [currentVideoIndex, videos, navigate]);
+
+  useEffect(() => {
+    const handleScroll = (event) => {
       if (isScrollingRef.current) return;
 
       const mainPage = mainPageRef.current;
@@ -35,24 +48,28 @@ const MainPage = () => {
       if (deltaY > 0 && currentVideoIndex < videos.length - 1) {
         setCurrentVideoIndex((prevIndex) => {
           const newIndex = prevIndex + 1;
-          if (newIndex + 1 === videos.length) {
-            getVideoData(newIndex + 1).then((data) => {
-              if (data) {
-                setVideos((prevVideos) => [...prevVideos, data]);
-              }
-            });
+          if (newIndex === 0) {
+            navigate('/');
+          } else {
+            navigate(`/${videos[newIndex].id}`);
           }
           return newIndex;
         });
       } else if (deltaY < 0 && currentVideoIndex > 0) {
-        setCurrentVideoIndex((prevIndex) => prevIndex - 1);
+        setCurrentVideoIndex((prevIndex) => {
+          const newIndex = prevIndex - 1;
+          if (newIndex === 0) {
+            navigate('/');
+          } else {
+            navigate(`/${videos[newIndex].id}`);
+          }
+          return newIndex;
+        });
       }
 
-      
       setTimeout(() => {
         isScrollingRef.current = false;
       }, 400);
-
     };
 
     const mainPage = mainPageRef.current;
@@ -65,17 +82,7 @@ const MainPage = () => {
         mainPage.removeEventListener('wheel', handleScroll);
       }
     };
-  }, [currentVideoIndex, videos]);
-
-  // useEffect(() => {
-  //   const mainPage = mainPageRef.current;
-  //   if (mainPage) {
-  //     const currentVideo = document.getElementById(`video-${currentVideoIndex}`);
-  //     if (currentVideo) {
-  //       currentVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  //     }
-  //   }
-  // }, [currentVideoIndex]);
+  }, [currentVideoIndex, videos, navigate]);
 
   return (
     <div ref={mainPageRef} className="main-page">
@@ -90,9 +97,9 @@ const MainPage = () => {
             <div className="buttons-container">
               <Buttons
                 id={video.id}
-                likes={video.likes}
-                comments={video.comments}
-                shares={video.shares}
+                likes={video.likeCount}
+                comments={video.commentCount}
+                shares={video.viewCount}
               />
             </div>
           </div>

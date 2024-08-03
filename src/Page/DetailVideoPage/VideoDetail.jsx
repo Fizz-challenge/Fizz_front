@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import Hls from 'hls.js';
 import './VideoDetail.css';
 import Post from './DetailPost';
 import CommentSection from './Comment';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdArrowBack } from 'react-icons/md';
-import getVideoData from '../videosData/videosData';
 
 const VideoDetail = () => {
   const { id } = useParams();
@@ -15,33 +16,59 @@ const VideoDetail = () => {
 
   useEffect(() => {
     const loadVideoData = async () => {
-      const videoData = await getVideoData(id - 1);
-      if (videoData) {
+      try {
+        const response = await axios.get(`https://gunwoo.store/api/posts/${id}`);
+        const videoData = response.data.data;
         setVideo(videoData);
+      } catch (error) {
+        console.error("Error fetching video data:", error);
       }
     };
     loadVideoData();
   }, [id]);
 
   useEffect(() => {
-    if (video) {
+    if (video && video.fileUrls) {
       const savedVideoId = localStorage.getItem('currentVideoId');
       const savedTime = localStorage.getItem('videoCurrentTime');
       const savedVolume = localStorage.getItem('videoVolume');
 
-
       console.log("SavedVideoId:", savedVideoId);
       console.log("CurrentId:", id);
-      
+
       if (videoRef.current) {
-        if (savedVideoId === id && savedTime) {
-          console.log("어 맞다");
-          videoRef.current.currentTime = savedTime;
-          videoRef.current.play();
+        const hls = new Hls();
+
+        if (Hls.isSupported()) {
+          hls.loadSource(video.fileUrls[0]);
+          hls.attachMedia(videoRef.current);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            if (savedVideoId === id && savedTime) {
+              console.log("어 맞다");
+              videoRef.current.currentTime = savedTime;
+            }
+            if (savedVolume) {
+              videoRef.current.volume = parseFloat(savedVolume);
+            }
+            videoRef.current.play().catch((error) => {
+              console.error("Error playing video:", error);
+            });
+          });
+        } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+          videoRef.current.src = video.fileUrls[0];
+          videoRef.current.addEventListener('loadedmetadata', () => {
+            if (savedVideoId === id && savedTime) {
+              videoRef.current.currentTime = savedTime;
+            }
+            if (savedVolume) {
+              videoRef.current.volume = parseFloat(savedVolume);
+            }
+            videoRef.current.play().catch((error) => {
+              console.error("Error playing video:", error);
+            });
+          });
         }
-        if (savedVolume) {
-          videoRef.current.volume = parseFloat(savedVolume);
-        }
+
         videoRef.current.addEventListener('volumechange', handleVolumeChange);
       }
     }
@@ -51,7 +78,7 @@ const VideoDetail = () => {
         videoRef.current.removeEventListener('volumechange', handleVolumeChange);
       }
     };
-  }, [video]);
+  }, [video, id]);
 
   const handleVolumeChange = () => {
     if (videoRef.current) {
@@ -75,7 +102,7 @@ const VideoDetail = () => {
         <div className="detail-video-section">
           <button className="back-button" onClick={handleBackClick}><MdArrowBack /></button>
           <video controls className="detail-video-player" autoPlay loop ref={videoRef} playsInline>
-            <source src={video.src} type="video/mp4" />
+            <source src={video.fileUrls[0]} type="application/vnd.apple.mpegurl" />
           </video>
           <div className="scroll-buttons">
             <span className="scroll-button"><FaChevronUp /></span>
@@ -84,7 +111,7 @@ const VideoDetail = () => {
         </div>
         <div className="content-section">
           <Post video={video} />
-          <CommentSection comments={video.commentsData} />
+          <CommentSection postId={id} />
         </div>
       </div>
     </div>

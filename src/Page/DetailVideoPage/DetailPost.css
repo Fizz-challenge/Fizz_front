@@ -1,8 +1,10 @@
 .post-section {
-  background-color: #f7f7f7;
+  background-color: #f1f1f1;
   margin: 10px;
-  padding: 20px 10px;
+  padding: 20px 10px 10px 10px;
   border-radius: 10px;
+  flex-shrink: 0;
+  font-family: 'Pretendard-Regular', sans-serif;
 }
 
 .post-header {
@@ -31,14 +33,118 @@
 .user-info p {
   margin: 0;
   color: #777;
+  font-size: 12px;
 }
 
 h2 {
-  margin: 15px 0;
   font-size: 20px;
+}
+
+.post-section-content {
+  max-width: 100%;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.post-section-content h2, .post-section-content p {
+  margin: 0 0 5px 0;
+}
+.post-section-content p {
+  font-size: 16px;
+}
+
+.post-section-content h3 {
+  font-size: 16px;
+  font-weight: 100;
+  color: #2DA7FF;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 p {
   margin: 0;
   line-height: 1.5;
+}
+
+.like-button {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.like-button svg,
+.like-button-count {
+  margin-right: 5px;
+}
+
+.like-button svg {
+  pointer-events: none;
+}
+
+.like-button-count {
+  pointer-events: none;
+}
+
+.link-section {
+  font-family: 'Pretendard-Regular', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 10px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.file-link {
+  display: flex;
+  align-items: center;
+}
+
+.file-link span {
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy-link-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #2DA7FF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.copy-link-button svg {
+  margin-right: 5px;
+}
+
+.copy-link-button:hover {
+  background-color: #1A76D2;
+}
+
+.sns-link {
+  display: flex;
+  gap: 20px;
+}
+
+.sns-link svg {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  color: #2DA7FF;
+}
+
+.sns-link svg:hover {
+  color: #1A76D2;
 }
