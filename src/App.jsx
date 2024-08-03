@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './App.css';
 import Header from './Components/Header';
 import { Route, Routes } from 'react-router-dom';
@@ -13,7 +12,6 @@ import UserPage from './Page/UserPage/UserPage.jsx';
 import NewPost from './Page/NewPostPage/NewPost.jsx';
 import ChallengePage from './Page/ChallengePage/ChallengePage.jsx';
 import OAuth2Callback from './Page/LoginPage/OAuth2Callback.jsx';
-// import PageAlert from './Components/PageAlert';  // 삭제
 
 function App() {
   return (
