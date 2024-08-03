@@ -5,6 +5,7 @@ import MainPage from "./Page/MainPage/MainPage";
 import VideoDetail from "./Page/DetailVideoPage/VideoDetail";
 import FollowPage from "./Page/FollowPage/FollowPage";
 import SearchPage from "./Page/SearchPage/SearchPage";
+import CategoryPage from './Page/SearchPage/CategoryPage.jsx';
 import LoginPage from "./Page/LoginPage/LoginPage.jsx";
 import RegisterPage from "./Page/RegisterPage/RegisterPage.jsx";
 import UserPage from "./Page/UserPage/UserPage.jsx";
@@ -26,10 +27,12 @@ function App() {
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
           <Route path="/profile/:userId" element={<UserPage />} />
-					<Route path="/new-post1" element={<NewPost />} />
-					<Route path="/new-post" element={<NewChallengePage />} />
+					<Route path="/new-post" element={<NewPost />} />
 					<Route path="/challenge/:challenge" element={<ChallengePage />} />
-          <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+					<Route path="/oauth2/callback" element={<OAuth2Callback />} />
+					<Route path="/category/:categoryName" element={<CategoryPage />} />
+					<Route path="/:id" element={<MainPage />} />
+					<Route path="/new-challenge" element={<NewChallengePage />} />
 				</Routes>
 			</div>
 		</>
