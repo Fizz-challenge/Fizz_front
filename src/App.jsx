@@ -38,8 +38,6 @@ function App() {
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/delete-profile" element={<DeleteProfilePage />} />
-					<Route path="/:id" element={<MainPage />} />
-					<Route path="/new-challenge" element={<NewChallengePage />} />
 				</Routes>
 			</div>
 		</>
