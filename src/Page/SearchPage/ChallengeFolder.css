@@ -1,0 +1,63 @@
+.challenge-folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 내부 요소들을 가운데 정렬합니다 */
+  width: 200px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  margin: 10px; /* 각 폴더 간의 간격을 추가합니다 */
+}
+
+.challenge-folder:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.image-placeholder {
+  position: absolute;
+  background-color: #d0d0d0;
+  border-radius: 5px;
+}
+
+.large-image {
+  width: 100%;
+  height: 100%;
+}
+
+.small-image {
+  width: 90%;
+  height: 90%;
+  right: -10%;
+  top: 5%;
+  z-index: -1;
+}
+
+.challenge-info {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.challenge-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.challenge-count {
+  font-size: 14px;
+}
