@@ -133,7 +133,6 @@
   margin: 0 10px;
 }
 
-
 .media-and-description {
   display: flex;
   flex-direction: row;
@@ -163,12 +162,12 @@
   width: 100%;
 }
 
-.char-count {
+.char-post-count {
   position: absolute;
   right: 5px;
   bottom: -5px;
   font-size: 12px;
-  color: gray;
+  color: grey;
 }
 
 .add-post-image, .add-post-video {
@@ -274,4 +273,14 @@
 
 .submit-button:hover {
   background-color: #0056b3;
+}
+
+.new-post-loading {
+  color: white;
+}
+
+.error-message {
+  margin-top: 10px;
+  font-weight: 900;
+  color: red;
 }

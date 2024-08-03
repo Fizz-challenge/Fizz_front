@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import Hls from 'hls.js';
 import './Video.css';
 
 const Video = ({ video, isActive }) => {
@@ -10,6 +11,7 @@ const Video = ({ video, isActive }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showVolumeControl, setShowVolumeControl] = useState(false);
+  const [isVertical, setIsVertical] = useState(false);
 
   const handleVideoClick = (id) => {
     const currentTime = videoRef.current ? videoRef.current.currentTime : 0;
@@ -18,10 +20,32 @@ const Video = ({ video, isActive }) => {
   };
 
   useEffect(() => {
-    const attemptSetVideoState = () => {
-      if (!videoRef.current) {
-        setTimeout(attemptSetVideoState, 200); // 200ms 후에 다시 시도
+    const loadVideo = () => {
+      if (!videoRef.current || !video.fileUrls[0]) {
         return;
+      }
+
+      const hls = new Hls();
+
+      if (Hls.isSupported()) {
+        hls.loadSource(video.fileUrls[0]);
+        hls.attachMedia(videoRef.current);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          if (isActive) {
+            videoRef.current.play().catch((error) => {
+              console.error("Error playing video:", error);
+            });
+          }
+        });
+      } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+        videoRef.current.src = video.fileUrls[0];
+        videoRef.current.addEventListener('loadedmetadata', () => {
+          if (isActive) {
+            videoRef.current.play().catch((error) => {
+              console.error("Error playing video:", error);
+            });
+          }
+        });
       }
 
       const savedVideoId = localStorage.getItem('currentVideoId');
@@ -41,46 +65,31 @@ const Video = ({ video, isActive }) => {
 
       const handleLoadedMetadata = () => {
         setDuration(videoRef.current.duration);
+        const videoWidth = videoRef.current.videoWidth;
+        const videoHeight = videoRef.current.videoHeight;
+        setIsVertical(videoHeight > videoWidth);
       };
 
       videoRef.current.addEventListener('timeupdate', handleTimeUpdate);
       videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
 
       return () => {
-        videoRef.current.removeEventListener('timeupdate', handleTimeUpdate);
-        videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        if (videoRef.current) {
+          videoRef.current.removeEventListener('timeupdate', handleTimeUpdate);
+          videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        }
       };
     };
 
-    attemptSetVideoState();
-  }, [video.id]);
+    loadVideo();
+  }, [video.id, video.fileUrls, isActive]);
 
   useEffect(() => {
-    const attemptPlayVideo = () => {
-      if (!videoRef.current) {
-        setTimeout(attemptPlayVideo, 200);
-        return;
-      }
-
-      const savedVolume = parseFloat(localStorage.getItem('videoVolume')) || 0.5;
-      videoRef.current.volume = savedVolume;
-
-      if (isActive) {
-        videoRef.current.currentTime = 0;
-        videoRef.current.play().then(() => {
-          setIsPlaying(true);
-          localStorage.setItem('currentVideoId', video.id);
-        }).catch(error => {
-          console.error("Error playing video:", error);
-        });
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-    };
-
-    attemptPlayVideo();
-  }, [isActive, video.id]);
+    if (videoRef.current && !isActive) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [isActive]);
 
   const togglePlayPause = (event) => {
     event.stopPropagation();
@@ -127,21 +136,19 @@ const Video = ({ video, isActive }) => {
 
   return (
     <div className='video-feed'>
-      <div className="video-container">
+      <div className={`video-container ${isVertical ? 'vertical' : 'horizontal'}`}>
         <video
           className="video"
           loop
           ref={videoRef}
           playsInline
           onClick={() => handleVideoClick(video.id)}
-        >
-          <source src={video.src} type="video/mp4" />
-        </video>
-        <div className="video-info">
-          <div className="video-title">{video.title}</div>
+        />
+        <div className="video-content-info">
+          <div className="video-content-title">{video.title}</div>
           <div className="video-details">
-            <span>{video.user}</span> · <span>조회수 {video.views}회</span>
-            <p>내용</p>
+            <span>{video.userInfo.nickname}</span> · <span>조회수 {video.viewCount}회</span>
+            <p>{video.content}</p>
           </div>
         </div>
         <div className="custom-controls" onClick={(event) => event.stopPropagation()}>
