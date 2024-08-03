@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import UserBlock from './UserBlock';
 import getFollowData from './FollowData';
 import SearchBar from '../../Components/SearchBar';
-import PageAlert from '../../Components/PageAlert'; // Import PageAlert component
 import './FollowPage.css';
 
 const FollowPage = () => {
@@ -13,8 +12,6 @@ const FollowPage = () => {
     follower: []
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [alertMessage, setAlertMessage] = useState(''); // 상태 선언
-  const [showAlert, setShowAlert] = useState(false); // 상태 선언
   const usersPerPage = 12;
 
   useEffect(() => {
@@ -67,9 +64,6 @@ const FollowPage = () => {
 
   const handleFollowToggle = (userId) => {
     setFilteredUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-    setAlertMessage('언팔로우 하였습니다.');
-    setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 2000); // Hide alert after 2 seconds
     if (viewType === 'followers') {
       setData(prevData => ({
         ...prevData,
@@ -154,7 +148,6 @@ const FollowPage = () => {
             </li>
           ))}
         </ul>
-        {showAlert && <PageAlert message={alertMessage} onClose={() => setShowAlert(false)} />}
       </div>
     </div>
   );

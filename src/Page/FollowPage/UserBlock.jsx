@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './UserBlock.css';
 import humanIcon from '../../assets/human.png';
-import { FaUserAltSlash } from "react-icons/fa";
+import { FaUserAltSlash, FaUserPlus } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const UserBlock = ({ userId, username, description, profileImage, isFollowing, onFollowToggle, viewType }) => {
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [followState, setFollowState] = useState(isFollowing);
 
   const handleClick = () => {
     navigate(`/profile/${userId}`);
@@ -25,7 +26,6 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
 
   const confirmUnfollow = async () => {
     setLoading(true);
-    // Perform unfollow action
     try {
       const response = await fetch(`https://gunwoo.store/api/user/following/${userId}`, {
         method: 'DELETE'
@@ -33,8 +33,8 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
       const result = await response.json();
       if (result.success) {
         onFollowToggle(userId);
+        setFollowState(false);
       } else {
-        // Handle error
         console.error('Failed to unfollow');
       }
     } catch (error) {
@@ -45,16 +45,39 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
     }
   };
 
+  const handleFollow = async (e) => {
+    e.stopPropagation();
+    setLoading(true);
+    try {
+      const response = await fetch(`https://gunwoo.store/api/user/following/${userId}`, {
+        method: 'POST'
+      });
+      const result = await response.json();
+      if (result.success) {
+        onFollowToggle(userId);
+        setFollowState(true);
+      } else {
+        console.error('Failed to follow');
+      }
+    } catch (error) {
+      console.error('Error following user:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const followButton = (
     <button
-      className='followToggleButton'
-      onClick={(e) => {
-        e.stopPropagation();
-        isFollowing ? openModal() : onFollowToggle(userId);
-      }}
-      style={{ backgroundColor: isFollowing ? '#ffffff' : '#007bff', color: isFollowing ? '#007bff' : '#ffffff' }}
+      className={`followToggleButton ${followState ? 'following' : ''}`}
+      onClick={followState ? openModal : handleFollow}
     >
-      {loading ? <AiOutlineLoading3Quarters className="loading-icon" /> : isFollowing ? '팔로잉' : '팔로우'}
+      {loading ? (
+        <AiOutlineLoading3Quarters className="loading-icon" />
+      ) : followState ? (
+        <FaUserPlus />
+      ) : (
+        <FaUserAltSlash />
+      )}
     </button>
   );
 
@@ -69,7 +92,7 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
       </div>
       {viewType === 'following' ? (
         <button className='followToggleButton' onClick={(e) => { e.stopPropagation(); openModal(); }}>
-          <FaUserAltSlash />
+          {loading ? <AiOutlineLoading3Quarters className="loading-icon" /> : <FaUserAltSlash />}
         </button>
       ) : followButton}
       <Modal
