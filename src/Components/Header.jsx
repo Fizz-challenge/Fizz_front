@@ -4,6 +4,7 @@ import './Header.css';
 import { FaHome, FaSearch, FaHeart, FaUser } from 'react-icons/fa';
 import { LuPlusSquare } from "react-icons/lu";
 import FizzLogo from '../assets/Fizz.png';
+import { GrInfo } from "react-icons/gr";
 
 const Header = () => {
   const location = useLocation();
@@ -40,9 +41,17 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/new-post" className={urlPath === '/new-post' ? 'active' : ''}>
-            <LuPlusSquare className="icon" /> 게시물
+            <Link to="/new-challenge" className={urlPath === '/new-challenge' ? 'active' : ''}>
+            <LuPlusSquare className="icon" /> 챌린지
             </Link>
+          </li>
+          <div className='header-line'></div>
+          <li>
+            <Link to="/ask" className={urlPath === '/ask' ? 'active' : ''}>
+            <GrInfo className="icon" /> 문의
+            </Link>
+          </li>
+          <li>
           </li>
         </ul>
       </nav>
