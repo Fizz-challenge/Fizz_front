@@ -6,6 +6,7 @@ import MainPage from "./Page/MainPage/MainPage";
 import VideoDetail from "./Page/DetailVideoPage/VideoDetail";
 import FollowPage from "./Page/FollowPage/FollowPage";
 import SearchPage from "./Page/SearchPage/SearchPage";
+import CategoryPage from './Page/SearchPage/CategoryPage.jsx';
 import LoginPage from "./Page/LoginPage/LoginPage.jsx";
 import RegisterPage from "./Page/RegisterPage/RegisterPage.jsx";
 import UserPage from "./Page/UserPage/UserPage.jsx";
@@ -32,6 +33,7 @@ function App() {
 					<Route path="/new-post" element={<NewPost />} />
 					<Route path="/challenge/:challenge" element={<ChallengePage />} />
                		<Route path="/oauth2/callback" element={<OAuth2Callback />} />
+					<Route path="/category/:categoryName" element={<CategoryPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/delete-profile" element={<DeleteProfilePage />} />
