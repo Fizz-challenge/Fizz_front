@@ -1,0 +1,66 @@
+/* SlideBar.css */
+
+.slide-bar {
+  background-color: #f0f0f0;
+  width: 500px;
+  height: 60px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  user-select: none;
+  margin: 10px auto;
+  position: relative;
+}
+
+.slide-btn {
+  position: absolute;
+  width: calc((500px / 3) - 10px);
+  height: 50px;
+  background-color: #ffffff;
+  margin-left: calc(50% - 250px);
+  border-radius: 20px;
+  transition: .5s cubic-bezier(.5,0,.2,1);
+}
+
+.slide-bar-btn {
+  padding-left: 20px;
+  width: calc((500px / 3) - 10px);
+  height: 50px;
+  border-radius: 20px;
+  text-align: center;
+  color: #898989;
+  line-height: 50px;
+  font-size: 20px;
+  font-family: "NanumSquareNeoRG";
+  z-index: 1;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.slide-bar-btn:not(.slide-bar-selected-content):hover {
+  background-color: #dfdfdf;
+}
+
+.slide-bar-selected-content {
+  color: #000000;
+  font-family: "NanumSquareNeoBD";
+}
+
+.select0 {
+  left: 5px;
+}
+
+.select1 {
+  left: calc(5px + 500px / 3);
+}
+
+.select2 {
+  left: calc(5px + 1000px / 3);
+}
+
+.slide-bar-btn .ionicon {
+  position: absolute;
+  margin-top: 14px;
+  margin-left: -25px;
+}

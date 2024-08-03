@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  width: 500px;
 }
 
 .search-bar input {
@@ -23,9 +24,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white; /* 텍스트 색상 변경 */
+  font-size: 16px; /* 텍스트 크기 조정 */
 }
 
 .search-icon {
-  color: white;
   font-size: 16px;
 }

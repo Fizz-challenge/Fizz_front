@@ -1,0 +1,93 @@
+.deleteProfileTitle {
+    margin: 50px 0px;
+    text-align: center;
+    font-size: 50px;
+    font-family: "NanumSquareNeoEB";
+}
+
+.deleteProfileDesc {
+    margin: 50px 0px;
+    text-align: center;
+    font-size: 35px;
+    font-family: "NanumSquareNeoBD";
+}
+
+.deleteProfileNotice {
+    /* position: absolute; */
+    margin: 100px auto;
+    padding: 40px;
+    width: 750px;
+    background-color: #E1F3FF;
+    border-radius: 20px;
+    text-align: left;
+    font-size: 25px;
+    font-family: "NanumSquareNeoRG";
+}
+
+.deleteProfileNotice div {
+    margin: 10px 0px;
+}
+
+.checkInput {
+    display: none;
+}
+
+.checkInput + label {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: #E1F3FF;
+    border-radius: 6px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: 0.2s;
+    position: absolute;
+    margin-top: -3px;
+    left: calc(50% - 120px);
+    margin-left: 20px;
+}
+
+.checkInput:checked + label {
+    background-color: #2DA7FF;
+    box-shadow: #2da7ff88 0px 0px 5px 2px;
+}
+
+.checkInput:checked + label::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 18px;
+    border: solid white;
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg);
+    position: relative;
+    top: 4px;
+    left: 10px;
+}
+
+.checkInput + label + label {
+    user-select: none;
+    font-size: 25px;
+    font-family: "NanumSquareNeoRG";
+    cursor: pointer;
+    margin-left: 20px;
+    /* background-color: red; */
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+.deleteProfileBtn {
+    margin: 200px auto;
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    font-size: 25px;
+    padding: 0px 20px;
+    border-radius: 20px;
+    line-height: 50px;
+    cursor: pointer;
+    transition: .1s;
+    font-family: "NanumSquareNeoBD";
+    color: #ffffff;
+}

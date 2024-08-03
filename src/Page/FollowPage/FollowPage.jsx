@@ -8,19 +8,21 @@ const FollowPage = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
-    following: '0',
-    follower: '0',
-    followingInfo: [],
-    followerInfo: []
+    following: [],
+    follower: []
   });
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 12;
 
   useEffect(() => {
     const fetchData = async () => {
-      const followData = await getFollowData(0);
-      setData(followData);
-      setFilteredUsers(followData.followerInfo);
+      const followData = await getFollowData();
+      setData({
+        ...followData,
+        following: followData.following,
+        follower: followData.follower
+      });
+      setFilteredUsers(followData.follower);
     };
 
     fetchData();
@@ -34,20 +36,20 @@ const FollowPage = () => {
     setCurrentPage(1);
     if (searchTerm === "") {
       if (viewType === 'followers') {
-        setFilteredUsers(data.followerInfo);
+        setFilteredUsers(data.follower);
       } else if (viewType === 'following') {
-        setFilteredUsers(data.followingInfo);
+        setFilteredUsers(data.following);
       }
     } else {
       if (viewType === 'followers') {
         setFilteredUsers(
-          data.followerInfo.filter((user) =>
+          data.follower.filter((user) =>
             user.nickname.toLowerCase().includes(searchTerm.toLowerCase())
           )
         );
       } else if (viewType === 'following') {
         setFilteredUsers(
-          data.followingInfo.filter((user) =>
+          data.following.filter((user) =>
             user.nickname.toLowerCase().includes(searchTerm.toLowerCase())
           )
         );
@@ -65,45 +67,63 @@ const FollowPage = () => {
     if (viewType === 'followers') {
       setData(prevData => ({
         ...prevData,
-        followerInfo: prevData.followerInfo.filter(user => user.id !== userId),
-        follower: (parseInt(prevData.follower) - 1).toString()
+        follower: prevData.follower.filter(user => user.id !== userId)
       }));
     } else if (viewType === 'following') {
       setData(prevData => ({
         ...prevData,
-        followingInfo: prevData.followingInfo.filter(user => user.id !== userId),
-        following: (parseInt(prevData.following) - 1).toString()
+        following: prevData.following.filter(user => user.id !== userId)
       }));
     }
   };
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUsers = Array.isArray(filteredUsers) ? filteredUsers.slice(indexOfFirstUser, indexOfLastUser) : [];
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = startPage + maxPagesToShow - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="follow-page">
-      <div className="main-content">
+      <div className="follow-page-main-content">
         <div className="button-container">
           <button
             className={`toggle-button ${viewType === 'followers' ? 'active' : ''}`}
             onClick={() => handleViewChange('followers')}
           >
-            팔로워 {data.follower}명
+            팔로워 {data.follower.length}명
           </button>
           <button
             className={`toggle-button ${viewType === 'following' ? 'active' : ''}`}
             onClick={() => handleViewChange('following')}
           >
-            팔로잉 {data.following}명
+            팔로잉 {data.following.length}명
           </button>
         </div>
-        <SearchBar onSearch={handleSearch} />
         <div className="list">
           <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
+        </div>
+        <div className="user-block-container">
+          <SearchBar className="follow-page-search-bar" onSearch={handleSearch} />
           {currentUsers.map((user, index) => (
             <UserBlock
               key={index}
@@ -111,18 +131,20 @@ const FollowPage = () => {
               username={user.nickname}
               description={user.describe}
               profileImage={user.profileImage}
+              isFollowing={viewType === 'following' || data.following.some(f => f.id === user.id)}
+              viewType={viewType}
               onFollowToggle={() => handleFollowToggle(user.id)}
             />
           ))}
         </div>
         <ul className="page-numbers">
-          {Array.from({ length: totalPages }, (_, index) => (
+          {getPageNumbers().map((page, index) => (
             <li
-              key={index + 1}
-              onClick={() => paginate(index + 1)}
-              className={currentPage === index + 1 ? 'active' : ''}
+              key={index}
+              onClick={() => paginate(page)}
+              className={currentPage === page ? 'active' : ''}
             >
-              {index + 1}
+              {page}
             </li>
           ))}
         </ul>

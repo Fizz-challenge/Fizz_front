@@ -1,0 +1,49 @@
+{
+  "success": "true",
+  "data": [
+    {
+      "categoryId": 1,
+      "title": "헬스"
+    },
+    {
+      "categoryId": 2,
+      "title": "악기"
+    },
+    {
+      "categoryId": 3,
+      "title": "책"
+    },
+    {
+      "categoryId": 4,
+      "title": "금욕"
+    },
+    {
+      "categoryId": 5,
+      "title": "스포츠"
+    },
+    {
+      "categoryId": 6,
+      "title": "요리"
+    },
+    {
+      "categoryId": 7,
+      "title": "예술"
+    },
+    {
+      "categoryId": 8,
+      "title": "기술"
+    },
+    {
+      "categoryId": 9,
+      "title": "원예"
+    },
+    {
+      "categoryId": 10,
+      "title": "여행"
+    },
+    {
+      "categoryId": 11,
+      "title": "수행"
+    }
+  ]
+}

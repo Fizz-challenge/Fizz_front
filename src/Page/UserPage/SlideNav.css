@@ -1,7 +1,13 @@
+:root {
+    --slideNavWidth: 500px;
+    --slideNavWidthSmall: 330px;
+    --slideNavCound: 3;
+}
+
 .slideNav {
     /* position: absolute; */
     background-color: #f0f0f0;
-    width: 500px;
+    width: var(--slideNavWidth);
     height: 60px;
     border-radius: 25px;
     display: flex;
@@ -14,13 +20,13 @@
 
 .slideBtn {
     position: absolute;
-    width: calc((500px / 3) - 10px);
+    width: calc((500px / 3) - (5px * (var(--slideNavCound) - 1)));
     height: 50px;
     background-color: #ffffff;
     /* z-index: 0; */
     /* top: 5px; */
     /* left: 0; */
-    margin-left: calc(50% - 250px);
+    margin-left: calc(50% - var(--slideNavWidth) / 2);
     border-radius: 20px;
     transition: .5s cubic-bezier(.5,0,.2,1);
     /* transition: .5s ease; */
@@ -66,5 +72,30 @@
     position: absolute;
     margin-top: 14px;
     margin-left: -25px;
+}
+
+@media (max-width: 500px) {
+    .slideNav {
+        width: var(--slideNavWidthSmall);
+    }
+    .slideBtn {
+        width: 100px;
+        margin-left: calc(50% - var(--slideNavWidthSmall) / 2);
+    }
+    .slideNavBtn {
+        padding-left: 0;
+        width: 100px;
+    }
+    .select1 {
+        left: calc(5px + 330px / 3);
+    }
+    
+    .select2 {
+        left: calc(5px + 660px / 3);
+    }
+    .slideNavBtn .ionicon {
+        position: relative;
+        margin-left: 0px;
+    }
 }
 
