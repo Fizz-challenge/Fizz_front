@@ -1,33 +1,14 @@
-.category-page-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.category-page-container h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.challenges-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
-  width: 100%;
-}
-
 .challenge-folder {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* 내부 요소들을 가운데 정렬합니다 */
   width: 200px;
   padding: 10px;
   background-color: #f0f0f0;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
-  margin: 10px;
+  margin: 10px; /* 각 폴더 간의 간격을 추가합니다 */
 }
 
 .challenge-folder:hover {
@@ -79,29 +60,4 @@
 
 .challenge-count {
   font-size: 14px;
-}
-
-.no-challenges {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 50vh; /* Center vertically */
-  text-align: center;
-  margin-top: 20px;
-}
-
-.create-challenge-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-.create-challenge-button:hover {
-  background-color: #0056b3;
 }

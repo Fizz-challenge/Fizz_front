@@ -40,6 +40,10 @@
     {
       "categoryId": 10,
       "title": "여행"
+    },
+    {
+      "categoryId": 11,
+      "title": "수행"
     }
   ]
 }

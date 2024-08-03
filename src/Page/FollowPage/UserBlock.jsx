@@ -4,10 +4,12 @@ import Modal from 'react-modal';
 import './UserBlock.css';
 import humanIcon from '../../assets/human.png';
 import { FaUserAltSlash } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const UserBlock = ({ userId, username, description, profileImage, onFollowToggle }) => {
+const UserBlock = ({ userId, username, description, profileImage, isFollowing, onFollowToggle, viewType }) => {
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
     navigate(`/profile/${userId}`);
@@ -21,10 +23,40 @@ const UserBlock = ({ userId, username, description, profileImage, onFollowToggle
     setModalIsOpen(false);
   };
 
-  const confirmUnfollow = () => {
-    onFollowToggle();
-    closeModal();
+  const confirmUnfollow = async () => {
+    setLoading(true);
+    // Perform unfollow action
+    try {
+      const response = await fetch(`https://gunwoo.store/api/user/following/${userId}`, {
+        method: 'DELETE'
+      });
+      const result = await response.json();
+      if (result.success) {
+        onFollowToggle(userId);
+      } else {
+        // Handle error
+        console.error('Failed to unfollow');
+      }
+    } catch (error) {
+      console.error('Error unfollowing user:', error);
+    } finally {
+      setLoading(false);
+      closeModal();
+    }
   };
+
+  const followButton = (
+    <button
+      className='followToggleButton'
+      onClick={(e) => {
+        e.stopPropagation();
+        isFollowing ? openModal() : onFollowToggle(userId);
+      }}
+      style={{ backgroundColor: isFollowing ? '#ffffff' : '#007bff', color: isFollowing ? '#007bff' : '#ffffff' }}
+    >
+      {loading ? <AiOutlineLoading3Quarters className="loading-icon" /> : isFollowing ? '팔로잉' : '팔로우'}
+    </button>
+  );
 
   return (
     <div className='userBlock'>
@@ -35,9 +67,11 @@ const UserBlock = ({ userId, username, description, profileImage, onFollowToggle
           <div className='description'>{description}</div>
         </div>
       </div>
-      <button className='followToggleButton' onClick={(e) => { e.stopPropagation(); openModal(); }}>
-        <FaUserAltSlash />
-      </button>
+      {viewType === 'following' ? (
+        <button className='followToggleButton' onClick={(e) => { e.stopPropagation(); openModal(); }}>
+          <FaUserAltSlash />
+        </button>
+      ) : followButton}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
