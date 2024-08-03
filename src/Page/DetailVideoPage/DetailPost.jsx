@@ -7,7 +7,7 @@ const DetailPost = ({ video }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
 
-  const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1NfVE9LRU4iLCJ1c2VySWQiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MjI2MjI3NDQsImV4cCI6MTcyMjYyNDU0NH0.KD1IgCvMFcNOQqAIHtrfYsBk-4l8bTqMG2nX1LHOz2GYb7TJAHo-gQRgsrQ-FOmy60Ri7_rPNif3huC9y-5OgA';
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const checkIfLiked = async () => {
@@ -24,7 +24,7 @@ const DetailPost = ({ video }) => {
       }
     };
     checkIfLiked();
-  }, [video.id]);
+  }, [video.id, token]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -88,7 +88,7 @@ const DetailPost = ({ video }) => {
         </div>
         <div className="sns-link">
           <FaInstagram title="인스타그램" onClick={() => handleSNSLinkClick('https://www.instagram.com')} />
-          <FaFacebook title="페이스북"onClick={() => handleSNSLinkClick('https://www.facebook.com')} />
+          <FaFacebook title="페이스북" onClick={() => handleSNSLinkClick('https://www.facebook.com')} />
           <FaTwitter title="트위터" onClick={() => handleSNSLinkClick('https://www.twitter.com')} />
         </div>
       </div>

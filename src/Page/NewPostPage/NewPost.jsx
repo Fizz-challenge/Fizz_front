@@ -23,7 +23,7 @@ const NewPost = () => {
   const videoRef = useRef(null);
   const eventSourceRef = useRef(null);
 
-  const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1NfVE9LRU4iLCJ1c2VySWQiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MjI2ODQ0OTUsImV4cCI6MTcyMjY4NjI5NX0.ZVx8DCdWyhSWlybioRnSjY-CtuM5IRTUkegieZAyFy1bJvvpqzWen9sHs2fMRUR9yJbWJS344cX4_FvUGCIrNA';
+  const token = localStorage.getItem('accessToken');
 
   const subscribeToNotifications = useCallback(() => {
     const eventSource = new EventSourcePolyfill('https://gunwoo.store/api/notify/subscribe', {

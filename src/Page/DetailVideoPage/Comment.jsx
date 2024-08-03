@@ -10,7 +10,7 @@ const CommentSection = ({ postId }) => {
   const [newCommentText, setNewCommentText] = useState('');
   const [visibleReplies, setVisibleReplies] = useState({});
 
-  const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1NfVE9LRU4iLCJ1c2VySWQiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MjI2MjI3NDQsImV4cCI6MTcyMjYyNDU0NH0.KD1IgCvMFcNOQqAIHtrfYsBk-4l8bTqMG2nX1LHOz2GYb7TJAHo-gQRgsrQ-FOmy60Ri7_rPNif3huC9y-5OgA';
+  const token = localStorage.getItem('accessToken');
 
   const fetchComments = async () => {
     try {
@@ -85,7 +85,7 @@ const CommentSection = ({ postId }) => {
 
   const handleReplySubmit = async (commentId) => {
     try {
-      const response = await axios.post(`https://gunwoo.store/api/comment/post/${postId}/reply`, 
+      await axios.post(`https://gunwoo.store/api/comment/post/${postId}/reply`, 
         {
           parentCommentId: commentId,
           content: replyText
@@ -108,7 +108,7 @@ const CommentSection = ({ postId }) => {
   const handleNewCommentSubmit = async () => {
     if (newCommentText.trim()) {
       try {
-        const response = await axios.post(`https://gunwoo.store/api/comment/post/${postId}`, 
+        await axios.post(`https://gunwoo.store/api/comment/post/${postId}`, 
           {
             content: newCommentText
           },
