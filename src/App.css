@@ -1,3 +1,7 @@
+:root {
+  --headerWidth: 200px;
+}
+
 a {
   text-decoration: none;
 }
@@ -7,18 +11,33 @@ a:visited {
 }
 
 .content-wrapper {
-  margin-left: 200px;
+  position: absolute;
+  width: calc(100% - var(--headerWidth));
+  margin-left: var(--headerWidth);
+  height: 100vh;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.noHeader {
+  width: 100%;
+  margin-left: 0;
+}
+
+.hoverBtns:hover {
+  transform: scale(1.03);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
 }
 
 @media (max-width: 1024px) {
-  .content-wrapper {
-    margin-left: 100px;
+  :root {
+    --headerWidth: 100px;
   }
 }
 
 @media (max-width: 768px) {
-  .content-wrapper {
-    margin-left: 0px;
+  :root {
+    --headerWidth: 0px;
   }
 }
 
@@ -26,26 +45,6 @@ a:visited {
   font-family: "IrishGrover";
   src: url("../font/IrishGrover-Regular.ttf");
 }
-
-
-
-
-@font-face {
-  font-family: "NanumGothicR";
-  src: url("../font/NanumGothic-Regular.ttf");
-}
-
-@font-face {
-  font-family: "NanumGothicB";
-  src: url("../font/NanumGothic-Bold.ttf");
-}
-
-@font-face {
-  font-family: "NanumGothicEB";
-  src: url("../font/NanumGothic-ExtraBold.ttf");
-}
-
-
 
 
 @font-face {
@@ -71,4 +70,10 @@ a:visited {
 @font-face {
   font-family: "NanumSquareNeoHV";
   src: url("../font/NanumSquareNeo-eHv.ttf");
+}
+
+
+@font-face {
+  font-family: "RobotoM";
+  src: url("../font/Roboto-Medium.ttf")
 }
