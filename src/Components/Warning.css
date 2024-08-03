@@ -1,0 +1,23 @@
+.noTitle {
+    word-break: keep-all;
+    text-align: center;
+    font-size: 50px;
+    font-family: "NanumSquareNeoBD";
+    margin-top: 50vh;
+    transform: translateY(-100px);
+}
+
+.goHomeBtn {
+    background-color: #2DA7FF;
+    color: #ffffff;
+    text-align: center;
+    width: 150px;
+    height: 50px;
+    margin-left: calc(50% - 75px);
+    font-size: 25px;
+    padding: 0px 20px;
+    border-radius: 20px;
+    line-height: 50px;
+    cursor: pointer;
+    font-family: "NanumSquareNeoBD";
+}

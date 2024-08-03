@@ -1,63 +1,43 @@
-body {
-    margin: 0;
-    padding: 0;
+.loginBack {
+    position: absolute;
+    background: rgb(197,231,255);
+    background: linear-gradient(135deg, rgba(197,231,255,1) 0%, rgba(133,191,233,1) 100%);
+    width: 100%;
+    height: 100%;
 }
 
-.backgroundLeft {
+.loginAllWrap {
     position: absolute;
-    background-color: #2995e2;
-    width: 50%;
-    height: 100vh;
-}
-
-.backgroundRight {
-    position: absolute;
-    background-color: #d1d1d1;
-    width: 50%;
-    height: 100vh;
-    right: 0;
-}
-
-.allWrap {
-    position: absolute;
-    width: 60%;
-    height: 80%;
-    top: 10%;
-    left: 20%;
-    border-radius: 20px;
+    width: 800px;
+    height: 700px;
+    top: calc(50% - 350px);
+    left: calc(50% - 400px);
+    border-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.backWrap {
-    position: absolute;
-    background-color: #2DA7FF;
-    width: 50%;
-    height: 100%;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-
-.title {
+.loginLogo {
     position: absolute;
     font-family: "IrishGrover";
     font-size: 100px;
     color: #ffffff;
     width: 100%;
-    line-height: 80vh;
+    height: 100px;
+    line-height: 100px;
+    top: calc(50% - 50px);
     text-align: center;
     user-select: none;
+    cursor: pointer;
 }
 
-/* .desc {
+.loginBackWrap {
     position: absolute;
-    font-family: "NanumSquareNeoBD";
-    font-size: 20px;
-    color: #ffffff;
-    width: 100%;
-    height: 30px;
-    text-align: center;
-    top: calc(50% + 40px);
-} */
+    background-color: #2DA7FF;
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
 
 .loginWrap {
     position: absolute;
@@ -65,8 +45,8 @@ body {
     height: 100%;
     right: 0;
     background-color: #ffffff;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .loginTitle {
@@ -76,7 +56,7 @@ body {
     font-family: "NanumSquareNeoEB";
     width: 100%;
     height: 40px;
-    top: calc(25% - 20px);
+    top: 150px;
 }
 
 .loginDescLine {
@@ -99,12 +79,6 @@ body {
     top: calc(50% - 50px);
 }
 
-.loginKakaoBtn {
-    background-color: #FEE500;
-    top: calc(50%);
-    color: #191919;
-}
-
 .kakaoIcon {
     position: absolute;
     width: 25px;
@@ -120,13 +94,15 @@ body {
     left: 22.5px;
 }
 
-.loginNaverBtn {
-    background-color: #03C75A;
-    top: calc(50% + 70px);
-    color: #ffffff;
+.googleIcon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: calc(50% - 12.5px);
+    left: 20px;
 }
 
-.loginKakaoBtn, .loginNaverBtn {
+.loginBtn {
     position: absolute;
     width: 80%;
     height: 60px;
@@ -139,9 +115,24 @@ body {
     cursor: pointer;      
     transition: .1s;   
     user-select: none;       
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
 }
 
-.loginKakaoBtn:hover, .loginNaverBtn:hover {
-    transform: scale(1.01);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
+.loginKakaoBtn {
+    background-color: #FEE500;
+    top: calc(50%);
+    color: #191919;
+}
+
+.loginNaverBtn {
+    background-color: #03C75A;
+    top: calc(50% + 70px);
+    color: #ffffff;
+}
+
+.loginGoogleBtn {
+    background-color: #ffffff;
+    top: calc(50% + 140px);
+    color: #0000008a;
+    outline: 1px solid #0000008a;
 }
