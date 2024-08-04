@@ -37,6 +37,7 @@ function App() {
 					<Route path="/challenge/:challenge" element={<ChallengePage />} />
                		<Route path="/oauth2/callback" element={<OAuth2Callback />} />
 					<Route path="/category/:categoryName" element={<CategoryPage />} />
+					<Route path="/category/:categoryId/:categoryName" element={<CategoryPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/delete-profile" element={<DeleteProfilePage />} />
@@ -46,4 +47,4 @@ function App() {
 	);
 }
 
-export default App;
+export default App;export default App;
