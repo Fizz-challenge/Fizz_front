@@ -6,7 +6,7 @@ import humanIcon from '../../assets/human.png';
 import { FaUserAltSlash, FaUserPlus } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const UserBlock = ({ userId, username, description, profileImage, isFollowing, onFollowToggle, viewType }) => {
+const UserBlock = ({ userId, username, description, profileImage, isFollowing, onFollowToggle }) => {
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
       });
       const result = await response.json();
       if (result.success) {
-        onFollowToggle(userId);
+        onFollowToggle(userId, false);
       } else {
         console.error('Failed to unfollow');
       }
@@ -57,7 +57,7 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
       });
       const result = await response.json();
       if (result.success) {
-        onFollowToggle(userId);
+        onFollowToggle(userId, true);
       } else {
         console.error('Failed to follow');
       }
@@ -89,17 +89,17 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
   return (
     <div className='userBlock'>
       <div className='userInfoContainer' onClick={handleClick}>
-        <img src={profileImage || humanIcon} alt="User Icon" className='userIcon' />
+        {profileImage ? (
+          <img src={profileImage} alt="User Icon" className='userIcon' />
+        ) : (
+          <div className='userIcon skeletonIcon'></div>
+        )}
         <div className='userInfo'>
           <div className='username'>{username}</div>
           <div className='description'>{description}</div>
         </div>
       </div>
-      {viewType === 'following' ? (
-        <button className='followToggleButton' onClick={(e) => { e.stopPropagation(); openModal(); }}>
-          <FaUserAltSlash />
-        </button>
-      ) : followButton}
+      {followButton}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

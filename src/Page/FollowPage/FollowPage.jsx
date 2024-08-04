@@ -15,10 +15,10 @@ const FollowPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('token'); // 또는 sessionStorage
+      const token = localStorage.getItem('accessToken'); // 또는 sessionStorage
       try {
         const response = await fetch('https://gunwoo.store/api/user/me', {
-          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -30,7 +30,7 @@ const FollowPage = () => {
             following,
             follower
           });
-          setFilteredUsers(follower);
+          setFilteredUsers(viewType === 'followers' ? follower : following);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -71,22 +71,36 @@ const FollowPage = () => {
 
   const handleViewChange = (type) => {
     setViewType(type);
-    handleSearch("");  // Clear search when changing view
   };
 
-  const handleFollowToggle = (userId) => {
-    setFilteredUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-    if (viewType === 'followers') {
-      setData(prevData => ({
-        ...prevData,
-        follower: prevData.follower.filter(user => user.id !== userId)
-      }));
-    } else if (viewType === 'following') {
-      setData(prevData => ({
-        ...prevData,
-        following: prevData.following.filter(user => user.id !== userId)
-      }));
-    }
+  const handleFollowToggle = (userId, isFollowing) => {
+    setData(prevData => {
+      const updatedFollower = prevData.follower.map(user => 
+        user.id === userId ? { ...user, isFollowing } : user
+      );
+
+      const updatedFollowing = isFollowing 
+        ? [...prevData.following, prevData.follower.find(user => user.id === userId)]
+        : prevData.following.filter(user => user.id !== userId);
+
+      return {
+        follower: updatedFollower,
+        following: updatedFollowing,
+      };
+    });
+
+    setFilteredUsers(prevUsers => {
+      if (viewType === 'followers') {
+        return prevUsers.map(user => 
+          user.id === userId ? { ...user, isFollowing } : user
+        );
+      } else if (viewType === 'following') {
+        return isFollowing 
+          ? [...prevUsers, data.follower.find(user => user.id === userId)]
+          : prevUsers.filter(user => user.id !== userId);
+      }
+      return prevUsers;
+    });
   };
 
   const indexOfLastUser = currentPage * usersPerPage;
@@ -143,9 +157,8 @@ const FollowPage = () => {
               username={user.nickname}
               description={user.aboutMe}
               profileImage={user.profileImage}
-              isFollowing={viewType === 'following' || data.following.some(f => f.id === user.id)}
-              viewType={viewType}
-              onFollowToggle={() => handleFollowToggle(user.id)}
+              isFollowing={user.isFollowing || data.following.some(f => f.id === user.id)}
+              onFollowToggle={handleFollowToggle}
             />
           ))}
         </div>
