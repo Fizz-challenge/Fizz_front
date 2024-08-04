@@ -15,6 +15,7 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 	const [isNoticePopupVisible, setIsNoticePopupVisible] = useState(false);
 	const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
 	const [noticePopupStatus, setNoticePopupStatus] = useState([]);
+	const [isBasicProfile, setIsBasicProfile] = useState(false);
 	const idRef = useRef(null);
 	const nameRef = useRef(null);
 	const descRef = useRef(null);
@@ -35,6 +36,7 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
+			setIsBasicProfile(false);
 			setSelectedImage(file);
 			const reader = new FileReader();
 			reader.onloadend = () => {
@@ -100,6 +102,9 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					});
 					profileImageUrl = uploadResponse.data;
 				}
+				if (isBasicProfile) {
+					profileImageUrl = null;
+				}
 				await axios.patch("https://gunwoo.store/api/user/me", {
 					email: emailRef.current.value,
 					nickname: nameRef.current.value,
@@ -125,6 +130,11 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 	const navigateToDeletePage = () => {
 		navigate("/delete-profile");
 	};
+
+	const setBasicProfile = () => {
+		setIsBasicProfile(true);
+		setSelectedImage(null);
+	}
 
 	return (
 		<>
@@ -152,7 +162,9 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 				onClick={closePopup}
 			></div>
 			<div
-				className={`${styles.popup} ${isClosing ? styles.closePopup : ""}`}
+				className={`${styles.popup} ${
+					isClosing ? styles.closePopup : ""
+				}`}
 			>
 				<div className={styles.close} onClick={closePopup}>
 					&times;
@@ -169,11 +181,20 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					<TbEdit className={styles.imgBtnIcon} />
 				</div>
 				<div className={styles.img}>
-					{imagePreview ? (
-						<img src={imagePreview} alt="프로필 이미지" />
-					) : (
-						userInfo.profileImage && <img src={userInfo.profileImage} alt="프로필 이미지" />
-					)}
+					<img
+						src={
+							isBasicProfile
+								? "../src/assets/profile.jpg"
+								: imagePreview ||
+								  userInfo.profileImage ||
+								  "../src/assets/profile.jpg"
+						}
+						alt="프로필 이미지"
+					/>
+				</div>
+				<div className={styles.setBasic} onClick={setBasicProfile}>
+					{userInfo.profileImage ||
+						(imagePreview && !isBasicProfile && "이미지 삭제")}
 				</div>
 				<input
 					type="text"
@@ -181,7 +202,9 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					ref={idRef}
 					defaultValue={userInfo.profileId}
 					onChange={() => setIsDuplicateId(true)}
-					style={{ borderColor: isDuplicateId ? "#ff7070" : "#2DA7FF" }}
+					style={{
+						borderColor: isDuplicateId ? "#ff7070" : "#2DA7FF",
+					}}
 					id="profileId"
 					required
 				/>
@@ -217,7 +240,9 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					ref={emailRef}
 					defaultValue={userInfo.email}
 					onChange={validateEmail}
-					style={{ borderColor: isInvalidEmail ? "#ff7070" : "#2DA7FF" }}
+					style={{
+						borderColor: isInvalidEmail ? "#ff7070" : "#2DA7FF",
+					}}
 					id="profileEmail"
 					required
 				/>
@@ -228,7 +253,10 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 				>
 					계정삭제
 				</div>
-				<div className={`${styles.submit} hoverBtns`} onClick={submitProfile}>
+				<div
+					className={`${styles.submit} hoverBtns`}
+					onClick={submitProfile}
+				>
 					수정
 				</div>
 			</div>

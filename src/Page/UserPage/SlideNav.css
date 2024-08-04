@@ -1,13 +1,15 @@
-:root {
-    --slideNavWidth: 500px;
-    --slideNavWidthSmall: 330px;
-    --slideNavCound: 3;
+.slideNavLine {
+    position: absolute;
+    margin-top: 30px;
+    width: calc(100% - 30px);
+    left: 15px;
+    border-bottom: 2px solid #d9d9d9;
+    z-index: -1;
 }
 
 .slideNav {
-    /* position: absolute; */
     background-color: #f0f0f0;
-    width: var(--slideNavWidth);
+    width: 500px;
     height: 60px;
     border-radius: 25px;
     display: flex;
@@ -16,20 +18,17 @@
     user-select: none;
     margin: 10px auto;
     top: 220px;
+    outline: 15px solid #ffffff;
 }
 
 .slideBtn {
     position: absolute;
-    width: calc((500px / 3) - (5px * (var(--slideNavCound) - 1)));
+    width: calc((500px / 3) - 10px);
     height: 50px;
     background-color: #ffffff;
-    /* z-index: 0; */
-    /* top: 5px; */
-    /* left: 0; */
-    margin-left: calc(50% - var(--slideNavWidth) / 2);
+    margin-left: calc(50% - 500px / 2);
     border-radius: 20px;
     transition: .5s cubic-bezier(.5,0,.2,1);
-    /* transition: .5s ease; */
 }
 
 .slideNavBtn {
@@ -76,11 +75,11 @@
 
 @media (max-width: 500px) {
     .slideNav {
-        width: var(--slideNavWidthSmall);
+        width: 330px;
     }
     .slideBtn {
         width: 100px;
-        margin-left: calc(50% - var(--slideNavWidthSmall) / 2);
+        margin-left: calc(50% - 330px / 2);
     }
     .slideNavBtn {
         padding-left: 0;

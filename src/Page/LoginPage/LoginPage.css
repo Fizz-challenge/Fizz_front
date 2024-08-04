@@ -86,14 +86,6 @@
     left: 20px;
 }
 
-.naverIcon {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: calc(50% - 10px);
-    left: 22.5px;
-}
-
 .googleIcon {
     position: absolute;
     width: 25px;
@@ -115,7 +107,7 @@
     cursor: pointer;      
     transition: .1s;   
     user-select: none;       
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
 }
 
 .loginKakaoBtn {
@@ -124,15 +116,8 @@
     color: #191919;
 }
 
-.loginNaverBtn {
-    background-color: #03C75A;
-    top: calc(50% + 70px);
-    color: #ffffff;
-}
-
 .loginGoogleBtn {
     background-color: #ffffff;
-    top: calc(50% + 140px);
+    top: calc(50% + 70px);
     color: #0000008a;
-    outline: 1px solid #0000008a;
 }
