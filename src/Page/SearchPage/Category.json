@@ -1,49 +1,62 @@
-{
-  "success": "true",
-  "data": [
-    {
-      "categoryId": 1,
-      "title": "헬스"
-    },
-    {
-      "categoryId": 2,
-      "title": "악기"
-    },
-    {
-      "categoryId": 3,
-      "title": "책"
-    },
-    {
-      "categoryId": 4,
-      "title": "금욕"
-    },
-    {
-      "categoryId": 5,
-      "title": "스포츠"
-    },
-    {
-      "categoryId": 6,
-      "title": "요리"
-    },
-    {
-      "categoryId": 7,
-      "title": "예술"
-    },
-    {
-      "categoryId": 8,
-      "title": "기술"
-    },
-    {
-      "categoryId": 9,
-      "title": "원예"
-    },
-    {
-      "categoryId": 10,
-      "title": "여행"
-    },
-    {
-      "categoryId": 11,
-      "title": "수행"
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "헬스",
+    "description": "건강과 체력을 위한 다양한 운동과 피트니스 챌린지에 참여해보세요!",
+    "image": "Category1.png"
+  },
+  {
+    "id": 2,
+    "name": "악기",
+    "description": "악기 연습과 연주에 관한 챌린지로 음악적 재능을 키워보세요!",
+    "image": "Category2.png"
+  },
+  {
+    "id": 3,
+    "name": "책",
+    "description": "책을 읽고, 리뷰를 작성하며 독서 습관을 길러보세요!",
+    "image": "Category3.png"
+  },
+  {
+    "id": 4,
+    "name": "금욕",
+    "description": "금주, 금연 등 참아야하는 것들을 지켜보아요!",
+    "image": "Category4.png"
+  },
+  {
+    "id": 5,
+    "name": "스포츠",
+    "description": "다양한 스포츠 활동에 참여하며 건강한 라이프스타일을 즐겨보세요!",
+    "image": "Category5.png"
+  },
+  {
+    "id": 6,
+    "name": "요리",
+    "description": "다양한 요리법을 시도하고 맛있는 음식을 만들어보세요!",
+    "image": "Category6.png"
+  },
+  {
+    "id": 7,
+    "name": "예술",
+    "description": "예술 작품을 창작하고 공유하며 예술적 감성을 키워보세요!",
+    "image": "Category7.png"
+  },
+  {
+    "id": 8,
+    "name": "기술",
+    "description": "기술 관련 프로젝트와 학습을 통해 새로운 기술을 익혀보세요!",
+    "image": "Category8.png"
+  },
+  {
+    "id": 9,
+    "name": "원예",
+    "description": "식물을 가꾸고 자연을 즐기며 원예 활동을 즐겨보세요!",
+    "image": "Category9.png"
+  },
+  {
+    "id": 10,
+    "name": "여행",
+    "description": "다양한 여행지를 탐험하고 여행 경험을 공유해보세요!",
+    "image": "Category10.png"
+  }
+]
