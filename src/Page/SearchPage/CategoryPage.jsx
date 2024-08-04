@@ -1,50 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ChallengeFolder from './ChallengeFolder'; // Import the ChallengeFolder component
+import ChallengeFolder from './ChallengeFolder'; 
 import './CategoryPage.css';
 
 const CategoryPage = () => {
-  const { categoryName, categoryId } = useParams();
+  const { categoryId, categoryName } = useParams();
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const fetchChallenges = async () => {
-    //   try {
-    //     const response = await fetch(`https://gunwoo.store/api/challenge/${categoryId}`);
-    //     if (!response.ok) {
-    //       throw new Error('Network response was not ok');
-    //     }
-    //     const data = await response.json();
-    //     if (data.success) {
-    //       setChallenges(data.data);
-    //     }
-    //   } catch (error) {
-    //     console.error('Error fetching challenges:', error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
-    // fetchChallenges();
-
-    const testChallenges = [
-      {
-        challengeId: 1,
-        categoryId: 1,
-        title: "challenge1",
-        participantCounts: 10
-      },
-      {
-        challengeId: 2,
-        categoryId: 1,
-        title: "challenge2",
-        participantCounts: 20
+    const fetchChallenges = async () => {
+      try {
+        const response = await fetch(`https://gunwoo.store/api/challenge/${categoryId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (data.success) {
+          setChallenges(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching challenges:', error);
+      } finally {
+        setLoading(false);
       }
-    ];
-    setChallenges(testChallenges);
-    setLoading(false);
+    };
+
+    fetchChallenges();
   }, [categoryId]);
 
   const handleCreateChallenge = () => {
@@ -63,6 +46,7 @@ const CategoryPage = () => {
               key={challenge.challengeId}
               title={challenge.title}
               count={challenge.participantCounts}
+              challengeId={challenge.challengeId} // 추가
             />
           ))}
         </div>

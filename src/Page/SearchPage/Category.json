@@ -3,47 +3,63 @@
   "data": [
     {
       "categoryId": 1,
-      "title": "헬스"
+      "title": "헬스",
+      "description": "건강과 체력을 위한 다양한 운동과 피트니스 챌린지에 참여해보세요!",
+      "image": "Category1.jpg"
     },
     {
       "categoryId": 2,
-      "title": "악기"
+      "title": "악기",
+      "description": "다양한 악기 연주 실력을 뽐내고 새로운 곡을 연주해보세요!",
+      "image": "Category2.jpg"
     },
     {
       "categoryId": 3,
-      "title": "책"
+      "title": "책",
+      "description": "독서를 통해 지식을 쌓고, 독서 감상을 공유해보세요!",
+      "image": "Category3.jpg"
     },
     {
       "categoryId": 4,
-      "title": "금욕"
+      "title": "금욕",
+      "description": "새로운 습관을 기르며 자제하고 절제하는 시간을 가져봐요!",
+      "image": "Category4.jpg"
     },
     {
       "categoryId": 5,
-      "title": "스포츠"
+      "title": "스포츠",
+      "description": "다양한 스포츠 활동을 즐기고, 운동 경기를 통해 팀워크를 발휘해보세요!",
+      "image": "Category5.jpg"
     },
     {
       "categoryId": 6,
-      "title": "요리"
+      "title": "요리",
+      "description": "새롭고 맛있는 요리법을 공유해보세요!",
+      "image": "Category6.jpg"
     },
     {
       "categoryId": 7,
-      "title": "예술"
+      "title": "예술",
+      "description": "그림, 조각 등 예술 작품을 창작하고 공유해보세요!",
+      "image": "Category7.jpg"
     },
     {
       "categoryId": 8,
-      "title": "기술"
+      "title": "기술",
+      "description": "최신 기술을 배우고, 혁신적인 프로젝트에 도전해보세요!",
+      "image": "Category8.jpg"
     },
     {
       "categoryId": 9,
-      "title": "원예"
+      "title": "원예",
+      "description": "정원 가꾸기와 식물 재배에 도전하고, 자연과 함께하는 시간을 즐겨보세요!",
+      "image": "Category9.jpg"
     },
     {
       "categoryId": 10,
-      "title": "여행"
-    },
-    {
-      "categoryId": 11,
-      "title": "수행"
+      "title": "여행",
+      "description": "색다른 풍경을 담아 여행의 즐거움을 공유해보세요!",
+      "image": "Category10.jpg"
     }
   ]
 }

@@ -1,42 +1,46 @@
 import React, { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import './SearchBar.css';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, onFocus, onBlur, className }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [placeholderText, setPlaceholderText] = useState('검색');
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchTerm.trim() === '') {
-      setPlaceholderText('검색어를 입력해주세요');
-    } else {
-      onSearch(searchTerm);
-    }
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-    if (e.target.value.trim() === '') {
-      setPlaceholderText('검색어를 입력해주세요');
-    } else {
-      setPlaceholderText('검색');
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSearch(searchTerm);
   };
 
   return (
-    <form className="search-bar" onSubmit={handleSearch}>
+    <form className={`search-bar ${className}`} onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder={placeholderText}
         value={searchTerm}
-        onChange={handleInputChange}
+        onChange={handleChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        placeholder="검색어를 입력하세요"
+        className="search-input"
       />
-      <button type="submit" className="search-button">
-        <FaSearch className="search-icon" />
-      </button>
+      <button type="submit" className="search-button">검색</button>
     </form>
   );
+};
+
+SearchBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  className: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  onFocus: () => {},
+  onBlur: () => {},
+  className: '',
 };
 
 export default SearchBar;

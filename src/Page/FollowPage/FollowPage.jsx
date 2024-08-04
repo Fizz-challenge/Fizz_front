@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserBlock from './UserBlock';
-import getFollowData from './FollowData';
 import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
 
 const FollowPage = () => {
+  const navigate = useNavigate();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
@@ -16,17 +17,38 @@ const FollowPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const followData = await getFollowData();
-      setData({
-        ...followData,
-        following: followData.following,
-        follower: followData.follower
-      });
-      setFilteredUsers(followData.follower);
+      const token = localStorage.getItem('accessToken'); // 또는 sessionStorage
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const response = await fetch('https://gunwoo.store/api/user/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) {
+          if (response.status === 401) {
+            navigate('/login'); // Unauthorized일 경우 로그인 페이지로 이동
+          }
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        if (result.success) {
+          const { follower, following } = result.data;
+          setData({
+            following,
+            follower
+          });
+          setFilteredUsers(viewType === 'followers' ? follower : following);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
     fetchData();
-  }, []);
+  }, [navigate, viewType]);
 
   useEffect(() => {
     handleSearch(""); // Clear search when viewType changes
@@ -34,12 +56,8 @@ const FollowPage = () => {
 
   const handleSearch = (searchTerm) => {
     setCurrentPage(1);
-    if (searchTerm === "") {
-      if (viewType === 'followers') {
-        setFilteredUsers(data.follower);
-      } else if (viewType === 'following') {
-        setFilteredUsers(data.following);
-      }
+    if (searchTerm.trim() === "") {
+      setFilteredUsers(viewType === 'followers' ? data.follower : data.following);
     } else {
       if (viewType === 'followers') {
         setFilteredUsers(
@@ -59,22 +77,37 @@ const FollowPage = () => {
 
   const handleViewChange = (type) => {
     setViewType(type);
-    handleSearch("");  // Clear search when changing view
+    setFilteredUsers(type === 'followers' ? data.follower : data.following);
   };
 
-  const handleFollowToggle = (userId) => {
-    setFilteredUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-    if (viewType === 'followers') {
-      setData(prevData => ({
-        ...prevData,
-        follower: prevData.follower.filter(user => user.id !== userId)
-      }));
-    } else if (viewType === 'following') {
-      setData(prevData => ({
-        ...prevData,
-        following: prevData.following.filter(user => user.id !== userId)
-      }));
-    }
+  const handleFollowToggle = (userId, isFollowing) => {
+    setData(prevData => {
+      const updatedFollower = prevData.follower.map(user => 
+        user.id === userId ? { ...user, isFollowing } : user
+      );
+
+      const updatedFollowing = isFollowing 
+        ? [...prevData.following, prevData.follower.find(user => user.id === userId)]
+        : prevData.following.filter(user => user.id !== userId);
+
+      return {
+        follower: updatedFollower,
+        following: updatedFollowing,
+      };
+    });
+
+    setFilteredUsers(prevUsers => {
+      if (viewType === 'followers') {
+        return prevUsers.map(user => 
+          user.id === userId ? { ...user, isFollowing } : user
+        );
+      } else if (viewType === 'following') {
+        return isFollowing 
+          ? [...prevUsers, data.follower.find(user => user.id === userId)]
+          : prevUsers.filter(user => user.id !== userId);
+      }
+      return prevUsers;
+    });
   };
 
   const indexOfLastUser = currentPage * usersPerPage;
@@ -128,12 +161,12 @@ const FollowPage = () => {
             <UserBlock
               key={index}
               userId={user.id}
+              userProfileId={user.profileId}
               username={user.nickname}
-              description={user.describe}
+              description={user.aboutMe}
               profileImage={user.profileImage}
-              isFollowing={viewType === 'following' || data.following.some(f => f.id === user.id)}
-              viewType={viewType}
-              onFollowToggle={() => handleFollowToggle(user.id)}
+              isFollowing={user.isFollowing || data.following.some(f => f.id === user.id)}
+              onFollowToggle={handleFollowToggle}
             />
           ))}
         </div>
