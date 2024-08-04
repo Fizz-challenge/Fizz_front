@@ -1,62 +1,65 @@
-[
-  {
-    "id": 1,
-    "name": "헬스",
-    "description": "건강과 체력을 위한 다양한 운동과 피트니스 챌린지에 참여해보세요!",
-    "image": "Category1.png"
-  },
-  {
-    "id": 2,
-    "name": "악기",
-    "description": "악기 연습과 연주에 관한 챌린지로 음악적 재능을 키워보세요!",
-    "image": "Category2.png"
-  },
-  {
-    "id": 3,
-    "name": "책",
-    "description": "책을 읽고, 리뷰를 작성하며 독서 습관을 길러보세요!",
-    "image": "Category3.png"
-  },
-  {
-    "id": 4,
-    "name": "금욕",
-    "description": "금주, 금연 등 참아야하는 것들을 지켜보아요!",
-    "image": "Category4.png"
-  },
-  {
-    "id": 5,
-    "name": "스포츠",
-    "description": "다양한 스포츠 활동에 참여하며 건강한 라이프스타일을 즐겨보세요!",
-    "image": "Category5.png"
-  },
-  {
-    "id": 6,
-    "name": "요리",
-    "description": "다양한 요리법을 시도하고 맛있는 음식을 만들어보세요!",
-    "image": "Category6.png"
-  },
-  {
-    "id": 7,
-    "name": "예술",
-    "description": "예술 작품을 창작하고 공유하며 예술적 감성을 키워보세요!",
-    "image": "Category7.png"
-  },
-  {
-    "id": 8,
-    "name": "기술",
-    "description": "기술 관련 프로젝트와 학습을 통해 새로운 기술을 익혀보세요!",
-    "image": "Category8.png"
-  },
-  {
-    "id": 9,
-    "name": "원예",
-    "description": "식물을 가꾸고 자연을 즐기며 원예 활동을 즐겨보세요!",
-    "image": "Category9.png"
-  },
-  {
-    "id": 10,
-    "name": "여행",
-    "description": "다양한 여행지를 탐험하고 여행 경험을 공유해보세요!",
-    "image": "Category10.png"
-  }
-]
+{
+  "success": "true",
+  "data": [
+    {
+      "categoryId": 1,
+      "title": "헬스",
+      "description": "건강과 체력을 위한 다양한 운동과 피트니스 챌린지에 참여해보세요!",
+      "image": "Category1.jpg"
+    },
+    {
+      "categoryId": 2,
+      "title": "악기",
+      "description": "다양한 악기 연주 실력을 뽐내고 새로운 곡을 연주해보세요!",
+      "image": "Category2.jpg"
+    },
+    {
+      "categoryId": 3,
+      "title": "책",
+      "description": "독서를 통해 지식을 쌓고, 독서 감상을 공유해보세요!",
+      "image": "Category3.jpg"
+    },
+    {
+      "categoryId": 4,
+      "title": "금욕",
+      "description": "새로운 습관을 기르며 자제하고 절제하는 시간을 가져봐요!",
+      "image": "Category4.jpg"
+    },
+    {
+      "categoryId": 5,
+      "title": "스포츠",
+      "description": "다양한 스포츠 활동을 즐기고, 운동 경기를 통해 팀워크를 발휘해보세요!",
+      "image": "Category5.jpg"
+    },
+    {
+      "categoryId": 6,
+      "title": "요리",
+      "description": "새롭고 맛있는 요리법을 공유해보세요!",
+      "image": "Category6.jpg"
+    },
+    {
+      "categoryId": 7,
+      "title": "예술",
+      "description": "그림, 조각 등 예술 작품을 창작하고 공유해보세요!",
+      "image": "Category7.jpg"
+    },
+    {
+      "categoryId": 8,
+      "title": "기술",
+      "description": "최신 기술을 배우고, 혁신적인 프로젝트에 도전해보세요!",
+      "image": "Category8.jpg"
+    },
+    {
+      "categoryId": 9,
+      "title": "원예",
+      "description": "정원 가꾸기와 식물 재배에 도전하고, 자연과 함께하는 시간을 즐겨보세요!",
+      "image": "Category9.jpg"
+    },
+    {
+      "categoryId": 10,
+      "title": "여행",
+      "description": "색다른 풍경을 담아 여행의 즐거움을 공유해보세요!",
+      "image": "Category10.jpg"
+    }
+  ]
+}
