@@ -14,6 +14,9 @@ import NewPost from './Page/NewPostPage/NewPost.jsx';
 import ChallengePage from './Page/ChallengePage/ChallengePage.jsx';
 import OAuth2Callback from "./Page/LoginPage/OAuth2Callback.jsx";
 import DeleteProfilePage from "./Page/DeleteProfilePage/DeleteProfilePage.jsx";
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 function App() {
 	const navigate = useNavigate();
