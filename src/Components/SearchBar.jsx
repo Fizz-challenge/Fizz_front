@@ -1,46 +1,57 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FaSearch } from 'react-icons/fa';
 import './SearchBar.css';
 
-const SearchBar = ({ onSearch, onFocus, onBlur, className }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+const SearchBar = ({ className = '', onSearch, onFocus = () => {}, onBlur = () => {} }) => {
+  const [term, setTerm] = useState('');
+  const [timeoutId, setTimeoutId] = useState(null);
 
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+  const handleChange = (e) => {
+    setTerm(e.target.value);
+
+    // Clear the previous timeout
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set a new timeout
+    const newTimeoutId = setTimeout(() => {
+      onSearch(e.target.value);
+    }, 500); // 0.5 seconds delay
+
+    setTimeoutId(newTimeoutId);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSearch(searchTerm);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Clear the previous timeout and immediately search
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      onSearch(term);
+    }
   };
 
   return (
     <form className={`search-bar ${className}`} onSubmit={handleSubmit}>
+      <div className="search-icon"><FaSearch /></div>
       <input
         type="text"
-        value={searchTerm}
+        value={term}
         onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        placeholder="검색어를 입력하세요"
-        className="search-input"
+        placeholder="검색"
       />
-      <button type="submit" className="search-button">검색</button>
     </form>
   );
 };
 
 SearchBar.propTypes = {
+  className: PropTypes.string,
   onSearch: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-  className: PropTypes.string,
-};
-
-SearchBar.defaultProps = {
-  onFocus: () => {},
-  onBlur: () => {},
-  className: '',
 };
 
 export default SearchBar;

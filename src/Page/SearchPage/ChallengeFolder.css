@@ -1,14 +1,14 @@
 .challenge-folder {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 내부 요소들을 가운데 정렬합니다 */
-  width: 100%; /* 폴더의 너비를 부모 요소의 너비로 설정합니다 */
+  align-items: center;
+  width: 100%;
   padding: 20px;
   background-color: #f0f0f0;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
-  margin: 20px 0; /* 각 폴더 간의 상하 간격을 추가합니다 */
+  margin: 20px 0;
 }
 
 .challenge-folder:hover {
@@ -18,7 +18,7 @@
 .image-container {
   position: relative;
   width: 100%;
-  height: 300px; /* 이미지 컨테이너의 높이를 적절히 설정합니다 */
+  height: 300px;
 }
 
 .image-placeholder {
@@ -64,9 +64,9 @@
 
 .challenges-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4열 레이아웃 */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto; /* 중앙 정렬 */
+  margin: 0 auto;
 }

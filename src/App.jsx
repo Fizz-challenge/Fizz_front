@@ -14,7 +14,6 @@ import NewPost from './Page/NewPostPage/NewPost.jsx';
 import ChallengePage from './Page/ChallengePage/ChallengePage.jsx';
 import OAuth2Callback from "./Page/LoginPage/OAuth2Callback.jsx";
 import DeleteProfilePage from "./Page/DeleteProfilePage/DeleteProfilePage.jsx";
-import NewChallengePage from './Page/NewChallengePage/NewChallengePage.jsx';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -33,16 +32,14 @@ function App() {
 					<Route path="/video/:id" element={<VideoDetail />} />
 					<Route path="/follow" element={<FollowPage />} />
 					<Route path="/search" element={<SearchPage />} />
-          <Route path="/profile/:userId" element={<UserPage />} />
+               		<Route path="/profile/:userId" element={<UserPage />} />
 					<Route path="/new-post" element={<NewPost />} />
 					<Route path="/challenge/:challenge" element={<ChallengePage />} />
-          <Route path="/oauth2/callback" element={<OAuth2Callback />} />
-					<Route path="/category/:categoryName" element={<CategoryPage />} />
+               		<Route path="/oauth2/callback" element={<OAuth2Callback />} />
+					<Route path="/category/:categoryId/:categoryName" element={<CategoryPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/delete-profile" element={<DeleteProfilePage />} />
-					<Route path="/:id" element={<MainPage />} />
-					<Route path="/new-challenge" element={<NewChallengePage />} />
 				</Routes>
 			</div>
 		</>

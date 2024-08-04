@@ -4,7 +4,7 @@ import './SearchPage.css';
 import SearchBar from '../../Components/SearchBar';
 import CategoryThumbnail from './CategoryThumbnail';
 import SlideBar from '../../Components/SlideBar';
-import categoryData from './Category.json';
+import categoryData from './Category.json'; // Category.json 파일 import
 import ChallengeFolder from './ChallengeFolder';
 import UserBlock from '../FollowPage/UserBlock';
 
