@@ -6,13 +6,13 @@ import humanIcon from '../../assets/human.png';
 import { FaUserAltSlash, FaUserPlus } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const UserBlock = ({ userId, username, description, profileImage, isFollowing, onFollowToggle }) => {
+const UserBlock = ({ userId, userProfileId, username, description, profileImage, isFollowing, onFollowToggle }) => {
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
-    navigate(`/profile/${userId}`);
+    navigate(`/profile/${userProfileId}`);
   };
 
   const openModal = () => {

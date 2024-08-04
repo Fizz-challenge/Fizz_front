@@ -153,7 +153,8 @@ const FollowPage = () => {
           {currentUsers.map((user, index) => (
             <UserBlock
               key={index}
-              userId={user.profileId}
+              userId={user.id}
+              userProfileId={user.profileId}
               username={user.nickname}
               description={user.aboutMe}
               profileImage={user.profileImage}
