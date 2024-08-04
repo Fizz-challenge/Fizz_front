@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserBlock from './UserBlock';
 import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
 
 const FollowPage = () => {
+  const navigate = useNavigate();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
@@ -16,11 +18,19 @@ const FollowPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('accessToken'); // 또는 sessionStorage
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
       try {
         const response = await fetch('https://gunwoo.store/api/user/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok) {
+          if (response.status === 401) {
+            navigate('/login'); // Unauthorized일 경우 로그인 페이지로 이동
+          }
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
@@ -38,7 +48,7 @@ const FollowPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [navigate, viewType]);
 
   useEffect(() => {
     handleSearch(""); // Clear search when viewType changes
@@ -46,12 +56,8 @@ const FollowPage = () => {
 
   const handleSearch = (searchTerm) => {
     setCurrentPage(1);
-    if (searchTerm === "") {
-      if (viewType === 'followers') {
-        setFilteredUsers(data.follower);
-      } else if (viewType === 'following') {
-        setFilteredUsers(data.following);
-      }
+    if (searchTerm.trim() === "") {
+      setFilteredUsers(viewType === 'followers' ? data.follower : data.following);
     } else {
       if (viewType === 'followers') {
         setFilteredUsers(
@@ -71,6 +77,7 @@ const FollowPage = () => {
 
   const handleViewChange = (type) => {
     setViewType(type);
+    setFilteredUsers(type === 'followers' ? data.follower : data.following);
   };
 
   const handleFollowToggle = (userId, isFollowing) => {
