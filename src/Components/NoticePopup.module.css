@@ -16,7 +16,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 15px;
+    border-radius: 25px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
     z-index: 5;
     animation: openPopup forwards .3s;
@@ -84,9 +84,9 @@
     position: absolute;
     left: 0px;
     width: 100%;
-    height: 20px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    height: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 }
 
 .title {
@@ -97,33 +97,26 @@
     white-space: pre-line;
 }
 
-.submit {
-    position: absolute;
-    width: auto;
-    height: 40px;
-    font-size: 20px;
-    padding: 0px 15px;
-    border-radius: 12px;
-    line-height: 40px;
-    cursor: pointer;
-    transition: .1s;
-    font-family: "NanumSquareNeoBD";
-    right: 15px;
-    bottom: 15px;
-}
-
+.submit,
 .no {
     position: absolute;
     width: auto;
     height: 40px;
     font-size: 20px;
     padding: 0px 15px;
-    border-radius: 12px;
+    border-radius: 20px;
     line-height: 40px;
     cursor: pointer;
     transition: .1s;
     font-family: "NanumSquareNeoBD";
+    bottom: 15px;
+}
+
+.submit {
+    right: 15px;
+}
+
+.no {
     background-color: #d9d9d9;
     right: 95px;
-    bottom: 15px;
 }
