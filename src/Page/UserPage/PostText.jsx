@@ -52,12 +52,28 @@ const PostText = ({ text, type }) => {
 				<div className="profilePostTitle" ref={ref}>
 					{displayedText}
 				</div>
-			) : (
+			) : type === "challenge" ? (
 				<div
 					className="profilePostChallenge"
 					ref={ref}
 					onClick={goChallenge}
 				>
+					{displayedText}
+				</div>
+			) : type === "titleMini" ? (
+				<div className="profilePostTitleMini" ref={ref}>
+					{displayedText}
+				</div>
+			) : type === "challengeMini" ? (
+				<div
+					className="profilePostChallengeMini"
+					ref={ref}
+					onClick={goChallenge}
+				>
+					{displayedText}
+				</div>
+			) : (
+				<div className="profilePostDesc" ref={ref}>
 					{displayedText}
 				</div>
 			)}

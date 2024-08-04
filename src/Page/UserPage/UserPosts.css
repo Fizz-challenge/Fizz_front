@@ -1,0 +1,258 @@
+.profilePosts {
+    width: calc(100% - var(--contentsMargin));
+    margin: 50px auto;
+}
+
+.profilePost {
+    display: inline-block;
+    width: var(--contentsWidth);
+    height: calc(var(--contentsWidth) * var(--ratio));
+    background-color: #d9d9d9;
+    margin: 5px;
+    margin-bottom: 100px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.profilePostCard1,
+.profilePostCard2 {
+    position: absolute;
+    width: var(--contentsWidth);
+    height: calc(var(--contentsWidth) * var(--ratio));
+    background-color: #d9d9d9;
+    object-fit: cover;
+    border-radius: 15px;
+    z-index: -1;
+    /* transition: .3s; */
+    outline: 1px solid #a8a8a8;
+}
+
+.profilePostCards .profilePostThumbnail:hover ~ .profilePostCard1,
+.profilePostCardHover:hover ~ .profilePostCard1 {
+    width: calc(var(--contentsWidth) * 0.96);
+    height: calc((var(--contentsWidth) * var(--ratio)) * 0.96);
+    margin-left: calc(var(--contentsWidth) * 0.02);
+    margin-top: calc((var(--contentsWidth) * var(--ratio)) * -0.06);;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+}
+
+.profilePostCards .profilePostThumbnail:hover ~ .profilePostCard2,
+.profilePostCardHover:hover ~ .profilePostCard2 {
+    width: calc(var(--contentsWidth) * 0.98);
+    height: calc((var(--contentsWidth) * var(--ratio)) * 0.98);
+    margin-left: calc(var(--contentsWidth) * 0.01);
+    margin-top: calc((var(--contentsWidth) * var(--ratio)) * -0.03);;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+}
+
+.profilePostCards .profilePostThumbnail:hover ~ .profilePostCardHover,
+.profilePostCardHover:hover {
+    display: block;
+}
+
+.profilePostCardHover {
+    display: none;
+    position: absolute;
+    width: var(--contentsWidth);
+    height: calc(var(--contentsWidth) * var(--ratio));
+    border-radius: 15px;
+    background-color: #00000050;
+    text-align: center;
+    padding-top: calc(calc(var(--contentsWidth) * var(--ratio)) / 2);
+}
+
+.profilePostThumbnail {
+    position: absolute;
+    width: var(--contentsWidth);
+    height: calc(var(--contentsWidth) * var(--ratio));
+    object-fit: cover;
+    border-radius: 15px;
+    z-index: 0;
+}
+
+.profilePostViewCount,
+.profilePostLikeCount,
+.profilePostCommentCount,
+.profilePostParticipantCount {
+    filter: drop-shadow(0px 0px 5px #000000);
+    color: #ffffff;
+    font-family: "NanumSquareNeoHV";
+    font-size: 15px;
+}
+
+.profilePostParticipantCount {
+    /* position: absolute; */
+    font-size: 20px;
+    font-family: "NanumSquareNeoBD";
+}
+
+.profilePostIcon {
+    position: absolute;
+    margin-left: -20px;
+}
+
+.profilePostViewCount {
+    position: absolute;
+    margin-left: 30px;
+    margin-top: calc(var(--contentsWidth) * var(--ratio) - 30px);
+}
+
+.profilePostLikeCount,
+.profilePostCommentCount {
+    display: inline-block;
+}
+
+.profilePostCommentCount {
+    margin-left: 30px;
+}
+
+.profilePostRemove {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    top: 15px;
+    right: 15px;
+}
+
+.profilePostRemoveIcon {
+    filter: drop-shadow(0px 0px 5px #000000);
+    color: #ff3636;
+    font-size: 25px;
+}
+
+.profilePostHover {
+    display: none;
+    position: absolute;
+    width: var(--contentsWidth);
+    height: calc(var(--contentsWidth) * var(--ratio));
+    border-radius: 15px;
+    background-color: #00000050;
+    text-align: center;
+    padding-top: calc(calc(var(--contentsWidth) * var(--ratio)) / 2);
+}
+
+.profilePostThumbnail:hover ~ .profilePostHover,
+.profilePost .profilePostHover:hover  {
+    display: block;
+}
+
+.profilePostImg {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    margin-top: calc(var(--contentsWidth) * var(--ratio) + 10px);
+    border-radius: 50px;
+    object-fit: cover;
+    background-color: #d9d9d9;
+}
+
+.profilePostTitle,
+.profilePostChallenge,
+.profilePostTitleMini,
+.profilePostChallengeMini,
+.profilePostDesc {
+    position: absolute;
+    width: var(--contentsWidth);
+    /* background-color: red; */
+    font-family: "NanumSquareNeoBD";
+}
+
+.profilePostTitleMini,
+.profilePostChallengeMini {
+    width: calc(var(--contentsWidth) - 50px);
+    margin-left: 50px;
+}
+
+.profilePostTitle,
+.profilePostTitleMini {
+    font-size: 18px;
+    margin-top: calc(var(--contentsWidth) * var(--ratio) + 10px);
+}
+
+.profilePostChallenge,
+.profilePostChallengeMini,
+.profilePostDesc {
+    font-size: 15px;
+    margin-top: calc(var(--contentsWidth) * var(--ratio) + 35px);;
+    color: #646464;
+}
+
+.profilePostChallenge:hover,
+.profilePostChallengeMini:hover {
+    text-decoration: underline;
+}
+
+.profilePostNotFound {
+    margin-top: 100px;
+    text-align: center;
+    font-size: 30px;
+    font-family: "NanumSquareNeoBD";
+}
+
+.profilePostNotFound div {
+    color: #ffffff;
+    background-color: #2DA7FF;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    border-radius: 20px;
+    font-size: 20px;
+    margin-top: 50px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.profilePostSortNav {
+    position: absolute;
+    width: 500px;
+    height: 20px;
+    background-color: red;
+}
+
+.profilePostSortStatus {
+    position: absolute;
+    text-align: left;
+}
+
+/* .profilePostSkeleton {
+    width: var(--contentsWidth);
+    height: calc(var(--contentsWidth) * var(--ratio));
+    margin: 5px;
+    margin-bottom: 100px;
+    border-radius: 15px;
+}
+
+.profilePostTitleSkeleton {
+    width: var(--contentsWidth);
+    height: 20px;
+    background-color: #d9d9d9;
+    margin-top: calc(var(--contentsWidth) * var(--ratio) + 10px);
+    border-radius: 5px;
+}
+
+.profilePostChallengeSkeleton {
+    width: calc(var(--contentsWidth) * 0.8);
+    height: 20px;
+    background-color: #d9d9d9;
+    margin-top: calc(var(--contentsWidth) * var(--ratio) + 35px);;
+    border-radius: 5px;
+} */
+
+/* .skT {
+    display: inline-block;
+}
+
+.profilePostSkeleton {
+    margin: 5px;
+}
+
+.profilePostTitleSkeleton {
+    margin: 5px;
+}
+
+.profilePostChallengeSkeleton {
+    margin: 5px;
+    margin-bottom: 100px;
+} */

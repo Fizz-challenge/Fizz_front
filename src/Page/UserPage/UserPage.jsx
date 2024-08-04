@@ -1,19 +1,17 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import {
 	IoInformationCircleOutline,
 	IoInformationCircle,
 	IoPerson,
 	IoMail,
-	IoPlay,
 } from "react-icons/io5";
-import { FaComment, FaHeart } from "react-icons/fa6";
 import axios from "axios";
 import "./UserPage.css";
 import "./UserPageMediaQuery.css";
 import EditPopup from "./EditPopup.jsx";
 import SlideNav from "./SlideNav.jsx";
-import PostText from "./PostText.jsx";
+import UserPosts from "./UserPosts.jsx";
 import Warning from "../../Components/Warning.jsx";
 import NoticePopup from "../../Components/NoticePopup.jsx";
 
@@ -41,24 +39,29 @@ const useWindowSize = () => {
 
 const UserPage = () => {
 	const params = useParams();
+	const [searchParams] = useSearchParams();
+	const searchParam = searchParams.get("content");
 	const navigate = useNavigate();
 
 	const [isLoginPopupVisible, setIsLoginPopupVisible] = useState(false);
-	const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false);
 	const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
+	const [isRemovePostPopupVisible, setIsRemovePostPopupVisible] = useState(false);
 	
 	const [userInfo, setUserInfo] = useState({});
 	const [userPostInfo, setUserPostInfo] = useState(null);
 	const [profileNotFound, setProfileNotFound] = useState(false);
-	const [participatedChallenges, setParticipatedChallenges] = useState([]);
 	const [categories, setCategories] = useState([]);
 	
 	const [nowSelected, setNowSelected] = useState(0);
+	const [selectedPost, setSelectedPost] = useState();
 	
 	const [isHoveringInfo, setIsHoveringInfo] = useState(false);
 	const [isFollowing, setIsFollowing] = useState(false);
 	
 	const joinedRef = useRef(null);
+	const createdRef = useRef(null);
+	const likedRef = useRef(null);
+
 	const profileNameRef = useRef(null);
 	const profileInfoRef = useRef(null);
 	
@@ -88,14 +91,6 @@ const UserPage = () => {
 					setUserInfo(res.data.data);
 					fetchUserPost(res.data.data.id);
 					setProfileNotFound(false);
-
-					const challengeRes = await axios.get(
-						"https://gunwoo.store/api/challenge/user/participate",
-						{
-							headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-						}
-					);
-					setParticipatedChallenges(challengeRes.data.data);
 				} else {
 					res = await axios.get(
 						`https://gunwoo.store/api/user/${params.userId}`
@@ -121,12 +116,7 @@ const UserPage = () => {
 				}
 
 			} catch (err) {
-				if (err.response.data.code === "U005") {
-					localStorage.removeItem("accessToken");
-					localStorage.removeItem("profileId");
-					localStorage.removeItem("registration");			
-					setIsLogoutPopupVisible(true);
-				} else {
+				if (err.response.data.code !== "U005") {
 					console.error(err);
 					setProfileNotFound(true);
 				}
@@ -138,7 +128,15 @@ const UserPage = () => {
 		} else {
 			// setTimeout(() => {
 				fetchUserData();
-			// }, 1000);
+			// }, 3000);
+		}
+
+		if (searchParam === "0") {
+			joinedRef.current.click();
+		} else if (searchParam === "1") {
+			createdRef.current.click();
+		} else if (searchParam === "2") {
+			likedRef.current.click();
 		}
 	}, [navigate, params.userId, isFollowing]);
 
@@ -146,8 +144,8 @@ const UserPage = () => {
 		const userPost = await axios.get(`https://gunwoo.store/api/posts/users/${id}`)
 		// setTimeout(() => {
 			setUserPostInfo(userPost.data.data);
-		// }, 2000);
-		console.log(userPost.data.data);
+		// }, 1000);
+		// console.log(userPost.data.data);
 		
 	}
 
@@ -224,23 +222,39 @@ const UserPage = () => {
 		}
 	};
 
+	const removePost = async () => {
+        try {
+            const res = await axios.delete(
+                `https://gunwoo.store/api/posts/${selectedPost}`,
+                {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+                }
+            );
+			window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
 	if (profileNotFound) {
 		return <Warning message="존재하지 않는 사용자입니다🫤" />;
 	} else {
 		return (
 			<>
-				{isLogoutPopupVisible && (
+				{isRemovePostPopupVisible && (
 					<NoticePopup
-						setIsPopupVisible={setIsLogoutPopupVisible}
+						setIsPopupVisible={setIsRemovePostPopupVisible}
 						popupStatus={[
-							"세션이 만료되어 로그아웃합니다",
-							"#ff7070",
+							"정말 삭제하시겠습니까?",
+							"#ff3636",
 						]}
-						onClose={
-							location.pathname === "/profile/my-page"
-								? logout
-								: null
-						}
+						buttonStatus={{
+							bgcolor: "#ff3636",
+							color: "#ffffff",
+							msg: "삭제",
+							action: removePost,
+						}}
+						noButton={true}
 					/>
 				)}
 				{isLoginPopupVisible && (
@@ -266,12 +280,10 @@ const UserPage = () => {
 				)}
 				<div className="profileWrapper">
 					<div className="profileImg">
-						{userInfo.profileImage && (
-							<img
-								src={userInfo.profileImage}
-								alt="프로필 이미지"
-							/>
-						)}
+						<img
+							src={userInfo.profileImage ? userInfo.profileImage : "../src/assets/profile.jpg"}
+							alt="프로필 이미지"
+						/>
 					</div>
 					{userInfo.nickname ? (
 						<>
@@ -393,58 +405,24 @@ const UserPage = () => {
 						</div>
 					</div>
 				</div>
-				<SlideNav
+				{location.pathname === "/profile/my-page" && (
+					<SlideNav
+						nowSelected={nowSelected}
+						setNowSelected={setNowSelected}
+						joinedRef={joinedRef}
+						createdRef={createdRef}
+						likedRef={likedRef}
+					/>
+				)}
+				<UserPosts
 					nowSelected={nowSelected}
-					setNowSelected={setNowSelected}
-					joinedRef={joinedRef}
-					type={params.userId === "my-page" && params.userId}
+					userPostInfo={userPostInfo}
+					convertNumber={convertNumber}
+					width={width}
+					setIsRemovePostPopupVisible={setIsRemovePostPopupVisible}
+					setSelectedPost={setSelectedPost}
+					contentCount={contentCount}
 				/>
-				<div className="profilePosts">
-					{userPostInfo ? (
-						userPostInfo.content.length > 0 ? (
-							userPostInfo.content.map((item) => (
-								<div key={item.id} className="profilePost">
-									<img src={item.fileUrls[1]} alt="썸네일" />
-									<div className="profilePostViewCount">
-										<IoPlay className="profilePostIcon" />
-										{convertNumber(item.viewCount)}
-									</div>
-									<div className="profilePostHover">
-										<div className="profilePostLikeCount">
-											<FaHeart className="profilePostIcon" />
-											{convertNumber(item.likeCount)}
-										</div>
-										<div className="profilePostCommentCount">
-											<FaComment className="profilePostIcon" />
-											{convertNumber(item.commentCount)}
-										</div>
-									</div>
-									<PostText
-										text={item.title}
-										type="title"
-									/>
-									<PostText
-										text={item.challengeInfo.title}
-										type="challenge"
-									/>
-								</div>
-							))
-						) : params.userId === "my-page" && (
-							<div className="profilePostNotFound">
-								이런, 아무것도 안 보이네요 🥺
-								<div onClick={() => navigate("/new-post")} className="hoverBtns">참여하기</div>
-							</div>
-						)
-					) : (
-						// Array.from({ length: contentCount * 2 }, (_, index) => (
-						// 	<div key={index} className="profilePost">
-						// 		<div className="profilePostTitleSkeleton"></div>
-						// 		<div className="profilePostChallengeSkeleton"></div>
-						// 	</div>
-						// ))
-						<div></div>
-					)}
-				</div>
 			</>
 		);
 	}
