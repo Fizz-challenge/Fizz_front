@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import UserBlock from './UserBlock';
-import getFollowData from './FollowData';
 import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
 
@@ -16,13 +15,26 @@ const FollowPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const followData = await getFollowData();
-      setData({
-        ...followData,
-        following: followData.following,
-        follower: followData.follower
-      });
-      setFilteredUsers(followData.follower);
+      const token = localStorage.getItem('token'); // 또는 sessionStorage
+      try {
+        const response = await fetch('https://gunwoo.store/api/user/me', {
+          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        if (result.success) {
+          const { follower, following } = result.data;
+          setData({
+            following,
+            follower
+          });
+          setFilteredUsers(follower);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
     fetchData();
@@ -129,7 +141,7 @@ const FollowPage = () => {
               key={index}
               userId={user.id}
               username={user.nickname}
-              description={user.describe}
+              description={user.aboutMe}
               profileImage={user.profileImage}
               isFollowing={viewType === 'following' || data.following.some(f => f.id === user.id)}
               viewType={viewType}

@@ -10,7 +10,6 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [followState, setFollowState] = useState(isFollowing);
 
   const handleClick = () => {
     navigate(`/profile/${userId}`);
@@ -28,12 +27,14 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
     setLoading(true);
     try {
       const response = await fetch(`https://gunwoo.store/api/user/following/${userId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        }
       });
       const result = await response.json();
       if (result.success) {
         onFollowToggle(userId);
-        setFollowState(false);
       } else {
         console.error('Failed to unfollow');
       }
@@ -45,17 +46,18 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
     }
   };
 
-  const handleFollow = async (e) => {
-    e.stopPropagation();
+  const followRequest = async () => {
     setLoading(true);
     try {
       const response = await fetch(`https://gunwoo.store/api/user/following/${userId}`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        }
       });
       const result = await response.json();
       if (result.success) {
         onFollowToggle(userId);
-        setFollowState(true);
       } else {
         console.error('Failed to follow');
       }
@@ -68,15 +70,18 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
 
   const followButton = (
     <button
-      className={`followToggleButton ${followState ? 'following' : ''}`}
-      onClick={followState ? openModal : handleFollow}
+      className={`followToggleButton ${isFollowing ? 'following' : ''}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        isFollowing ? openModal() : followRequest();
+      }}
     >
       {loading ? (
         <AiOutlineLoading3Quarters className="loading-icon" />
-      ) : followState ? (
-        <FaUserPlus />
-      ) : (
+      ) : isFollowing ? (
         <FaUserAltSlash />
+      ) : (
+        <FaUserPlus />
       )}
     </button>
   );
@@ -92,7 +97,7 @@ const UserBlock = ({ userId, username, description, profileImage, isFollowing, o
       </div>
       {viewType === 'following' ? (
         <button className='followToggleButton' onClick={(e) => { e.stopPropagation(); openModal(); }}>
-          {loading ? <AiOutlineLoading3Quarters className="loading-icon" /> : <FaUserAltSlash />}
+          <FaUserAltSlash />
         </button>
       ) : followButton}
       <Modal

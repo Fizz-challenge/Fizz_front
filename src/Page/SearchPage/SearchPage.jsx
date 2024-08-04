@@ -59,7 +59,6 @@ const SearchPage = () => {
 
       setFilteredChallenges(challenges);
 
-      // TODO: 서버에서 사용자 데이터를 검색하는 API 호출로 대체합니다.
       const testUsers = [
         { id: 1, nickname: 'user1', describe: 'description1', profileImage: null, isFollowing: false },
         { id: 2, nickname: 'user2', describe: 'description2', profileImage: null, isFollowing: true }
