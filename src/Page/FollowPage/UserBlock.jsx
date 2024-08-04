@@ -32,11 +32,11 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         }
       });
-      const result = await response.json();
-      if (result.success) {
+      if (response.ok) {
         onFollowToggle(userId, false);
       } else {
-        console.error('Failed to unfollow');
+        const result = await response.json();
+        console.error('Failed to unfollow:', result.message);
       }
     } catch (error) {
       console.error('Error unfollowing user:', error);
@@ -53,13 +53,20 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId })
       });
-      const result = await response.json();
-      if (result.success) {
-        onFollowToggle(userId, true);
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          onFollowToggle(userId, true);
+        } else {
+          console.error('Failed to follow:', result.message);
+        }
       } else {
-        console.error('Failed to follow');
+        const result = await response.json();
+        console.error('Failed to follow:', result.message);
       }
     } catch (error) {
       console.error('Error following user:', error);
