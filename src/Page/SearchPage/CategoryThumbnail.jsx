@@ -7,14 +7,16 @@ const CategoryThumbnail = ({ category }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/category/${category.name}`);
+    navigate(`/category/${category.categoryId}/${category.title}`);
   };
 
   return (
     <div className="category-thumbnail" onClick={handleClick}>
-      <div className="category-thumbnail-skeleton"></div>
+      <div className="category-thumbnail-skeleton">
+        <img src={`/img/${category.image}`} alt={category.title} />
+      </div>
       <div className="category-info">
-        <h3 className="category-title">{category.name}</h3>
+        <h3 className="category-title">{category.title}</h3>
         <p className="category-description">{category.description}</p>
       </div>
     </div>
@@ -23,7 +25,8 @@ const CategoryThumbnail = ({ category }) => {
 
 CategoryThumbnail.propTypes = {
   category: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    categoryId: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,
