@@ -46,7 +46,7 @@ const CategoryPage = () => {
               key={challenge.challengeId}
               title={challenge.title}
               count={challenge.participantCounts}
-              challengeId={challenge.challengeId} // 추가
+              challengeId={challenge.challengeId}
             />
           ))}
         </div>

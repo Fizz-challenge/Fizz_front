@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import './CategoryThumbnail.css';
+import iconMapping from './IconMapping';
 
 const CategoryThumbnail = ({ category }) => {
   const navigate = useNavigate();
@@ -12,8 +13,8 @@ const CategoryThumbnail = ({ category }) => {
 
   return (
     <div className="category-thumbnail" onClick={handleClick}>
-      <div className="category-thumbnail-skeleton">
-        <img src={`/img/${category.image}`} alt={category.title} />
+      <div className="category-thumbnail-icon">
+        {iconMapping[category.title]}
       </div>
       <div className="category-info">
         <h3 className="category-title">{category.title}</h3>

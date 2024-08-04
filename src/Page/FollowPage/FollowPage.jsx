@@ -17,7 +17,7 @@ const FollowPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('accessToken'); // 또는 sessionStorage
+      const token = localStorage.getItem('accessToken');
       if (!token) {
         navigate('/login');
         return;
@@ -29,7 +29,7 @@ const FollowPage = () => {
         });
         if (!response.ok) {
           if (response.status === 401) {
-            navigate('/login'); // Unauthorized일 경우 로그인 페이지로 이동
+            navigate('/login');
           }
           throw new Error('Network response was not ok');
         }
