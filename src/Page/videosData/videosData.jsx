@@ -1,7 +1,7 @@
 const videoData = [
   {
     id: '1',
-    src: '/img/test.mp4',
+    src: '/img/Download2.mp4',
     title: '나두 챌린지 참여',
     user: '사용자 1',
     userProfile: '/img/test.jpg',
@@ -9,10 +9,21 @@ const videoData = [
     likes: '23.2k',
     comments: '1.2k',
     shares: '200',
-    description: '오운완 챌린지 영상입니다. 함께 운동해요! #오운완',
+    description: '오운완 챌린지 영상입니다. 함께 운동해요!',
     commentsData: [
-      { id: 1, user: 'user1', text: '좋아요!' },
-      { id: 2, user: 'user2', text: '멋지네요!' },
+      { id: 1, avatar: '/img/test.jpg', user: 'user1', text: '좋아요!' ,date: '2024-07-30', replies: [
+        { id: 101, avatar: '/img/test.jpg', user: 'replyUser1', text: '저도 좋아요!', date: '2024-07-31' },
+        { id: 102, avatar: '/img/test.jpg', user: 'replyUser2', text: '좋은 댓글입니다!', date: '2024-08-01' },
+      ]},
+      { id: 2, avatar: '/img/test.jpg', user: 'user2', text: 'asdalsdjaslk;fdjahsdflkjasdhfasdkljfhasdlkjfshadlkjsdahsadlkjfhsadfsd', date: '2024-07-30', replies: [
+        { id: 103, avatar: '/img/test.jpg', user: 'replyUser3', text: '긴 댓글이네요!', date: '2024-08-01' },
+      ]},
+      { id: 3, avatar: '/img/test.jpg', user: 'user2', text: '멋ㅁdasdasㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁasdasdassaasdasdasdasdasdasdsa', date: '2024-07-30', replies: []},
+      { id: 4, avatar: '/img/test.jpg', user: 'user2', text: '멋지네요!', date: '2024-07-30', replies: [
+        { id: 104, avatar: '/img/test.jpg', user: 'replyUser4', text: '정말 멋져요!', date: '2024-08-02' },
+      ]},
+      { id: 5, avatar: '/img/test.jpg', user: 'user2', text: '멋지네요!', date: '2024-07-30', replies: []},
+      { id: 6, avatar: '/img/test.jpg', user: 'user2', text: '멋지네요!', date: '2024-07-30', replies: []}, 
     ],
   },
   {

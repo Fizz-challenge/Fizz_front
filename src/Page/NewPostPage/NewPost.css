@@ -115,13 +115,13 @@
 }
 
 .upload-info {
-  width: 100%;
-  margin-top: 20px;
+  margin: 20px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
   font-size: 12px;
   color: #666;
+  white-space: nowrap;
 }
 
 .upload-info div {
@@ -131,11 +131,6 @@
 
 .upload-info span {
   margin: 0 10px;
-}
-
-.upload-info .upload-required span {
-  color: red;
-  font-weight: bold;
 }
 
 .media-and-description {
@@ -167,14 +162,13 @@
   width: 100%;
 }
 
-.char-count {
+.char-post-count {
   position: absolute;
   right: 5px;
   bottom: -5px;
   font-size: 12px;
-  color: gray;
+  color: grey;
 }
-
 
 .add-post-image, .add-post-video {
   border: none;
@@ -200,7 +194,7 @@
   flex-direction: column;
   gap: 20px;
   width: 200px;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .new-post-submit-buttons {
@@ -259,7 +253,6 @@
   font-size: 14px;
   margin-bottom: 10px;
   word-wrap: break-word;
-
 }
 
 .new-post-title:focus, .new-post-description:focus {
@@ -280,4 +273,14 @@
 
 .submit-button:hover {
   background-color: #0056b3;
+}
+
+.new-post-loading {
+  color: white;
+}
+
+.error-message {
+  margin-top: 10px;
+  font-weight: 900;
+  color: red;
 }
