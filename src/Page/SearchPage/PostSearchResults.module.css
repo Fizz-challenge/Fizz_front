@@ -1,29 +1,36 @@
 .postsContainer {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns layout */
   gap: 20px;
   justify-content: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
+  margin-top: 100px;
 }
 
 .postCard {
   position: relative;
-  width: 250px; /* Adjust width as needed */
+  width: 250px; /* Fixed width */
+  height: 370px; /* Fixed height */
   background-color: #ffffff;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .thumbnailWrapper {
   position: relative;
+  width: 100%;
+  height: 100%; /* Fill the height of the postCard */
 }
 
 .postThumbnail {
   width: 100%;
-  height: 320px; /* Adjust height as needed */
+  height: 100%; /* Fill the height of the thumbnailWrapper */
   object-fit: cover;
   transition: filter 0.3s ease;
   border-radius: 15px;
@@ -38,10 +45,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 320px;
+  height: 100%;
   background: rgba(0, 0, 0, 0);
-  border-radius: 15px;
   transition: .2s;
+  border-radius: 15px;
 }
 
 .postCard:hover .overlay {
@@ -86,6 +93,7 @@
   display: flex;
   align-items: center;
   padding: 5px 0;
+  margin-top: 5px;
   overflow: hidden;
 }
 
@@ -100,12 +108,11 @@
 
 .postTextContainer {
   display: flex;
-  width: 80%;
   flex-direction: column;
+  width: calc(100% - 50px); /* Adjust width based on profile image size */
 }
 
 .postTitle {
-  width: 100%;
   font-size: 18px;
   font-family: 'NanumSquareNeoBD';
   margin-bottom: 5px;
@@ -115,7 +122,6 @@
 }
 
 .postChallenge {
-  width: 100%;
   font-size: 15px;
   color: #646464;
   font-family: 'NanumSquareNeoRG';

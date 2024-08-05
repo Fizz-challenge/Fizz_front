@@ -165,10 +165,12 @@ const SearchPage = () => {
 
   return (
     <div className="search-page-container">
-      <div className="search-page-main-content">
+      <div className="SlideBarWrapper">
         {showSlideBar && (
           <SlideBar nowSelected={nowSelected} setNowSelected={setNowSelected} items={navItems} />
         )}
+      </div>
+      <div className="search-page-main-content">
         <div className="category-bar"></div>
         {!showSlideBar && (
           <div className="categories-grid">
@@ -182,7 +184,7 @@ const SearchPage = () => {
           </div>
         )}
         {showSlideBar && (
-          <div className="search-results">
+          <div className="search-page-content">
             {renderContent()}
           </div>
         )}
