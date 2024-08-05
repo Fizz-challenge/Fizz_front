@@ -21,7 +21,11 @@ const PostSearchResults = ({ filteredPosts }) => {
     <div className={styles.postsContainer}>
       {filteredPosts.length > 0 ? (
         filteredPosts.map((post) => (
-          <div key={post.id} className={styles.postCard}>
+          <div
+            key={post.id}
+            className={styles.postCard}
+            onClick={() => navigate(`/video/${post.id}`)}
+          >
             <img className={styles.postThumbnail} src={getThumbnail(post)} alt="썸네일" />
             <div className={styles.postDetails}>
               <div className={styles.postTitle}>{post.title}</div>

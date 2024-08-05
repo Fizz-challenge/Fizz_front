@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UserBlock from '../FollowPage/UserBlock';
 import "./UserSearchResults.css";
 
 const UserSearchResults = ({ filteredUsers }) => {
-  return filteredUsers.length > 0 ? (
+  const [users, setUsers] = useState(filteredUsers);
+
+  const handleFollowToggle = (userId, isFollowing) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === userId ? { ...user, isFollowing } : user
+      )
+    );
+  };
+
+  return users.length > 0 ? (
     <div className="users-container">
-      {filteredUsers.map((user) => (
+      {users.map((user) => (
         <UserBlock
           key={user.id}
           userProfileId={user.profileId}
@@ -14,7 +24,7 @@ const UserSearchResults = ({ filteredUsers }) => {
           description={user.aboutMe}
           profileImage={user.profileImage}
           isFollowing={user.isFollowing}
-          onFollowToggle={() => console.log(`Toggle follow for user ${user.id}`)}
+          onFollowToggle={(userId, isFollowing) => handleFollowToggle(user.id, isFollowing)}
         />
       ))}
     </div>

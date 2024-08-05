@@ -115,7 +115,7 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
           buttonStatus={{
             bgcolor: "#ff3636",
             color: "#ffffff",
-            msg: "네",
+            msg: "확인",
             action: confirmUnfollow,
           }}
           noButton={true}
