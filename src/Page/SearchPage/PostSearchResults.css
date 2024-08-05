@@ -1,0 +1,61 @@
+.searchPosts-container {
+  width: calc(100% - var(--contentsMargin));
+  margin: 50px auto;
+}
+
+.searchPost {
+  display: inline-block;
+  width: var(--contentsWidth);
+  height: calc(var(--contentsWidth) * var(--ratio));
+  background-color: #d9d9d9;
+  margin: 5px;
+  margin-bottom: 100px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.searchPostThumbnail {
+  position: absolute;
+  width: var(--contentsWidth);
+  height: calc(var(--contentsWidth) * var(--ratio));
+  object-fit: cover;
+  border-radius: 15px;
+  z-index: 0;
+}
+
+.searchPostViewCount,
+.searchPostLikeCount,
+.searchPostCommentCount {
+  filter: drop-shadow(0px 0px 5px #000000);
+  color: #ffffff;
+  font-family: "NanumSquareNeoHV";
+  font-size: 15px;
+}
+
+.searchPostIcon {
+  position: absolute;
+  margin-left: -20px;
+}
+
+.searchPostViewCount {
+  position: absolute;
+  margin-left: 30px;
+  margin-top: calc(var(--contentsWidth) * var(--ratio) - 30px);
+}
+
+.searchPostHover {
+  display: none;
+  position: absolute;
+  width: var(--contentsWidth);
+  height: calc(var(--contentsWidth) * var(--ratio));
+  border-radius: 15px;
+  background-color: #00000050;
+  text-align: center;
+	flex-direction: row;
+  padding-top: calc(calc(var(--contentsWidth) * var(--ratio)) / 2);
+}
+
+.searchPostThumbnail:hover ~ .searchPostHover,
+.searchPost .searchPostHover:hover {
+  display: block;
+}
