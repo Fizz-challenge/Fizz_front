@@ -6,9 +6,7 @@ import Hls from "hls.js";
 import Slider from 'react-slick';
 import './Video.css';
 
-
-const NextArrow = (props) => {
-  const { onClick } = props;
+const NextArrow = ({ onClick }) => {
   return (
     <div
       className="image-arrow next-arrow"
@@ -22,8 +20,7 @@ const NextArrow = (props) => {
   );
 };
 
-const PrevArrow = (props) => {
-  const { onClick } = props;
+const PrevArrow = ({ onClick }) => {
   return (
     <div
       className="image-arrow prev-arrow"
@@ -36,7 +33,6 @@ const PrevArrow = (props) => {
     </div>
   );
 };
-
 const VideoSlider = ({ video, handleImageClick }) => {
   const settings = {
     dots: true,
