@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserBlock from './UserBlock';
 import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
 
 const FollowPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
@@ -13,8 +14,15 @@ const FollowPage = () => {
     follower: []
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 12;
-
+  const usersPerPage = 11;
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (!params.has('content')) {
+      params.set('content', '0');
+      navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+    }
+  }, [location.search, navigate]);
+  
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('accessToken');
@@ -40,7 +48,15 @@ const FollowPage = () => {
             following,
             follower
           });
-          setFilteredUsers(viewType === 'followers' ? follower : following);
+          const params = new URLSearchParams(location.search);
+          const contentType = params.get('content');
+          if (contentType === '1') {
+            setViewType('following');
+            setFilteredUsers(following);
+          } else {
+            setViewType('followers');
+            setFilteredUsers(follower);
+          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -48,7 +64,7 @@ const FollowPage = () => {
     };
 
     fetchData();
-  }, [navigate, viewType]);
+  }, [navigate, location.search]);
 
   useEffect(() => {
     handleSearch(""); // Clear search when viewType changes
@@ -78,6 +94,7 @@ const FollowPage = () => {
   const handleViewChange = (type) => {
     setViewType(type);
     setFilteredUsers(type === 'followers' ? data.follower : data.following);
+    navigate(`/follow?content=${type === 'followers' ? '0' : '1'}`);
   };
 
   const handleFollowToggle = (userId, isFollowing) => {
@@ -136,27 +153,30 @@ const FollowPage = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="follow-page">
-      <div className="follow-page-main-content">
-        <div className="button-container">
-          <button
-            className={`toggle-button ${viewType === 'followers' ? 'active' : ''}`}
-            onClick={() => handleViewChange('followers')}
-          >
-            팔로워 {data.follower.length}명
-          </button>
-          <button
-            className={`toggle-button ${viewType === 'following' ? 'active' : ''}`}
-            onClick={() => handleViewChange('following')}
-          >
-            팔로잉 {data.following.length}명
-          </button>
+    <div className="followPage">
+      <div className="followPageMainContent">
+        <div className="slideBar-Wrapper">
+          <div className="slideBar">
+            <div
+              className={`slideBarBtn ${viewType === 'followers' ? 'slideBarSelectedContent' : ''}`}
+              onClick={() => handleViewChange('followers')}
+            >
+              팔로워 {data.follower.length}명
+            </div>
+            <div
+              className={`slideBarBtn ${viewType === 'following' ? 'slideBarSelectedContent' : ''}`}
+              onClick={() => handleViewChange('following')}
+            >
+              팔로잉 {data.following.length}명
+            </div>
+            <div className={`slideBtn ${viewType === 'followers' ? 'Select0' : 'Select1'}`}></div>
+          </div>
         </div>
         <div className="list">
           <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
         </div>
-        <div className="user-block-container">
-          <SearchBar className="follow-page-search-bar" onSearch={handleSearch} />
+        <div className="userBlockContainer">
+          <SearchBar className="followPageSearchBar" onSearch={handleSearch} />
           {currentUsers.map((user, index) => (
             <UserBlock
               key={index}
@@ -170,7 +190,7 @@ const FollowPage = () => {
             />
           ))}
         </div>
-        <ul className="page-numbers">
+        <ul className="pageNumbers">
           {getPageNumbers().map((page, index) => (
             <li
               key={index}
