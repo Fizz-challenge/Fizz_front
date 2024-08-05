@@ -6,6 +6,7 @@
   position: relative;
   overflow: hidden;
   background-color: #ffffff;
+  margin: 50px auto;
 }
 
 .follow-page-main-content {
@@ -37,12 +38,12 @@
   font-size: 16px;
   color: #888;
   transition: background-color 0.3s, color 0.3s;
+  font-family: "NanumSquareNeoBD";
 }
 
 .toggle-button.active {
   background-color: white;
   color: black;
-  font-weight: bold;
 }
 
 .list {
@@ -51,6 +52,7 @@
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
+  font-family: "NanumSquareNeoBD";
 }
 
 .list h1 {
@@ -71,14 +73,16 @@
 }
 
 .page-numbers li {
+  width: 35px;
+  height: 35px;
   margin: 0 5px;
   padding: 5px 10px;
   cursor: pointer;
-  border: 1px solid #ccc;
   border-radius: 4px;
+  text-align: center;
 }
 
 .page-numbers li.active {
-  background-color: #007bff;
+  background-color: #2da7ff;
   color: white;
 }
