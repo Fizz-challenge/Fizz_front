@@ -21,7 +21,7 @@ const LoginPage = () => {
 			<div className="loginBack"></div>
 			<div className="loginAllWrap">
 				<div className="loginBackWrap">
-					<img src="../src/assets/fizz2.png" alt="로고" className="loginLogo" />
+					<img src="../img/fizz2.png" alt="로고" className="loginLogo" />
 				</div>
 				<div className="loginWrap">
 					<div className="loginTitle">환영합니다</div>
