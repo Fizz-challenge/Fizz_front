@@ -1,12 +1,24 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import FizzLogo from "../../assets/Fizz.png"
+import axios from 'axios';
 import Hls from 'hls.js';
 import './NewPost.css';
 import './PostInput.css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Skeleton from 'react-loading-skeleton';
 import { IoCloudUpload, IoInformationCircleOutline } from 'react-icons/io5';
+import { IoIosArrowBack, IoIosArrowForward, IoIosClose } from 'react-icons/io';
 
 const NewPost = () => {
+  const { challenge } = useParams();
+  const navigate = useNavigate();
+  const [challengeExists, setChallengeExists] = useState(true);
+  const [challengeId, setChallengeId] = useState('');
   const [video, setVideo] = useState(null);
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
@@ -17,13 +29,35 @@ const NewPost = () => {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [hlsUrl, setHlsUrl] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
+  const [imageUrls, setImageUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const videoRef = useRef(null);
   const eventSourceRef = useRef(null);
+  const newchallenge = `#${challenge}`;
 
   const token = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    const checkChallengeExists = async () => {
+      try {
+        const response = await axios.get(`https://gunwoo.store/api/challenge/info?title=${challenge}`, {
+        });
+        if (!response.data.success) {
+          setChallengeExists(false);
+        }
+        setChallengeId(response.data.data.challengeId);
+        console.log(response.data.data.challengeId);
+      } catch (error) {
+        console.error('Error checking challenge:', error);
+        setChallengeExists(false);
+      }
+    };
+
+    checkChallengeExists();
+  }, [challenge, token]);
 
   const subscribeToNotifications = useCallback(() => {
     const eventSource = new EventSourcePolyfill('https://gunwoo.store/api/notify/subscribe', {
@@ -42,9 +76,9 @@ const NewPost = () => {
         console.log("Received message:", parsedData);
 
         if (parsedData.type === "ENCODING_FINISH") {
-          setUploadProgress(100);
-          setIsLoading(false);
           setHlsUrl(parsedData.videoUrl);
+          setThumbnail(parsedData.thumbnailUrl);
+          setIsLoading(false);
         }
         else {
           alert("문제 발생!");
@@ -169,7 +203,6 @@ const NewPost = () => {
       eTag = response.headers.get('ETag');
       console.log("3단계");
       setUploadProgress(60);
-      setUploadComplete(true);
       console.log('Upload to S3 successful');
     } catch (error) {
       console.error('Error uploading to S3:', error);
@@ -207,11 +240,39 @@ const NewPost = () => {
         throw new Error('Network response was not ok');
       }
       console.log("4단계");
-      setUploadProgress(80);
+      setUploadProgress(100);
+      setUploadComplete(true);
       console.log('Upload completion successful');
     } catch (error) {
       console.error('Error completing upload:', error);
       setErrorMessage('업로드 완료 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  const uploadImage = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const response = await axios.post('https://gunwoo.store/api/files/image/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+  
+      if (response.status !== 200) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = response.data;
+      console.log("성공");
+      setImageUrls(prevUrls => [...prevUrls, data]);
+      setUploadProgress(100);
+      setUploadComplete(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setErrorMessage('이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -223,17 +284,19 @@ const NewPost = () => {
       setMediaType('video');
       setErrorMessage('');
       setIsLoading(true);
-
-      // 파일 정보 받아오기
+      setImageUrls(['12']);
       initiateUpload(fileNameWithoutExtension, file.type.split('/')[1], (file.size / (1024 * 1024)).toFixed(0), file);
     } else if (file.type.startsWith('image/jpeg') || file.type.startsWith('image/png')) {
+      if (file.size > 5 * 1024 * 1024) {
+        setErrorMessage('이미지 파일 크기는 5MB를 초과할 수 없습니다.');
+        return;
+      }
       setVideo(file);
       setMediaType('image');
       setErrorMessage('');
       setIsLoading(true);
 
-      // 파일 정보 받아오기
-      initiateUpload(fileNameWithoutExtension, file.type.split('/')[1], (file.size / (1024 * 1024)).toFixed(0), file);
+      uploadImage(file);
     } else {
       setErrorMessage('잘못된 파일 형식입니다. MP4, JPEG, PNG 형식의 파일만 업로드할 수 있습니다.');
     }
@@ -250,6 +313,7 @@ const NewPost = () => {
   const handleCancel = () => {
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
+      console.log("EventSource closed");
     }
     setUploadProgress(0);
     setUploadComplete(false);
@@ -258,10 +322,10 @@ const NewPost = () => {
     setTitle('');
     setMediaType(null);
     setHlsUrl('');
+    setImageUrls([]);
     setIsLoading(false);
     setErrorMessage('');
-
-    // 구독을 재개
+  
     subscribeToNotifications();
   };
 
@@ -279,7 +343,7 @@ const NewPost = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!video) {
+    if (!video && imageUrls.length === 0) {
       alert('Please upload a video or image');
       return;
     }
@@ -291,35 +355,153 @@ const NewPost = () => {
     console.log('Title:', titleRef.current.value);
     console.log('Description:', descriptionRef.current.value);
 
-    setUploadProgress(0);
-    setUploadComplete(false);
+    try {
+      const postData = {
+        title: title,
+        content: description,
+        images: mediaType === 'image' ? imageUrls : [],
+        video: mediaType === 'video' ? [hlsUrl, thumbnail] : []
+      };
 
-    initiateUpload(titleRef.current.value, video.type.split('/')[1], (video.size / (1024 * 1024)).toFixed(0), video);
+      const response = await axios.post(`https://gunwoo.store/api/posts/challenges/${challengeId}`, postData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.status === 200) {
+        navigate(`/challenge/${challenge}`);
+      } else {
+        throw new Error('Post creation failed');
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
+      setErrorMessage('게시물 작성 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   const videoPreview = useMemo(() => {
+    const NextArrow = (props) => {
+      const { className, onClick } = props;
+      return (
+        <IoIosArrowForward
+          className={`${className} custom-arrow slick-next`}
+          onClick={onClick}
+        />
+      );
+    };
+  
+    const PrevArrow = (props) => {
+      const { className, onClick } = props;
+      return (
+        <IoIosArrowBack
+          className={`${className} custom-arrow slick-prev`}
+          onClick={onClick}
+        />
+      );
+    };
+  
+    const CloseButton = ({ onClick }) => {
+      return (
+        <IoIosClose
+          style={{ color: 'white', fontSize: '30px', position: 'absolute', top: '0px', right: '10px', cursor: 'pointer' }}
+          onClick={onClick}
+        />
+      );
+    };
+  
+    const settings = {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />
+    };
+  
     if (isLoading) {
-      return <p>로딩 중...</p>;
+      return (
+        <div className="loading-container">
+          <Skeleton height={480} width={270} />
+          <div className="loading-message">
+            <div className="spinner"></div>
+            <p>서버에서 영상을 불러 오고 있습니다.</p>
+          </div>
+        </div>
+      );
     } else if (hlsUrl) {
       return (
-        <video ref={videoRef} controls className="video-preview" autoPlay loop playsInline />
+        <video ref={videoRef} controls className="video-preview" autoPlay loop playsInline muted />
       );
     } else if (video) {
       return mediaType === 'video' ? (
-        <video src={URL.createObjectURL(video)} controls className="video-preview" autoPlay loop playsInline />
+        <></>
       ) : (
-        <img src={URL.createObjectURL(video)} alt="preview" className="video-preview" />
+        <div className="carousel-container">
+          <Slider {...settings}>
+            {imageUrls.map((url, index) => (
+              <div key={index} className="image-slide">
+                <CloseButton onClick={() => handleRemoveImage(index)} />
+                <img src={url} alt={`preview-${index}`} className="video-img-preview" />
+              </div>
+            ))}
+          </Slider>
+        </div>
       );
     }
     return null;
-  }, [video, mediaType, hlsUrl, isLoading]);
+  }, [video, mediaType, hlsUrl, imageUrls, isLoading]);
+  
+  const handleRemoveImage = (index) => {
+    setImageUrls(prevUrls => prevUrls.filter((_, i) => i !== index));
+  };
+
+  
+  if (!challengeExists) {
+    return (
+      <div className="none-challenge-container" style={{margin:"0 auto"}}>
+        <img src={FizzLogo} alt="Fizz Logo" />
+        <p>잘못된 접근이거나 존재하지 않는 챌린지입니다. </p>
+        <span onClick={() => navigate(-1)}>🥺</span>
+      </div>
+    );
+  }
+
+  const imageInputRef = useRef(null);
+
+  const handleAddImageClick = () => {
+    if (imageInputRef.current) {
+      imageInputRef.current.click();
+    }
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg')) {
+      if (file && file.size > 5 * 1024 * 1024) {
+        setErrorMessage('파일 크기는 5MB를 초과할 수 없습니다.');
+        return;
+      }
+      setVideo(file);
+      setMediaType('image');
+      setErrorMessage('');
+      setIsLoading(true);
+
+      uploadImage(file);
+    } else {
+      setErrorMessage('잘못된 파일 형식입니다. JPEG, PNG 형식의 파일만 업로드할 수 있습니다.');
+    }
+  };
 
   return (
     <div className="new-post-background">
       <div className="new-post-container">
         <div className="new-post-input">
           <div className="new-post-media">
-            {!video ? (
+            {!video && imageUrls.length === 0 ? (
               <div {...getRootProps({ className: 'dropzone' })}>
                 <input {...getInputProps()} />
                 {isDragActive ? (
@@ -339,9 +521,9 @@ const NewPost = () => {
             ) : (
               <>
                 <div className="upload-header">
-                  <h2>{video.name}</h2>
-                  <p>크기: <span>{(video.size / (1024 * 1024)).toFixed(2)} MB</span></p>
-                  <p>길이: <span>{video.duration ? `${video.duration} 초` : ''}</span></p>
+                  <h2>{video ? video.name : '이미지 미리보기'}</h2>
+                  <p>크기: <span>{video ? (video.size / (1024 * 1024)).toFixed(2) : '이미지 크기'} MB</span></p>
+                  <p>길이: <span>{video?.duration ? `${video.duration} 초` : ''}</span></p>
                 </div>
                 {uploadComplete && <p className="upload-complete">완료</p>}
                 {uploadProgress > 0 && (
@@ -354,6 +536,16 @@ const NewPost = () => {
                     {videoPreview}
                   </div>
                   <div className="description-input">
+                    <div className="challenge-wrapper">
+                      <label htmlFor="challengeName">챌린지</label>
+                      <input
+                        type="text"
+                        id="challengeName"
+                        value={newchallenge}
+                        disabled
+                        className='new-post-challenge'
+                      />
+                    </div>
                     <label htmlFor="title">제목</label>
                     <div className="title-wrapper">
                       <input
@@ -391,7 +583,7 @@ const NewPost = () => {
                       </div>
                       <div>
                         <IoInformationCircleOutline />
-                        <span>최대 크기: 1GB, 동영상 길이: 10분.</span>
+                        <span>파일 크기 규격: 영상 기준 1GB 이하 - 이미지 기준 5MB 이하</span>
                       </div>
                       <div>
                         <IoInformationCircleOutline />
@@ -403,19 +595,14 @@ const NewPost = () => {
                       </div>
                       <div>
                         <IoInformationCircleOutline />
-                        <span>Fizz!에 동영상을 제출하면 Fizz! 커뮤니티 가이드라인에 동의함을 인정하는 것입니다.</span>
-                      </div>
-                      <div>
-                        <IoInformationCircleOutline />
                         <span>불법 촬영 콘텐츠를 업로드하면 법률(통신사업법, 22-5조)에 따라 처벌되고 삭제될 수 있습니다</span>
                       </div>
                     </div>
                     <div className='new-post-buttons'>
                       <button
-                        type="submit"
+                        type="button"
                         className={mediaType === 'video' ? "add-post-video" : "add-post-image"}
-                        onClick={handleSubmit}
-                        disabled={mediaType === 'video'}
+                        onClick={handleAddImageClick}
                       >
                         이미지 추가
                       </button>
@@ -423,7 +610,8 @@ const NewPost = () => {
                         <button
                           type="submit"
                           onClick={handleSubmit}
-                          className='post-submit'
+                          className={`post-submit ${!title || !description || imageUrls.length === 0 || isLoading ? 'disabled' : ''}`}
+                          disabled={!title || !description || imageUrls.length === 0 || isLoading}
                         >
                           게시
                         </button>
@@ -438,9 +626,16 @@ const NewPost = () => {
                     </div>
                   </div>
                 </div>
+                <input
+                  type="file"
+                  accept="image/jpeg, image/png, image/jpg"
+                  style={{ display: 'none' }}
+                  ref={imageInputRef}
+                  onChange={handleImageChange}
+                />
               </>
             )}
-            {!video && (
+            {!video && imageUrls.length === 0 && (
               <div className="upload-info">
                 <div>
                   <IoInformationCircleOutline />
@@ -452,7 +647,7 @@ const NewPost = () => {
                 </div>
                 <div>
                   <IoInformationCircleOutline />
-                  <span>최대 크기: 2GB, 동영상 길이: 10분.</span>
+                  <span>파일 크기 규격: 영상 기준 1GB 이하 - 이미지 기준 5MB 이하</span>
                 </div>
                 <div>
                   <IoInformationCircleOutline />

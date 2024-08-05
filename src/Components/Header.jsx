@@ -15,13 +15,15 @@ const Header = () => {
     setUrlPath(location.pathname);
   }, [location.pathname]);
 
+  const isActiveHome = urlPath === '/' || /^\/[0-9]+$/.test(urlPath);
+
   return (
     <header className="header">
-      <div className='header-top' onClick={() => navigate('/')}><img src={FizzLogo} alt="Fizz Logo" /></div>
+      <div className='header-top' onClick={() => navigate('/')}><img src={FizzLogo} alt="Fizz Logo" style={{color:"black"}}/></div>
       <nav className="header-sections">
         <ul>
           <li>
-            <Link to="/" className={urlPath === '/' ? 'active' : ''}>
+            <Link to="/" className={isActiveHome ? 'active' : ''}>
               <FaHome className="icon" /> 홈
             </Link>
           </li>

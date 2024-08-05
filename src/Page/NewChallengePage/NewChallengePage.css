@@ -103,9 +103,44 @@
   color: #999;
 }
 
-.date-picker-icon {
-  margin-left: 15px;
-  margin-top: 5px;
+.category-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #2DA7FF;
+  background-color:  white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-card.selected, 
+.category-card:hover {
+  border-color: #007bff;
+  background-color: #2DA7FF !important;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
 }
 
 .upload-info {
@@ -130,8 +165,14 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Pretendard-Regular';
 }
 
 .create-challenge-button:hover {
   background-color: #1A76D2;
+}
+
+.create-challenge-button.disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
 }
