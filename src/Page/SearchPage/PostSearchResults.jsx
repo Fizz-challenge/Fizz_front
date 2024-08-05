@@ -24,19 +24,43 @@ const PostSearchResults = ({ filteredPosts }) => {
           <div
             key={post.id}
             className={styles.postCard}
+            onMouseEnter={() => handlePostHover(post.id)}
+            onMouseLeave={() => handlePostHover(null)}
             onClick={() => navigate(`/video/${post.id}`)}
           >
-            <img className={styles.postThumbnail} src={getThumbnail(post)} alt="썸네일" />
-            <div className={styles.postDetails}>
-              <div className={styles.postTitle}>{post.title}</div>
-              <div className={styles.postContent}>#{post.challengeInfo.title}</div>
-              <div className={styles.postStats}>
+            <div className={styles.thumbnailWrapper}>
+              <img className={styles.postThumbnail} src={getThumbnail(post)} alt="썸네일" />
+              <div className={styles.overlay}></div>
+              <div className={styles.postViewCount}>
                 <IoPlay className={styles.postIcon} />
                 {post.viewCount}
-                <FaHeart className={styles.postIcon} />
-                {post.likeCount}
-                <FaComment className={styles.postIcon} />
-                {post.commentCount}
+              </div>
+              {selectedPost === post.id && (
+                <div className={styles.postHoverInfo}>
+                  <div className={styles.postInfo}>
+                    <FaHeart className={styles.postIcon} />
+                    {post.likeCount}
+                  </div>
+                  <div className={styles.postInfo}>
+                    <FaComment className={styles.postIcon} />
+                    {post.commentCount}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className={styles.postDetails}>
+              <img
+                className={styles.postProfileImage}
+                src={post.userInfo.profileImage ? post.userInfo.profileImage : "../src/assets/profile.jpg"}
+                alt="프로필 이미지"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/profile/${post.userInfo.profileId}`);
+                }}
+              />
+              <div className={styles.postTextContainer}>
+                <div className={styles.postTitle}>{post.title}</div>
+                <div className={styles.postChallenge}>{`#${post.challengeInfo.title}`}</div>
               </div>
             </div>
           </div>

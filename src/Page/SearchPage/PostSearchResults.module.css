@@ -1,4 +1,3 @@
-/* PostSearchResults.module.css */
 .postsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -12,28 +11,101 @@
 .postCard {
   position: relative;
   width: 250px; /* Adjust width as needed */
-  background-color: #d9d9d9;
-  border-radius: 15px;
+  background-color: #ffffff;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
-.postCard:hover {
-  transform: scale(1.05);
+.thumbnailWrapper {
+  position: relative;
 }
 
 .postThumbnail {
   width: 100%;
-  height: 200px; /* Adjust height as needed */
+  height: 320px; /* Adjust height as needed */
   object-fit: cover;
+  transition: filter 0.3s ease;
+  border-radius: 15px;
+}
+
+.postCard:hover .postThumbnail {
+  filter: brightness(70%);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 320px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 15px;
+  transition: .2s;
+}
+
+.postCard:hover .overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.postViewCount {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #fff;
+  font-family: "NanumSquareNeoHV";
+}
+
+.postHoverInfo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: #fff;
+}
+
+.postInfo {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  font-family: "NanumSquareNeoHV";
+}
+
+.postIcon {
+  margin-right: 5px;
 }
 
 .postDetails {
-  padding: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  overflow: hidden;
+}
+
+.postProfileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.postTextContainer {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
 }
 
 .postTitle {
+  width: 100%;
   font-size: 18px;
   font-family: 'NanumSquareNeoBD';
   margin-bottom: 5px;
@@ -42,22 +114,19 @@
   text-overflow: ellipsis;
 }
 
-.postContent {
+.postChallenge {
+  width: 100%;
   font-size: 15px;
   color: #646464;
-  margin-bottom: 10px;
-}
-
-.postStats {
-  font-size: 14px;
-  color: #333;
-  display: flex;
-  justify-content: space-between;
+  font-family: 'NanumSquareNeoRG';
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .notFound {
   font-family: 'NanumSquareNeoBD';
-  font-size: 18px;
+  font-size: 25px;
   color: #000000;
   text-align: center;
   position: absolute;
