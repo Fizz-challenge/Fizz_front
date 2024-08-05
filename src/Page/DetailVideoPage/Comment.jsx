@@ -6,6 +6,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from 'axios';
 import timeSince from './utils.jsx';
+import NoticePopup from '../../Components/NoticePopup.jsx';
 
 const CommentSection = ({ postId }) => {
   const [comments, setComments] = useState([]);
@@ -15,6 +16,7 @@ const CommentSection = ({ postId }) => {
   const [visibleReplies, setVisibleReplies] = useState({});
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editText, setEditText] = useState('');
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const token = localStorage.getItem('accessToken');
   const profileId = localStorage.getItem('profileId');
@@ -42,6 +44,7 @@ const CommentSection = ({ postId }) => {
             text: comment.content,
             date: comment.createdAt,
             replies: [],
+            profileId: comment.profileId,
             likeCount: comment.likeCount,
             childCount: comment.childCount,
             isLike: likeResponse.data.data.isLike
@@ -55,6 +58,7 @@ const CommentSection = ({ postId }) => {
             text: comment.content,
             date: comment.createdAt,
             replies: [],
+            profileId: comment.profileId,
             likeCount: comment.likeCount,
             childCount: comment.childCount,
             isLike: false
@@ -69,6 +73,10 @@ const CommentSection = ({ postId }) => {
   };
 
   const fetchReplies = async (commentId) => {
+    if (!token) {
+      setIsPopupVisible(true);
+      return;
+    }
     try {
       const response = await axios.get(`https://gunwoo.store/api/comment/post/${commentId}/reply`, {
         headers: {
@@ -88,6 +96,7 @@ const CommentSection = ({ postId }) => {
           avatar: reply.profileImage,
           text: reply.content,
           date: reply.createdAt,
+          profileId: reply.profileId,
           likeCount: reply.likeCount,
           isLike: likeResponse.data.data.isLike
         };
@@ -115,7 +124,7 @@ const CommentSection = ({ postId }) => {
 
   const handleReplyClick = (commentId) => {
     if (!token) {
-      navigate('/login');
+      setIsPopupVisible(true);
       return;
     }
     if (replyTo === commentId) {
@@ -153,7 +162,7 @@ const CommentSection = ({ postId }) => {
 
   const handleNewCommentSubmit = async () => {
     if (!token) {
-      navigate('/login');
+      setIsPopupVisible(true);
       return;
     }
     if (!newCommentText.trim()) {
@@ -242,7 +251,7 @@ const CommentSection = ({ postId }) => {
 
   const handleLikeClick = async (commentId, isLike) => {
     if (!token) {
-      navigate('/login');
+      setIsPopupVisible(true);
       return;
     }
     try {
@@ -290,10 +299,9 @@ const CommentSection = ({ postId }) => {
 
   const handleReplyLikeClick = async (commentId, isLike, parentId) => {
     if (!token) {
-      navigate('/login');
+      setIsPopupVisible(true);
       return;
     }
-
     setComments(prevComments => prevComments.map(comment => {
       if (comment.id === parentId) {
         return {
@@ -349,7 +357,6 @@ const CommentSection = ({ postId }) => {
       }));
     }
   };
-  
 
   const handleKeyPress = (event, commentId) => {
     if (event.key === 'Enter') {
@@ -360,19 +367,20 @@ const CommentSection = ({ postId }) => {
       }
     }
   };
-  const renderComments = (comments) => {
+
+  const renderComments = (comments, isChild = false) => {
     return comments.map(comment => (
-      <div key={comment.id} className="comment">
+      <div key={comment.id} className={`comment ${isChild ? 'child-comment' : ''}`}>
         <div className="comment-header">
           <div className="comment-user-avatar">
-            <img src={comment.avatar} alt={`${comment.user}'s avatar`} />
+            <img onClick={() => { navigate(`/profile/${comment.profileId}`)}} src={comment.avatar || '../src/assets/profile.jpg'} alt={`${comment.user}'s avatar`} />
           </div>
           <div className="comment-user-details">
-            <p className="comment-user-name"><strong>{comment.user}</strong></p>
+            <p className="comment-user-name" onClick={() => { navigate(`/profile/${comment.profileId}`)}}><strong>{comment.user}</strong></p>
             <p className="comment-text">{comment.text}</p>
             <div className="comment-meta">
               <p className="comment-date">{timeSince(comment.date)}</p>
-              {comment.parentId === null && (
+              {!isChild && (
                 <span className="reply-link" onClick={() => handleReplyClick(comment.id)}>답글</span>
               )}
             </div>
@@ -390,21 +398,21 @@ const CommentSection = ({ postId }) => {
           )}
           <div className='comment-like-section'>
             {comment.isLike ? (
-              <FaHeart onClick={() => handleLikeClick(comment.id, true)} />
+              <FaHeart onClick={() => isChild ? handleReplyLikeClick(comment.id, true, comment.parentId) : handleLikeClick(comment.id, true)} />
             ) : (
-              <FaRegHeart onClick={() => handleLikeClick(comment.id, false)} />
+              <FaRegHeart onClick={() => isChild ? handleReplyLikeClick(comment.id, false, comment.parentId) : handleLikeClick(comment.id, false)} />
             )}
             <div className="like-count">{comment.likeCount}</div>
           </div>
         </div>
-        {comment.parentId === null && comment.childCount > 0 && (
+        {!isChild && comment.childCount > 0 && (
           <>
             <span className="toggle-replies-link" onClick={() => toggleRepliesVisibility(comment.id)}>
               답글 {comment.childCount}개 보기
             </span>
             {visibleReplies[comment.id] && (
               <div className="replies">
-                {renderComments(comment.replies)}
+                {renderComments(comment.replies, true)}
               </div>
             )}
           </>
@@ -431,27 +439,36 @@ const CommentSection = ({ postId }) => {
   };
 
   return (
-    <div className="comment-section">
-      <h2>댓글</h2>
-      <div className="comments">
-        {renderComments(comments)}
+    <>
+      <div className="comment-section">
+        <h2>댓글</h2>
+        <div className="comments">
+          {renderComments(comments)}
+        </div>
+        <div className="new-comment-section">
+          <input
+            value={newCommentText}
+            onChange={(e) => setNewCommentText(e.target.value)}
+            placeholder="댓글을 작성해주세요"
+            onKeyPress={handleKeyPress}
+          />
+          <button
+            onClick={handleNewCommentSubmit}
+            className="reply-submit-button"
+            disabled={!newCommentText.trim()}
+          >
+            댓글
+          </button>
+        </div>
       </div>
-      <div className="new-comment-section">
-        <input
-          value={newCommentText}
-          onChange={(e) => setNewCommentText(e.target.value)}
-          placeholder="댓글을 작성해주세요"
-          onKeyPress={handleKeyPress}
+      {isPopupVisible && (
+        <NoticePopup
+          setIsPopupVisible={setIsPopupVisible}
+          popupStatus={["로그인이 필요한 서비스입니다.", "#2DA7FF"]}
+          buttonStatus={{ msg: "확인", action: () => navigate('/login') }}
         />
-        <button
-          onClick={handleNewCommentSubmit}
-          className="reply-submit-button"
-          disabled={!newCommentText.trim()}
-        >
-          댓글 달기
-        </button>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

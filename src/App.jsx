@@ -20,6 +20,7 @@ import NewChallengePage from './Page/NewChallengePage/NewChallengePage.jsx';
 import AskPage from './Page/AskPage/AskPage.jsx';
 import Modal from 'react-modal';
 import TopBar from './Components/TopBar.jsx';
+import Warning from './Components/Warning.jsx';
 
 Modal.setAppElement('#root');
 
@@ -67,7 +68,7 @@ function App() {
 			)}
 			{location.pathname !== "/login" && location.pathname !== "/register" && (
 				<>
-				<TopBar />
+							<TopBar />
 					<Header />
 				</>)}
 			<div className={`content-wrapper ${(location.pathname === "/login" || location.pathname === "/register") ? "noHeader" : ""}`}>
@@ -87,6 +88,7 @@ function App() {
 					<Route path="/:id" element={<MainPage />} />
 					<Route path="/new-challenge" element={<NewChallengePage />} />
 					<Route path="/ask" element={<AskPage />} />
+					<Route path="/*" element={<Warning message={"존재하지 않거나 준비 중인 페이지 입니다 ⚠️"}/>} />
 				</Routes>
 			</div>
 		</>

@@ -43,7 +43,7 @@ const MainPage = () => {
 
   useEffect(() => {
     const ensureCurrentVideoLoaded = async () => {
-      if (currentVideoIndex >= videos.length && page < totalPages) {
+      if (currentVideoIndex >= videos.length - 5  && page < totalPages) {
         await loadVideos(page);
         setPage(page + 1);
       }

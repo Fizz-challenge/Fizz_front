@@ -222,7 +222,7 @@ const Video = ({ video, isActive, onVolumeChange, fileType }) => {
 
   const handleUserClick = (e) => {
     e.stopPropagation();
-    navigate(`/profile/${video.userInfo.nickname}`);
+    navigate(`/profile/${video.userInfo.profileId}`);
   };
 
   if (fileType === "VIDEO") {
