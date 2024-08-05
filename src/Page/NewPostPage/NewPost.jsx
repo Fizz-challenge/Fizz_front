@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import FizzLogo from "../../assets/Fizz.png"
+import FizzLogo from "../../assets/Fizz.png";
 import axios from 'axios';
 import Hls from 'hls.js';
 import './NewPost.css';
@@ -40,8 +40,6 @@ const NewPost = () => {
   const videoRef = useRef(null);
   const eventSourceRef = useRef(null);
   const newchallenge = `#${challenge}`;
-  const retryTimeoutRef = useRef(null);
-
   const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -68,64 +66,53 @@ const NewPost = () => {
         'Authorization': `Bearer ${token}`
       }
     });
-  
+
     const handleOpen = () => {
       console.log("EventSource connected");
     };
-  
-    const handleFileEncodingEvent = async (event) => {
+
+    const handleFileEncodingEvent = (event) => {
       try {
-        const parsedData = JSON.parse(event.data);
-        console.log("Received message:", parsedData);
-  
-        if (parsedData.type === "ENCODING_FINISH") {
+        const eventData = event.data;
+        console.log("Received message:", eventData);
+
+        if (eventData.includes("ENCODING_FINISH")) {
+          const parsedData = JSON.parse(eventData);
           setHlsUrl(parsedData.videoUrl);
           setThumbnail(parsedData.thumbnailUrl);
           setIsLoading(false);
-        } else {
-          setPopupMessage("문제 발생!");
-          setIsPopupVisible(true);
         }
       } catch (error) {
-        console.error("Failed to parse event data:", error);
+        console.error("Failed to handle event data:", error);
         console.error("Event data received:", event.data);
       }
     };
-  
+
     const handleError = (error) => {
       console.error('EventSource failed:', error);
       eventSource.close();
     };
-  
+
     eventSource.onopen = handleOpen;
     eventSource.addEventListener("file-encoding-event", handleFileEncodingEvent);
     eventSource.onerror = handleError;
-  
+
     eventSourceRef.current = eventSource;
-  
+
     return () => {
       eventSource.removeEventListener("file-encoding-event", handleFileEncodingEvent);
       eventSource.close();
     };
   }, [token]);
-  
+
   useEffect(() => {
-    const cleanup = subscribeToNotifications();
-  
     return () => {
-      if (cleanup) {
-        cleanup();
-      }
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
         console.log("EventSource disconnected");
       }
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-        console.log("Retry timeout cleared");
-      }
     };
-  }, [subscribeToNotifications]);
+  }, []);
 
   useEffect(() => {
     if (hlsUrl) {
@@ -168,6 +155,9 @@ const NewPost = () => {
       console.log("1단계");
       setUploadProgress(20);
       await getPresignedUrl(data.uploadId, data.key, file);
+
+      subscribeToNotifications();
+
     } catch (error) {
       console.error('Error initiating upload:', error);
       setErrorMessage('업로드 초기화 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -345,8 +335,6 @@ const NewPost = () => {
     setImageUrls([]);
     setIsLoading(false);
     setErrorMessage('');
-  
-    subscribeToNotifications();
   };
 
   const handleTitleChange = useCallback((event) => {
@@ -626,9 +614,10 @@ const NewPost = () => {
                     </div>
                     <div className='new-post-buttons'>
                       <button
-                        type="button"
-                        className={mediaType === 'video' ? "add-post-video" : "add-post-image"}
-                        onClick={handleAddImageClick}
+                          type="button"
+                          className={mediaType === 'video' ? "add-post-video" : "add-post-image"}
+                          onClick={handleAddImageClick}
+                          disabled={mediaType === "video"}
                       >
                         이미지 추가
                       </button>

@@ -1,36 +1,115 @@
-/* PostSearchResults.module.css */
 .postsContainer {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns layout */
   gap: 20px;
   justify-content: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
+  margin-top: 100px;
 }
 
 .postCard {
   position: relative;
-  width: 250px; /* Adjust width as needed */
-  background-color: #d9d9d9;
-  border-radius: 15px;
+  width: 250px; /* Fixed width */
+  height: 370px; /* Fixed height */
+  background-color: #ffffff;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
-.postCard:hover {
-  transform: scale(1.05);
+.thumbnailWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%; /* Fill the height of the postCard */
 }
 
 .postThumbnail {
   width: 100%;
-  height: 200px; /* Adjust height as needed */
+  height: 100%; /* Fill the height of the thumbnailWrapper */
   object-fit: cover;
+  transition: filter 0.3s ease;
+  border-radius: 15px;
+}
+
+.postCard:hover .postThumbnail {
+  filter: brightness(70%);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: .2s;
+  border-radius: 15px;
+}
+
+.postCard:hover .overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.postViewCount {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #fff;
+  font-family: "NanumSquareNeoHV";
+}
+
+.postHoverInfo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: #fff;
+}
+
+.postInfo {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  font-family: "NanumSquareNeoHV";
+}
+
+.postIcon {
+  margin-right: 5px;
 }
 
 .postDetails {
-  padding: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.postProfileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.postTextContainer {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 50px); /* Adjust width based on profile image size */
 }
 
 .postTitle {
@@ -42,22 +121,18 @@
   text-overflow: ellipsis;
 }
 
-.postContent {
+.postChallenge {
   font-size: 15px;
   color: #646464;
-  margin-bottom: 10px;
-}
-
-.postStats {
-  font-size: 14px;
-  color: #333;
-  display: flex;
-  justify-content: space-between;
+  font-family: 'NanumSquareNeoRG';
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .notFound {
   font-family: 'NanumSquareNeoBD';
-  font-size: 18px;
+  font-size: 25px;
   color: #000000;
   text-align: center;
   position: absolute;
