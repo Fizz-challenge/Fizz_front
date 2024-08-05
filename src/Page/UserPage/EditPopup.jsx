@@ -184,10 +184,10 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					<img
 						src={
 							isBasicProfile
-								? "../src/assets/profile.jpg"
+								? "../img/profile.jpg"
 								: imagePreview ||
 								  userInfo.profileImage ||
-								  "../src/assets/profile.jpg"
+								  "../img/profile.jpg"
 						}
 						alt="프로필 이미지"
 					/>
