@@ -115,21 +115,6 @@ const VideoDetail = () => {
     }
   };
 
-  const handleScrollUp = () => {
-    if (parseInt(id, 10) > 1) {
-      navigate(`/video/${parseInt(id, 10) - 1}`);
-    }
-  };
-
-  const handleScrollDown = () => {
-    navigate(`/video/${parseInt(id, 10) + 1}`);
-  };
-
-  const handleCancelClick = () => {
-    sessionStorage.setItem('currentVideoIndex', id);
-    navigate(`/${id}`);
-  };
-
   const handleBackClick = () => {
     if (videoRef.current) {
       const currentTime = videoRef.current.currentTime;
@@ -156,7 +141,6 @@ const VideoDetail = () => {
       <div className='detail-video'>
         <div className="detail-video-section">
           <button className="detail-back-button" onClick={handleBackClick}><MdArrowBack /></button>
-          <button className="detail-cancel-button" onClick={handleCancelClick}>취소</button>
           {video.fileType === "VIDEO" ? (
             <video controls className="detail-video-player" autoPlay loop ref={videoRef} playsInline>
               <source src={video.fileUrls[0]} type="application/vnd.apple.mpegurl" />
@@ -170,10 +154,7 @@ const VideoDetail = () => {
               ))}
             </Slider>
           )}
-          <div className="scroll-buttons">
-            <span className="scroll-button" onClick={handleScrollUp}><FaChevronUp /></span>
-            <span className="scroll-button" onClick={handleScrollDown}><FaChevronDown /></span>
-          </div>
+
         </div>
         <div className="content-section">
           <Post video={video} />

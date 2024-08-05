@@ -40,6 +40,7 @@ const NewPost = () => {
   const videoRef = useRef(null);
   const eventSourceRef = useRef(null);
   const newchallenge = `#${challenge}`;
+  const retryTimeoutRef = useRef(null);
 
   const token = localStorage.getItem('accessToken');
 
@@ -67,45 +68,61 @@ const NewPost = () => {
         'Authorization': `Bearer ${token}`
       }
     });
-
-    eventSource.onopen = () => {
+  
+    const handleOpen = () => {
       console.log("EventSource connected");
     };
-
-    eventSource.addEventListener("file-encoding-event", async (event) => {
+  
+    const handleFileEncodingEvent = async (event) => {
       try {
         const parsedData = JSON.parse(event.data);
         console.log("Received message:", parsedData);
-
+  
         if (parsedData.type === "ENCODING_FINISH") {
           setHlsUrl(parsedData.videoUrl);
           setThumbnail(parsedData.thumbnailUrl);
           setIsLoading(false);
-        }
-        else {
+        } else {
           setPopupMessage("문제 발생!");
           setIsPopupVisible(true);
         }
-
       } catch (error) {
         console.error("Failed to parse event data:", error);
+        console.error("Event data received:", event.data);
       }
-    });
-
-    eventSource.onerror = function (error) {
+    };
+  
+    const handleError = (error) => {
       console.error('EventSource failed:', error);
       eventSource.close();
     };
-
+  
+    eventSource.onopen = handleOpen;
+    eventSource.addEventListener("file-encoding-event", handleFileEncodingEvent);
+    eventSource.onerror = handleError;
+  
     eventSourceRef.current = eventSource;
-  }, [token]);
-
-  useEffect(() => {
-    subscribeToNotifications();
-
+  
     return () => {
+      eventSource.removeEventListener("file-encoding-event", handleFileEncodingEvent);
+      eventSource.close();
+    };
+  }, [token]);
+  
+  useEffect(() => {
+    const cleanup = subscribeToNotifications();
+  
+    return () => {
+      if (cleanup) {
+        cleanup();
+      }
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
+        console.log("EventSource disconnected");
+      }
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+        console.log("Retry timeout cleared");
       }
     };
   }, [subscribeToNotifications]);

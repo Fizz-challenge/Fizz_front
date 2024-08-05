@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { FaHome, FaSearch, FaHeart, FaUser } from 'react-icons/fa';
+import { FaHome, FaSearch, FaHeart, FaUser, FaGithub,  FaUniversity } from 'react-icons/fa';
 import { LuPlusSquare } from "react-icons/lu";
-import FizzLogo from '../assets/Fizz.png';
+import NewLogo from '../assets/NewLogo.svg';
 import { GrInfo } from "react-icons/gr";
+import Main from '/img/Main.svg';
 
 const Header = () => {
   const location = useLocation();
@@ -19,7 +20,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className='header-top' onClick={() => navigate('/')}><img src={FizzLogo} alt="Fizz Logo" style={{color:"black"}}/></div>
+      <div className='header-top' onClick={() => navigate('/')}><img src={NewLogo} alt="Fizz Logo" style={{color:"black"}}/></div>
       <nav className="header-sections">
         <ul>
           <li>
@@ -57,6 +58,29 @@ const Header = () => {
           </li>
         </ul>
       </nav>
+      <div className='header-extra'>
+      <div className='footer-info'>
+        <p>LIKELION 12th</p>
+        <div className="info-links">
+          <a 
+            href="https://github.com/Fizz-challenge" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            <FaGithub className="github-icon" />
+          </a>
+          <a 
+            href="https://www.kumoh.ac.kr/ko/index.do" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="university-link"
+          >
+            <FaUniversity className="university-icon" />
+          </a>
+        </div>
+      </div>
+    </div>
     </header>
   );
 };
