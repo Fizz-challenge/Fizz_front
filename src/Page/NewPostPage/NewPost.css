@@ -86,7 +86,7 @@
 }
 
 .video-img-preview{
-  width: 250px;
+  width: 270px;
   height: 460px;
   border-radius: 10px;
   object-fit: contain;
@@ -402,13 +402,12 @@
   display: block !important;
 }
 
-
 .loading-container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 500px;
+  height: 480px;
   width: 270px;
 }
 

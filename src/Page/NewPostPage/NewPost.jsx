@@ -425,10 +425,10 @@ const NewPost = () => {
     if (isLoading) {
       return (
         <div className="loading-container">
-          <Skeleton height={500} width={270} />
+          <Skeleton height={480} width={270} />
           <div className="loading-message">
             <div className="spinner"></div>
-            <p>서버에서 영상을 불러 오고 있습니다..</p>
+            <p>서버에서 영상을 불러 오고 있습니다.</p>
           </div>
         </div>
       );
@@ -610,8 +610,8 @@ const NewPost = () => {
                         <button
                           type="submit"
                           onClick={handleSubmit}
-                          className={`post-submit ${!title || !description || imageUrls.length === 0 ? 'disabled' : ''}`}
-                          disabled={!title || !description || imageUrls.length === 0}
+                          className={`post-submit ${!title || !description || imageUrls.length === 0 || isLoading ? 'disabled' : ''}`}
+                          disabled={!title || !description || imageUrls.length === 0 || isLoading}
                         >
                           게시
                         </button>
