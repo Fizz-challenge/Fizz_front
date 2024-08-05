@@ -1,3 +1,4 @@
+/* SearchBar.css */
 .search-bar {
   display: flex;
   align-items: center;
@@ -8,6 +9,7 @@
   max-width: 600px;
   margin: 0 auto;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .search-bar .search-icon {
@@ -26,13 +28,13 @@
 }
 
 .loading-icon {
+  position: absolute;
+  right: 15px;
   font-size: 18px;
   color: #aaa;
-  margin-left: 10px;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }

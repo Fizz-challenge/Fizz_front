@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaSearch } from 'react-icons/fa';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import './SearchBar.css';
 
 const SearchBar = ({ className = '', onSearch, onFocus = () => {}, onBlur = () => {} }) => {
   const [term, setTerm] = useState('');
+  const [loading, setLoading] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
   const handleChange = (e) => {
     setTerm(e.target.value);
-    setLoading(true); // 로딩 상태 시작
+    setLoading(true);
 
     // Clear the previous timeout
     if (timeoutId) {
@@ -21,7 +21,7 @@ const SearchBar = ({ className = '', onSearch, onFocus = () => {}, onBlur = () =
     // Set a new timeout
     const newTimeoutId = setTimeout(() => {
       onSearch(e.target.value);
-      setLoading(false); // 로딩 상태 종료
+      setLoading(false);
     }, 500); // 0.5 seconds delay
 
     setTimeoutId(newTimeoutId);
@@ -33,7 +33,7 @@ const SearchBar = ({ className = '', onSearch, onFocus = () => {}, onBlur = () =
     if (timeoutId) {
       clearTimeout(timeoutId);
       onSearch(term);
-      setLoading(false); // 로딩 상태 종료
+      setLoading(false);
     }
   };
 
@@ -48,7 +48,7 @@ const SearchBar = ({ className = '', onSearch, onFocus = () => {}, onBlur = () =
         onBlur={onBlur}
         placeholder="검색"
       />
-      {loading && <AiOutlineLoading3Quarters className="loading-icon" />} {/* 로딩 아이콘 추가 */}
+      {loading && <AiOutlineLoading3Quarters className="loading-icon" />}
     </form>
   );
 };
