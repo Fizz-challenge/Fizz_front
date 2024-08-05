@@ -9,6 +9,7 @@ import { ImPlay2 } from "react-icons/im";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import NoticePopup from '../../Components/NoticePopup.jsx';
+import Warning from '../../Components/Warning.jsx';
 
 const SkeletonItem = () => (
   <div className="challenge-image-item">
@@ -45,11 +46,18 @@ const ChallengePage = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
   const observer = useRef();
 
   const fetchChallengeData = async () => {
     try {
       const response = await axios.get(`https://gunwoo.store/api/challenge/info?title=${challenge}`);
+      if (response.data.success === 'false' && response.data.code === 'CH001') {
+        setWarningMessage("존재하지 않는 챌린지 입니다⚠️"); // 경고 메시지 업데이트
+        setIsLoading(false);
+        return;
+      }
+
       setChallengeData(response.data.data);
       setIsLoading(false);
     } catch (error) {
@@ -103,7 +111,7 @@ const ChallengePage = () => {
     if (node) observer.current.observe(node);
   }, [isLoading, hasMore]);
 
-  if (initialLoading || isLoading) {
+  if (initialLoading) {
     return (
       <div className="challenge-page">
         <div className="challenge-page-container">
@@ -123,8 +131,8 @@ const ChallengePage = () => {
     );
   }
 
-  if (!challengeData) {
-    return <div>챌린지 정보를 가져오는 중 오류가 발생했습니다.</div>;
+  if (warningMessage) {
+    return <Warning message={warningMessage} />;
   }
 
   return (
@@ -132,21 +140,24 @@ const ChallengePage = () => {
       <div className='challenge-page-container'>
         <div className='challenge-page-title'>
           <div className="challenge-dates">
-            <p><MdOutlineDateRange />{" "}{challengeData.isActive ? '진행중인 챌린지' : '잠든 챌린지'}</p>
+            <p><MdOutlineDateRange />{" "}{challengeData?.isActive ? '진행중인 챌린지' : '존재하지 않는 챌린지'}</p>
           </div>
           <div className="challenge-box">
             <div className="challenge-header">
-              <span>#{challenge}</span>
-              <button onClick={handleJoinChallenge} className="join-challenge-button">
+              <span>#{challengeData?.title ? `${challengeData.title}` : " "}</span>
+
+              {challengeData?.isActive ? <>              <button onClick={handleJoinChallenge} className="join-challenge-button">
                 챌린지 참여하기!
-              </button>
+              </button></> :
+                <></>}
             </div>
             <div className="challenge-description">
               <div>
-                <p>{challengeData.description}</p>
+                <p>{challengeData?.description}</p>
               </div>
               <div className="challenge-posts">
-                <p><FaRegCirclePlay />{challengeData.participantCounts}개의 영상이 존재합니다</p>
+                <p><FaRegCirclePlay />
+                  {challengeData?.participantCounts}개의 영상이 존재합니다</p>
               </div>
             </div>
           </div>
