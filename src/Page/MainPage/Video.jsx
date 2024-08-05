@@ -114,7 +114,7 @@ const Video = ({ video, isActive, onVolumeChange, fileType }) => {
 
         const savedVideoId = localStorage.getItem('currentVideoId');
         const savedTime = localStorage.getItem('videoCurrentTime');
-        const savedVolume = parseFloat(localStorage.getItem('videoVolume')) || 0.5;
+        const savedVolume = parseFloat(localStorage.getItem('videoVolume')) || 1;
 
         if (!isNaN(savedVolume) && videoRef.current) {
           videoRef.current.volume = savedVolume;
@@ -268,7 +268,7 @@ const Video = ({ video, isActive, onVolumeChange, fileType }) => {
                   min="0"
                   max="1"
                   step="0.1"
-                  value={videoRef.current ? videoRef.current.volume : 0.5}
+                  value={videoRef.current ? videoRef.current.volume : 1}
                   onChange={handleVolumeChange}
                   className="volume-slider"
                 />

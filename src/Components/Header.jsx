@@ -5,7 +5,6 @@ import { FaHome, FaSearch, FaHeart, FaUser, FaGithub,  FaUniversity } from 'reac
 import { LuPlusSquare } from "react-icons/lu";
 import NewLogo from '../assets/NewLogo.svg';
 import { GrInfo } from "react-icons/gr";
-import Main from '/img/Main.svg';
 
 const Header = () => {
   const location = useLocation();
@@ -20,7 +19,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className='header-top' onClick={() => navigate('/')}><img src={NewLogo} alt="Fizz Logo" style={{color:"black"}}/></div>
+      <div className='header-top' onClick={() => navigate('/')}><img src={NewLogo} alt="Fizz Logo" /></div>
       <nav className="header-sections">
         <ul>
           <li>
@@ -29,8 +28,8 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/search" className={urlPath === '/search' ? 'active' : ''}>
-              <FaSearch className="icon" /> 검색
+            <Link to="/search" className={urlPath === '/search' || urlPath.startsWith('/category') ? 'active' : ''}>
+              <FaSearch className="icon" /> 탐색
             </Link>
           </li>
           <li>

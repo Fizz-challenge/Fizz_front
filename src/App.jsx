@@ -96,6 +96,7 @@ function App() {
           <Route path="/:id" element={<MainPage />} />
           <Route path="/new-challenge" element={<NewChallengePage />} />
           <Route path="/ask" element={<AskPage />} />
+          <Route path='/*' element={<Warning message={"존재 하지 않거나 준비 중인 페이지 입니다"}/>} />
         </Routes>
       </div>
     </>
