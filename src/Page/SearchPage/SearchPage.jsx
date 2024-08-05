@@ -42,10 +42,6 @@ const SearchPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
     fetchFollowingUsers(token);
     setLoading(false);
   }, [fetchFollowingUsers, navigate]);
@@ -60,10 +56,6 @@ const SearchPage = () => {
       const fetchChallenges = async () => {
         try {
           const token = localStorage.getItem('accessToken');
-          if (!token) {
-            navigate('/login');
-            return;
-          }
 
           const response = await fetch(`https://gunwoo.store/api/challenge/search?keyword=${term}`, {
             headers: {
@@ -85,10 +77,6 @@ const SearchPage = () => {
       const fetchUsers = async () => {
         try {
           const token = localStorage.getItem('accessToken');
-          if (!token) {
-            navigate('/login');
-            return;
-          }
 
           const response = await fetch(`https://gunwoo.store/api/user/search?nickname=${term}`, {
             headers: {
@@ -117,10 +105,6 @@ const SearchPage = () => {
       const fetchPosts = async () => {
         try {
           const token = localStorage.getItem('accessToken');
-          if (!token) {
-            navigate('/login');
-            return;
-          }
 
           const response = await fetch(`https://gunwoo.store/api/posts/search?keyword=${term}`, {
             headers: {
@@ -161,18 +145,18 @@ const SearchPage = () => {
   };
 
   const navItems = [
-    { text: "챌린지" },
+    { text: "게시글" },
     { text: "사용자" },
-    { text: "게시글" }
+    { text: "챌린지" },
   ];
 
   const renderContent = () => {
     if (nowSelected === 0) {
-      return <ChallengeSearchResults filteredChallenges={filteredChallenges} />;
+      return <PostSearchResults filteredPosts={filteredPosts} />;
     } else if (nowSelected === 1) {
       return <UserSearchResults filteredUsers={filteredUsers} />;
     } else if (nowSelected === 2) {
-      return <PostSearchResults filteredPosts={filteredPosts} />;
+      return <ChallengeSearchResults filteredChallenges={filteredChallenges} />;
     }
   };
 
