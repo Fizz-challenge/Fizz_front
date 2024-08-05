@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserBlock from './UserBlock';
 import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
 
 const FollowPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [viewType, setViewType] = useState('followers'); 
   const [data, setData] = useState({
@@ -14,7 +15,14 @@ const FollowPage = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 11;
-
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (!params.has('content')) {
+      params.set('content', '0');
+      navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+    }
+  }, [location.search, navigate]);
+  
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('accessToken');
@@ -40,7 +48,15 @@ const FollowPage = () => {
             following,
             follower
           });
-          setFilteredUsers(viewType === 'followers' ? follower : following);
+          const params = new URLSearchParams(location.search);
+          const contentType = params.get('content');
+          if (contentType === '1') {
+            setViewType('following');
+            setFilteredUsers(following);
+          } else {
+            setViewType('followers');
+            setFilteredUsers(follower);
+          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -48,7 +64,7 @@ const FollowPage = () => {
     };
 
     fetchData();
-  }, [navigate, viewType]);
+  }, [navigate, location.search]);
 
   useEffect(() => {
     handleSearch(""); // Clear search when viewType changes
@@ -78,6 +94,7 @@ const FollowPage = () => {
   const handleViewChange = (type) => {
     setViewType(type);
     setFilteredUsers(type === 'followers' ? data.follower : data.following);
+    navigate(`/follow?content=${type === 'followers' ? '0' : '1'}`);
   };
 
   const handleFollowToggle = (userId, isFollowing) => {
