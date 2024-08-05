@@ -1,21 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ChallengeFolder from './ChallengeFolder';
-import { FaDumbbell, FaGuitar, FaBook, FaPrayingHands, FaFootballBall, FaUtensils, FaPaintBrush, FaLaptopCode, FaSeedling, FaPlane } from 'react-icons/fa';
+import iconMapping from './IconMapping';
 import './CategoryPage.css';
-
-const iconMapping = {
-  헬스: <FaDumbbell />,
-  악기: <FaGuitar />,
-  책: <FaBook />,
-  금욕: <FaPrayingHands />,
-  스포츠: <FaFootballBall />,
-  요리: <FaUtensils />,
-  예술: <FaPaintBrush />,
-  기술: <FaLaptopCode />,
-  원예: <FaSeedling />,
-  여행: <FaPlane />
-};
 
 const CategoryPage = () => {
   const { categoryId, categoryName } = useParams();
@@ -50,7 +37,10 @@ const CategoryPage = () => {
 
   return (
     <div className="category-page-container">
-      <h1>{categoryName} 챌린지</h1>
+      <div className="category-title-container">
+        {iconMapping[categoryName]}
+        <h1>{categoryName} 챌린지</h1>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : challenges.length > 0 ? (
