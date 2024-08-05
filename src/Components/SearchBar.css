@@ -21,5 +21,18 @@
   background-color: transparent;
   outline: none;
   font-size: 16px;
+  font-family: "NanumSquareNeoBD";
   width: 100%;
+}
+
+.loading-icon {
+  font-size: 18px;
+  color: #aaa;
+  margin-left: 10px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
