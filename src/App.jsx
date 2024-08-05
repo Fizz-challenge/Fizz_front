@@ -19,6 +19,7 @@ import DeleteProfilePage from "./Page/DeleteProfilePage/DeleteProfilePage.jsx";
 import NewChallengePage from './Page/NewChallengePage/NewChallengePage.jsx';
 import AskPage from './Page/AskPage/AskPage.jsx';
 import Modal from 'react-modal';
+import TopBar from './Components/TopBar.jsx';
 
 Modal.setAppElement('#root');
 
@@ -64,17 +65,21 @@ function App() {
 					]}
 				/>
 			)}
-			{location.pathname !== "/login" && location.pathname !== "/register" && (<Header />)}
+			{location.pathname !== "/login" && location.pathname !== "/register" && (
+				<>
+				<TopBar />
+					<Header />
+				</>)}
 			<div className={`content-wrapper ${(location.pathname === "/login" || location.pathname === "/register") ? "noHeader" : ""}`}>
 				<Routes>
 					<Route exact path="/" element={<MainPage />} />
 					<Route path="/video/:id" element={<VideoDetail />} />
 					<Route path="/follow" element={<FollowPage />} />
 					<Route path="/search" element={<SearchPage />} />
-          			<Route path="/profile/:userId" element={<UserPage />} />
-					<Route path="/new-post" element={<NewPost />} />
+          <Route path="/profile/:userId" element={<UserPage />} />
+					<Route path="/new-post/:challenge" element={<NewPost />} />
 					<Route path="/challenge/:challenge" element={<ChallengePage />} />
-          			<Route path="/oauth2/callback" element={<OAuth2Callback />} />
+          <Route path="/oauth2/callback" element={<OAuth2Callback />} />
 					<Route path="/category/:categoryId/:categoryName" element={<CategoryPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />

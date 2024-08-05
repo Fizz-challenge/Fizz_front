@@ -80,17 +80,24 @@
 }
 
 .video-preview {
-  width: 400px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.video-img-preview{
+  width: 270px;
+  height: 460px;
   border-radius: 10px;
   object-fit: contain;
 }
 
 .preview-container {
-  background-color: black;
-  width: 400px;
+  margin: 0 50px;
+  width: 270px;
   height: 480px;
   position: relative;
+  user-select: none;
 }
 
 .progress-bar {
@@ -143,13 +150,22 @@
   user-select: none;
   flex: 1;
   background-color: white;
-  padding: 20px;
   border-radius: 10px;
 }
 
 .description-input label {
   display: block;
   margin-bottom: 5px;
+}
+
+.new-post-challenge{
+  width: 60%;
+  background-color: #ccc;
+  color: black;
+  font-weight: 900;
+  font-family: 'Pretendard-Regular';
+  font-size: 16px !important;
+  cursor:not-allowed;
 }
 
 .title-wrapper {
@@ -192,9 +208,9 @@
 .new-post-buttons {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   width: 200px;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 .new-post-submit-buttons {
@@ -218,24 +234,17 @@
   color: white;
 }
 
+.post-submit.disabled {
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+  color: grey;
+}
+
 .post-cancel {
   background-color: black;
   color: whitesmoke;
 }
 
-.post-submit:hover {
-  background-color:  white;
-  color: #2DA7FF;
-  border: 1px solid #ccc;
-  padding: 9px 49px;
-}
-
-.post-cancel:hover {
-  background-color: whitesmoke; 
-  color:  black;
-  border: 1px solid #ccc;
-  padding: 9px 49px;
-}
 .new-post-title {
   width: 100%;
 }
@@ -244,7 +253,7 @@
   width: 100%;
 }
 
-.new-post-title, .new-post-description {
+.new-post-title, .new-post-description, .new-post-challenge {
   outline: none;
   border: none;
   background-color: #f1f1f1;
@@ -283,4 +292,153 @@
   margin-top: 10px;
   font-weight: 900;
   color: red;
+}
+
+.none-challenge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.none-challenge-container img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.none-challenge-container p {
+  font-size: 30px;
+  font-weight: 900;
+  font-family: 'Pretendard-Regular';
+}
+
+.none-challenge-container span {
+  cursor: pointer;
+  user-select: none;
+  font-size: 60px;
+  transition: transform 0.3s ease;
+}
+
+.none-challenge-container span:hover{
+  transform: translateY(-20%);
+}
+
+.slick-slider {
+  height: 480px;
+  width: 270px;
+}
+
+.slick-list {
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: black;
+}
+
+.carousel-container {
+  position: relative;
+}
+
+.image-slide {
+  position: relative;
+}
+
+.close-button {
+  display: block;
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.slick-dots {
+  bottom: 10px; 
+  color: white !important; 
+}
+
+
+.slick-dots li button:before {
+  font-size: 8px;
+  color: white !important; 
+}
+
+.slick-dots li.slick-active button:before {
+  color: white !important;
+}
+
+.slick-dots li button:hover:before {
+  color: white !important;
+}
+
+.custom-arrow.slick-next {
+  right: -30px;
+  color: black;
+  border-radius: 50%;
+}
+
+.custom-arrow.slick-next:hover {
+  color: black;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.custom-arrow.slick-prev {
+  left: -30px;
+  color: black;
+  border-radius: 50%;
+}
+
+.custom-arrow.slick-prev:hover{
+  color: black;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-container:hover .custom-arrow {
+  display: block !important;
+}
+
+.loading-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 480px;
+  width: 270px;
+}
+
+.loading-message {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: black;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-message p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 100;
 }

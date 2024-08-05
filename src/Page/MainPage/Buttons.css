@@ -23,16 +23,21 @@
 }
 
 .animate .icon-fill {
-  animation: fillUp 1s ease-in-out forwards;
+  animation: pop 0.7s ease;
 }
 
-@keyframes fillUp {
-  0% {
-    clip-path: inset(100% 0 0 0);
-    fill: white;
+.animate {
+  pointer-events: none;
+}
+
+@keyframes pop {
+  0% { 
+    transform: scale(1); 
   }
-  100% {
-    clip-path: inset(0% 0 0 0);
-    fill: red;
+  50% { 
+    transform: scale(1.3); 
+  }
+  100% { 
+    transform: scale(1); 
   }
 }

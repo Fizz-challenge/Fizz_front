@@ -116,9 +116,9 @@ p {
 .copy-link-button {
   margin-left: 10px;
   padding: 5px 10px;
-  background-color: #2DA7FF;
-  color: white;
-  border: none;
+  background-color: white;
+  color: grey;
+  border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
@@ -130,7 +130,8 @@ p {
 }
 
 .copy-link-button:hover {
-  background-color: #1A76D2;
+  background-color: grey;
+  color: black;
 }
 
 .sns-link {
@@ -142,9 +143,10 @@ p {
   width: 24px;
   height: 24px;
   cursor: pointer;
-  color: #2DA7FF;
+  border-radius: 50%;
+  transition: transform 0.3s;
 }
 
 .sns-link svg:hover {
-  color: #1A76D2;
+  transform: translateY(-5px);
 }
