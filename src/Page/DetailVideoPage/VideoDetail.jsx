@@ -125,6 +125,11 @@ const VideoDetail = () => {
     navigate(`/video/${parseInt(id, 10) + 1}`);
   };
 
+  const handleCancelClick = () => {
+    sessionStorage.setItem('currentVideoIndex', id);
+    navigate(`/${id}`);
+  };
+
   const handleBackClick = () => {
     if (videoRef.current) {
       const currentTime = videoRef.current.currentTime;
@@ -150,7 +155,8 @@ const VideoDetail = () => {
     <div className='detail-background'>
       <div className='detail-video'>
         <div className="detail-video-section">
-          <button className="back-button" onClick={handleBackClick}><MdArrowBack /></button>
+          <button className="detail-back-button" onClick={handleBackClick}><MdArrowBack /></button>
+          <button className="detail-cancel-button" onClick={handleCancelClick}>취소</button>
           {video.fileType === "VIDEO" ? (
             <video controls className="detail-video-player" autoPlay loop ref={videoRef} playsInline>
               <source src={video.fileUrls[0]} type="application/vnd.apple.mpegurl" />

@@ -18,6 +18,8 @@
   height: 50px;
   border-radius: 50%;
   margin-right: 15px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .user-info {
@@ -28,6 +30,11 @@
 .user-info h3 {
   margin: 0;
   font-size: 18px;
+  cursor: pointer;
+}
+
+.user-info h3:hover {
+  text-decoration: underline;
 }
 
 .user-info p {

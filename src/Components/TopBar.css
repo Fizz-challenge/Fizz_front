@@ -8,8 +8,7 @@
   background-color: white;
   border-bottom: 1px solid #ccc;
   z-index: 1;
-  padding: 0 20px;
-  margin-left: 50px;
+  padding-left: 200px;
 }
 
 .search-form {
@@ -69,16 +68,4 @@
 
 .search-form button:hover {
   color: black;
-}
-
-@media (max-width: 1024px) {
-  .top-bar {
-    margin-left: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .top-bar {
-    margin-left: 0px;
-  }
 }

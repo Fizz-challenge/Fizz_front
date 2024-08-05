@@ -13,6 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Skeleton from 'react-loading-skeleton';
 import { IoCloudUpload, IoInformationCircleOutline } from 'react-icons/io5';
 import { IoIosArrowBack, IoIosArrowForward, IoIosClose } from 'react-icons/io';
+import NoticePopup from '../../Components/NoticePopup.jsx';
 
 const NewPost = () => {
   const { challenge } = useParams();
@@ -32,6 +33,8 @@ const NewPost = () => {
   const [thumbnail, setThumbnail] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const videoRef = useRef(null);
@@ -43,8 +46,7 @@ const NewPost = () => {
   useEffect(() => {
     const checkChallengeExists = async () => {
       try {
-        const response = await axios.get(`https://gunwoo.store/api/challenge/info?title=${challenge}`, {
-        });
+        const response = await axios.get(`https://gunwoo.store/api/challenge/info?title=${challenge}`, {});
         if (!response.data.success) {
           setChallengeExists(false);
         }
@@ -81,7 +83,8 @@ const NewPost = () => {
           setIsLoading(false);
         }
         else {
-          alert("문제 발생!");
+          setPopupMessage("문제 발생!");
+          setIsPopupVisible(true);
         }
 
       } catch (error) {
@@ -344,7 +347,8 @@ const NewPost = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!video && imageUrls.length === 0) {
-      alert('Please upload a video or image');
+      setPopupMessage('Please upload a video or image');
+      setIsPopupVisible(true);
       return;
     }
 
@@ -371,13 +375,18 @@ const NewPost = () => {
       });
 
       if (response.status === 200) {
-        navigate(`/challenge/${challenge}`);
+        setPopupMessage('성공적으로 게시 되었습니다');
+        setIsPopupVisible(true);
+        setTimeout(() => {
+          navigate(`/challenge/${challenge}`);
+        }, 2000);
       } else {
         throw new Error('Post creation failed');
       }
     } catch (error) {
       console.error('Error creating post:', error);
-      setErrorMessage('게시물 작성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setPopupMessage('게시물 작성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setIsPopupVisible(true);
     }
   };
 
@@ -428,7 +437,7 @@ const NewPost = () => {
           <Skeleton height={480} width={270} />
           <div className="loading-message">
             <div className="spinner"></div>
-            <p>서버에서 영상을 불러 오고 있습니다.</p>
+            <p>서버에서 데이터를 불러 오고 있습니다.</p>
           </div>
         </div>
       );
@@ -662,6 +671,13 @@ const NewPost = () => {
           </div>
         </div>
       </div>
+      {isPopupVisible && (
+        <NoticePopup
+          setIsPopupVisible={setIsPopupVisible}
+          popupStatus={[popupMessage, "#2DA7FF"]}
+          buttonStatus={{ msg: "확인", action: () => setIsPopupVisible(false) }}
+        />
+      )}
     </div>
   );
 };

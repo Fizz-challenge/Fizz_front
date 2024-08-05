@@ -41,7 +41,6 @@ const Buttons = ({ id, likes, comments, views }) => {
   const handleLikeClick = async (event) => {
     event.stopPropagation();
     setAnimate(true);
-
     try {
       if (isLiked) {
         await axios.delete(`https://gunwoo.store/api/posts/${id}/likes`, {
@@ -50,19 +49,18 @@ const Buttons = ({ id, likes, comments, views }) => {
           }
         });
         console.log("123");
-        setLikeCount(prevCount => prevCount - 1); // 좋아요 취소 시 likes 감소
+        setLikeCount(prevCount => prevCount - 1);
       } else {
         await axios.post(`https://gunwoo.store/api/posts/${id}/likes`, {}, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        setLikeCount(prevCount => prevCount + 1); // 좋아요 추가 시 likes 증가
+        setLikeCount(prevCount => prevCount + 1);
       }
       setIsLiked(!isLiked);
     } catch (error) {
       console.error('Error updating like status:', error);
-      // 요청 실패 시 상태 복원
       setIsLiked(!isLiked);
     }
 
@@ -77,7 +75,7 @@ const Buttons = ({ id, likes, comments, views }) => {
           <div className="fill"></div>
         </div>
       </div>
-      <span>{likeCount}</span> {/* 업데이트된 likes 상태 사용 */}
+      <span>{likeCount}</span>
       <div className="button-item" onClick={handleCommentClick}>
         <FaComment />
       </div>
