@@ -143,11 +143,21 @@ const SearchPage = () => {
       fetchChallenges();
       fetchUsers();
       fetchPosts();
+    } else {
+      setShowSlideBar(false);
+      setSearchTerm('');
+      setFilteredChallenges([]);
+      setFilteredUsers([]);
+      setFilteredPosts([]);
     }
   }, [location.search, followingUsers, navigate]);
 
   const handleSearch = (term) => {
-    navigate(`/search?term=${term}`);
+    if (term) {
+      navigate(`/search?term=${term}`);
+    } else {
+      navigate('/search');
+    }
   };
 
   const navItems = [

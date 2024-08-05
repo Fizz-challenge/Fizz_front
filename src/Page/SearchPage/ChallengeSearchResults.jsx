@@ -1,5 +1,6 @@
 import React from 'react';
 import ChallengeFolder from './ChallengeFolder';
+import "./ChallengeSearchResults.css";
 
 const ChallengeSearchResults = ({ filteredChallenges }) => {
   return filteredChallenges.length > 0 ? (
@@ -16,7 +17,7 @@ const ChallengeSearchResults = ({ filteredChallenges }) => {
       </div>
     </div>
   ) : (
-    <p>검색결과를 찾을 수 없습니다.</p>
+    <p className='NotFound'>검색결과를 찾을 수 없습니다.</p>
   );
 };
 
