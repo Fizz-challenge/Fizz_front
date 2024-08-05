@@ -15,12 +15,12 @@
 
 
 .header-top {
-  margin: 30px;
+  margin: 10px;
   cursor: pointer;
 }
 
 .header-top img {
-  width: 180px;
+  width: 170px;
   height: auto;
 }
 
@@ -138,6 +138,7 @@
 .info-links {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .github-icon {

@@ -3,23 +3,38 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FaHome, FaSearch, FaHeart, FaUser, FaGithub,  FaUniversity } from 'react-icons/fa';
 import { LuPlusSquare } from "react-icons/lu";
-import NewLogo from '../assets/NewLogo.svg';
+import NewLogo from '/img/logo.png';
+import MainLogo from '/img/MainLo.png';
 import { GrInfo } from "react-icons/gr";
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [urlPath, setUrlPath] = useState(location.pathname);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 1024);
 
   useEffect(() => {
     setUrlPath(location.pathname);
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const isActiveHome = urlPath === '/' || /^\/[0-9]+$/.test(urlPath);
 
   return (
     <header className="header">
-      <div className='header-top' onClick={() => navigate('/')}><img src={NewLogo} alt="Fizz Logo" /></div>
+      <div className='header-top' onClick={() => navigate('/')}>
+        <img src={isMobileView ? MainLogo : NewLogo} alt="Fizz Logo" />
+      </div>
       <nav className="header-sections">
         <ul>
           <li>
@@ -59,23 +74,25 @@ const Header = () => {
       </nav>
       <div className='header-extra'>
       <div className='footer-info'>
-        <p>LIKELION 12th</p>
-        <div className="info-links">
-          <a 
-            href="https://github.com/Fizz-challenge" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="github-link"
-          >
-            <FaGithub className="github-icon" />
-          </a>
+          <div className="info-links">
+          <p>LIKELION 12th</p>
           <a 
             href="https://www.kumoh.ac.kr/ko/index.do" 
             target="_blank" 
             rel="noopener noreferrer"
             className="university-link"
+            title='Kit'
           >
             <FaUniversity className="university-icon" />
+            </a>
+            <a 
+            href="https://github.com/Fizz-challenge" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="github-link"
+            title='Github'
+          >
+            <FaGithub className="github-icon" />
           </a>
         </div>
       </div>
