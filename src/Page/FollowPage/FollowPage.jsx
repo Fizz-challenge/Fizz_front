@@ -13,7 +13,7 @@ const FollowPage = () => {
     follower: []
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
+  const usersPerPage = 11;
 
   useEffect(() => {
     const fetchData = async () => {
