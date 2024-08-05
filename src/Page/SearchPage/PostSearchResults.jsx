@@ -31,12 +31,18 @@ const PostSearchResults = ({ filteredPosts }) => {
               <div className={styles.postTitle}>{post.title}</div>
               <div className={styles.postContent}>#{post.challengeInfo.title}</div>
               <div className={styles.postStats}>
-                <IoPlay className={styles.postIcon} />
-                {post.viewCount}
-                <FaHeart className={styles.postIcon} />
-                {post.likeCount}
-                <FaComment className={styles.postIcon} />
-                {post.commentCount}
+                <div className={styles.postInfo}>
+                  <IoPlay className={styles.postIcon} />
+                  {post.viewCount}
+                </div>
+                <div className={styles.postInfo}>
+                  <FaHeart className={styles.postIcon} />
+                  {post.likeCount}
+                </div>
+                <div className={styles.postInfo}>
+                  <FaComment className={styles.postIcon} />
+                  {post.commentCount}
+                </div>
               </div>
             </div>
           </div>

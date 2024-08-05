@@ -1,4 +1,3 @@
-/* PostSearchResults.module.css */
 .postsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -49,10 +48,23 @@
 }
 
 .postStats {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.postInfo {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.postIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 }
 
 .notFound {
