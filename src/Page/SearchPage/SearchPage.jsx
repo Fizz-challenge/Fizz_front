@@ -122,7 +122,7 @@ const SearchPage = () => {
             return;
           }
 
-          const response = await fetch(`https://gunwoo.store/api/challenge/search?keyword=${term}`, {
+          const response = await fetch(`https://gunwoo.store/api/posts/search?keyword=${term}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
