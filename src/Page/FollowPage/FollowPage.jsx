@@ -136,27 +136,30 @@ const FollowPage = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="follow-page">
-      <div className="follow-page-main-content">
-        <div className="button-container">
-          <button
-            className={`toggle-button ${viewType === 'followers' ? 'active' : ''}`}
-            onClick={() => handleViewChange('followers')}
-          >
-            팔로워 {data.follower.length}명
-          </button>
-          <button
-            className={`toggle-button ${viewType === 'following' ? 'active' : ''}`}
-            onClick={() => handleViewChange('following')}
-          >
-            팔로잉 {data.following.length}명
-          </button>
+    <div className="followPage">
+      <div className="followPageMainContent">
+        <div className="slideBar-Wrapper">
+          <div className="slideBar">
+            <div
+              className={`slideBarBtn ${viewType === 'followers' ? 'slideBarSelectedContent' : ''}`}
+              onClick={() => handleViewChange('followers')}
+            >
+              팔로워 {data.follower.length}명
+            </div>
+            <div
+              className={`slideBarBtn ${viewType === 'following' ? 'slideBarSelectedContent' : ''}`}
+              onClick={() => handleViewChange('following')}
+            >
+              팔로잉 {data.following.length}명
+            </div>
+            <div className={`slideBtn ${viewType === 'followers' ? 'Select0' : 'Select1'}`}></div>
+          </div>
         </div>
         <div className="list">
           <h1>{viewType === 'followers' ? '팔로워' : '팔로잉'}</h1>
         </div>
-        <div className="user-block-container">
-          <SearchBar className="follow-page-search-bar" onSearch={handleSearch} />
+        <div className="userBlockContainer">
+          <SearchBar className="followPageSearchBar" onSearch={handleSearch} />
           {currentUsers.map((user, index) => (
             <UserBlock
               key={index}
@@ -170,7 +173,7 @@ const FollowPage = () => {
             />
           ))}
         </div>
-        <ul className="page-numbers">
+        <ul className="pageNumbers">
           {getPageNumbers().map((page, index) => (
             <li
               key={index}

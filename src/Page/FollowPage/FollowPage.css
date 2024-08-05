@@ -1,4 +1,4 @@
-.follow-page {
+.followPage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,41 +9,72 @@
   margin: 50px auto;
 }
 
-.follow-page-main-content {
+.followPageMainContent {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 500px;
 }
 
-.button-container {
-  width: 300px;
-  height: 50px;
+/* SlideBar 관련 스타일 */
+
+.slideBar-Wrapper {
   display: flex;
-  justify-content: center;
-  padding: 5px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  width: 320px; /* 가로 크기 고정 */
+}
+.slideBar {
   background-color: #f0f0f0;
-  border-radius: 30px;
-  overflow: hidden;
+  width: 320px; /* 가로 크기 고정 */
+  height: 60px; /* 세로 크기 고정 */
+  border-radius: 25px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  user-select: none;
+  margin: 10px auto;
+  position: relative;
 }
 
-.toggle-button {
-  flex: 1;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 30px;
-  background-color: transparent;
+.slideBtn {
+  position: absolute;
+  width: 150px; /* 각 버튼의 크기에 맞게 조정 */
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  transition: .5s cubic-bezier(.5,0,.2,1);
+}
+
+.slideBarBtn {
+  width: 150px; /* 각 버튼의 크기에 맞게 조정 */
+  height: 50px;
+  border-radius: 20px;
+  text-align: center;
+  color: #898989;
+  line-height: 50px;
+  font-size: 20px;
+  font-family: "NanumSquareNeoRG";
+  z-index: 1;
   cursor: pointer;
-  font-size: 16px;
-  color: #888;
-  transition: background-color 0.3s, color 0.3s;
+  transition: .3s;
+}
+
+.slideBarBtn:not(.slideBarSelectedContent):hover {
+  background-color: #dfdfdf;
+}
+
+.slideBarSelectedContent {
+  color: #000000;
   font-family: "NanumSquareNeoBD";
 }
 
-.toggle-button.active {
-  background-color: white;
-  color: black;
+.Select0 {
+  left: 95px;
+}
+
+.Select1 {
+  left: 250px; /* 160px + 5px */
 }
 
 .list {
@@ -51,7 +82,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  margin: 20px 0px;
   font-family: "NanumSquareNeoBD";
 }
 
@@ -59,20 +90,20 @@
   margin-bottom: 10px;
 }
 
-.user-block-container {
+.userBlockContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 
-.page-numbers {
+.pageNumbers {
   display: flex;
   list-style: none;
   padding: 0;
 }
 
-.page-numbers li {
+.pageNumbers li {
   width: 35px;
   height: 35px;
   margin: 0 5px;
@@ -82,7 +113,7 @@
   text-align: center;
 }
 
-.page-numbers li.active {
+.pageNumbers li.active {
   background-color: #2da7ff;
   color: white;
 }
