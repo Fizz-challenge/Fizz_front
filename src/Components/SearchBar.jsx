@@ -46,7 +46,7 @@ const SearchBar = ({ className = '', onSearch, onFocus = () => {}, onBlur = () =
         onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        placeholder="검색"
+        placeholder="사용자 검색"
       />
       {loading && <AiOutlineLoading3Quarters className="loading-icon" />}
     </form>

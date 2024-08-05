@@ -16,8 +16,8 @@
   margin-right: 10px; /* 아이콘과 텍스트 간격 조정 */
 }
 
-.category-title-container {
-  font-family: "NanumSquareNeoRG";
+.category-title-container h1{
+  font-family: "NanumSquareNeoEB";
   text-align: center;
 }
 
@@ -110,7 +110,7 @@
   text-align: center;
 }
 
-.create-challenge-button {
+.createChallengeButton {
   padding: 10px 20px;
   background-color: #2da7ff;
   color: white;
@@ -123,6 +123,6 @@
   font-family: "NanumSquareNeoBD";
 }
 
-.create-challenge-button:hover {
+.createChallengeButton:hover {
   background-color: #2da7ff;
 }
