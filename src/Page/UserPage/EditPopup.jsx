@@ -103,7 +103,7 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					profileImageUrl = uploadResponse.data;
 				}
 				if (isBasicProfile) {
-					profileImageUrl = null;
+					profileImageUrl = "https://d2761ttk8ct150.cloudfront.net/default-profile-image.jpeg";
 				}
 				await axios.patch("https://gunwoo.store/api/user/me", {
 					email: emailRef.current.value,
@@ -193,7 +193,13 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					/>
 				</div>
 				<div className={styles.setBasic} onClick={setBasicProfile}>
-				{userInfo.profileImage || imagePreview ? (!isBasicProfile ? "이미지 삭제" : "") : ""}
+					{((userInfo.profileImage &&
+						userInfo.profileImage !==
+							"https://d2761ttk8ct150.cloudfront.net/default-profile-image.jpeg") ||
+						imagePreview) &&
+					!isBasicProfile
+						? "이미지 삭제"
+						: ""}
 				</div>
 				<input
 					type="text"
