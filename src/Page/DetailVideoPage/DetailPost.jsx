@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DetailPost.css';
 import { FaInstagram, FaFacebook, FaTwitter, FaLink, FaHeart, FaRegHeart } from 'react-icons/fa';
 import axios from 'axios';
+import timeSince from './utils';
 
 const DetailPost = ({ video }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
-
+  const navigate = useNavigate();
   const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const DetailPost = ({ video }) => {
           }
         });
         console.log('Unlike response:', response.data);
-        setLikeCount(prevCount => prevCount - 1); // 좋아요 취소 시 1 감소
+        setLikeCount(prevCount => prevCount - 1);
       } else {
         const response = await axios.post(`https://gunwoo.store/api/posts/${video.id}/likes`, {}, {
           headers: {
@@ -52,7 +54,7 @@ const DetailPost = ({ video }) => {
           }
         });
         console.log('Like response:', response.data);
-        setLikeCount(prevCount => prevCount + 1); // 좋아요 시 1 증가
+        setLikeCount(prevCount => prevCount + 1);
       }
       setIsLiked(!isLiked);
     } catch (error) {
@@ -68,12 +70,13 @@ const DetailPost = ({ video }) => {
           <div className="user-info">
             <h3>{video.userInfo.nickname}</h3>
             <p>조회수 {video.viewCount}</p>
+            <p>{timeSince(video.createdAt)}</p>
           </div>
         </div>
         <div className='post-section-content'>
           <h2>{video.title}</h2>
           <p>{video.content}</p>
-          <h3>#{video.challengeInfo.title}</h3>
+          <h3 onClick={() => {navigate(`/challenge/${video.challengeInfo.title}`)}}>#{video.challengeInfo.title}</h3>
           <span onClick={handleLikeClick} className="like-button">
             {isLiked ? <FaHeart /> : <FaRegHeart />} <span className='like-button-count'>{likeCount}</span>
           </span>
@@ -87,10 +90,22 @@ const DetailPost = ({ video }) => {
           </button>
         </div>
         <div className="sns-link">
-          <FaInstagram title="인스타그램" onClick={() => handleSNSLinkClick('https://www.instagram.com')} />
-          <FaFacebook title="페이스북" onClick={() => handleSNSLinkClick('https://www.facebook.com')} />
-          <FaTwitter title="트위터" onClick={() => handleSNSLinkClick('https://www.twitter.com')} />
-        </div>
+      <FaInstagram
+        title="인스타그램"
+        onClick={() => handleSNSLinkClick('https://www.instagram.com')}
+        style={{ color: '#E1306C' }}
+      />
+      <FaFacebook
+        title="페이스북"
+        onClick={() => handleSNSLinkClick('https://www.facebook.com')}
+        style={{ color: '#3b5998' }}
+      />
+      <FaTwitter
+        title="트위터"
+        onClick={() => handleSNSLinkClick('https://www.twitter.com')}
+        style={{ color: '#1DA1F2' }}
+      />
+    </div>
       </div>
     </>
   );

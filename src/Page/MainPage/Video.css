@@ -8,17 +8,16 @@
 
 .video-container {
   position: relative;
-  width: 450px;
-  height: 90vh;
-  border-radius: 10px;
-  overflow: hidden;
+  height: 80vh;
+  aspect-ratio: 9 / 16;
   background-color: black;
+  border-radius: 15px;
 }
 
 .video {
+  border-radius: 15px;
   width: 100%;
   height: 100%;
-  border-radius: 10px;
 }
 
 .video-content-info {
@@ -29,12 +28,16 @@
   padding: 10px 15px 0px 15px;
   color: white;
   box-sizing: border-box;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
   transition: bottom 0.3s ease-in-out;
   background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.05));
+  cursor: pointer;
 }
 
 .video-container:hover .video-content-info {
   bottom: 40px;
+  border-radius: 0px;
 }
 
 .video-container:hover .custom-controls {
@@ -54,9 +57,16 @@
   margin-bottom: 10px;
 }
 
+.video-user-name:hover {
+  text-decoration: underline;
+}
+
 .custom-controls {
   visibility: hidden;
   position: absolute;
+  box-sizing: border-box;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
   opacity: 0;
   width: 100%;
   bottom: 0;
@@ -86,7 +96,7 @@
 .custom-controls input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 65%;
+  width: 60%;
   background: #444;
   height: 5px;
   border-radius: 5px;
@@ -120,4 +130,65 @@
   left: 50%;
   transform: translateX(-50%) rotate(-90deg);
   width: 60px !important;
+}
+
+.new-slider.slick-slider {
+  width: 400px;
+  height: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.video-image-container {
+  position: relative;
+  width: 400px;
+  max-height: 711px;
+  background-color: black;
+  border-radius: 15px;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-wrapper img {
+  width: 400px;
+  height: 100%;
+  object-fit: contain;
+}
+
+.image-arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 20px;
+  transform: translateY(-50%);
+  z-index: 1001;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  width: 40px; 
+  height: 40px; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  color: white; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.image-arrow.next-arrow{
+  right: 5px;
+  border-radius: 50%;
+}
+
+.image-arrow.prev-arrow{
+  left: 5px;
+  border-radius: 50%;
+}
+
+.image-arrow.next-arrow:hover,
+.image-arrow.prev-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }

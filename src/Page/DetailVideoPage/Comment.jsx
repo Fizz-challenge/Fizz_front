@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Comment.css';
-import { LuHeart } from "react-icons/lu";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from 'axios';
+import timeSince from './utils.jsx';
 
 const CommentSection = ({ postId }) => {
   const [comments, setComments] = useState([]);
@@ -9,8 +13,12 @@ const CommentSection = ({ postId }) => {
   const [replyText, setReplyText] = useState('');
   const [newCommentText, setNewCommentText] = useState('');
   const [visibleReplies, setVisibleReplies] = useState({});
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editText, setEditText] = useState('');
 
   const token = localStorage.getItem('accessToken');
+  const profileId = localStorage.getItem('profileId');
+  const navigate = useNavigate();
 
   const fetchComments = async () => {
     try {
@@ -19,16 +27,39 @@ const CommentSection = ({ postId }) => {
           Authorization: `Bearer ${token}`
         }
       });
-      const fetchedComments = response.data.data.map(comment => ({
-        id: comment.commentId,
-        parentId: comment.parentId,
-        user: comment.nickname,
-        avatar: '/img/test.jpg',
-        text: comment.content,
-        date: new Date().toISOString().split('T')[0], 
-        replies: [],
-        likeCount: comment.likeCount,
-        childCount: comment.childCount
+      const fetchedComments = await Promise.all(response.data.data.map(async comment => {
+        if (token) {
+          const likeResponse = await axios.get(`https://gunwoo.store/api/comment/${comment.commentId}/like`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          return {
+            id: comment.commentId,
+            parentId: comment.parentId,
+            user: comment.nickname,
+            avatar: comment.profileImage,
+            text: comment.content,
+            date: comment.createdAt,
+            replies: [],
+            likeCount: comment.likeCount,
+            childCount: comment.childCount,
+            isLike: likeResponse.data.data.isLike
+          };
+        } else {
+          return {
+            id: comment.commentId,
+            parentId: comment.parentId,
+            user: comment.nickname,
+            avatar: comment.profileImage,
+            text: comment.content,
+            date: comment.createdAt,
+            replies: [],
+            likeCount: comment.likeCount,
+            childCount: comment.childCount,
+            isLike: false
+          };
+        }
       }));
       const rootComments = fetchedComments.filter(comment => !comment.parentId);
       setComments(rootComments);
@@ -44,14 +75,22 @@ const CommentSection = ({ postId }) => {
           Authorization: `Bearer ${token}`
         }
       });
-      const fetchedReplies = response.data.data.map(reply => ({
-        id: reply.commentId,
-        parentId: reply.parentId,
-        user: reply.nickname,
-        avatar: '/img/test.jpg',
-        text: reply.content,
-        date: new Date().toISOString().split('T')[0],
-        likeCount: reply.likeCount
+      const fetchedReplies = await Promise.all(response.data.data.map(async reply => {
+        const likeResponse = await axios.get(`https://gunwoo.store/api/comment/${reply.commentId}/like`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        return {
+          id: reply.commentId,
+          parentId: reply.parentId,
+          user: reply.nickname,
+          avatar: reply.profileImage,
+          text: reply.content,
+          date: reply.createdAt,
+          likeCount: reply.likeCount,
+          isLike: likeResponse.data.data.isLike
+        };
       }));
       setComments(prevComments => {
         const updatedComments = prevComments.map(comment => {
@@ -75,6 +114,10 @@ const CommentSection = ({ postId }) => {
   }, [postId]);
 
   const handleReplyClick = (commentId) => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
     if (replyTo === commentId) {
       setReplyTo(null);
     } else {
@@ -84,8 +127,11 @@ const CommentSection = ({ postId }) => {
   };
 
   const handleReplySubmit = async (commentId) => {
+    if (!replyText.trim()) {
+      return;
+    }
     try {
-      await axios.post(`https://gunwoo.store/api/comment/post/${postId}/reply`, 
+      await axios.post(`https://gunwoo.store/api/comment/post/${postId}/reply`,
         {
           parentCommentId: commentId,
           content: replyText
@@ -106,23 +152,28 @@ const CommentSection = ({ postId }) => {
   };
 
   const handleNewCommentSubmit = async () => {
-    if (newCommentText.trim()) {
-      try {
-        await axios.post(`https://gunwoo.store/api/comment/post/${postId}`, 
-          {
-            content: newCommentText
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    if (!newCommentText.trim()) {
+      return;
+    }
+    try {
+      await axios.post(`https://gunwoo.store/api/comment/post/${postId}`,
+        {
+          content: newCommentText
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-        );
-        fetchComments(); // 댓글을 다시 가져와서 업데이트
-        setNewCommentText('');
-      } catch (error) {
-        console.error("Error submitting comment:", error);
-      }
+        }
+      );
+      fetchComments();
+      setNewCommentText('');
+    } catch (error) {
+      console.error("Error submitting comment:", error);
     }
   };
 
@@ -141,6 +192,174 @@ const CommentSection = ({ postId }) => {
     }
   };
 
+  const handleEditClick = (commentId, currentText) => {
+    setEditingCommentId(commentId);
+    setEditText(currentText);
+  };
+
+  const handleEditSubmit = async (commentId) => {
+    if (!editText.trim()) {
+      return;
+    }
+    try {
+      await axios.put(`https://gunwoo.store/api/comment/post/${commentId}`,
+        {
+          content: editText
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      fetchComments();
+      setEditingCommentId(null);
+      setEditText('');
+    } catch (error) {
+      console.error("Error editing comment:", error);
+    }
+  };
+
+  const handleDeleteClick = async (commentId, parentId) => {
+    try {
+      const response = await axios.delete(`https://gunwoo.store/api/comment/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (response.data.success) {
+        if (parentId === null) {
+          fetchComments();
+        } else {
+          fetchComments();
+          fetchReplies(parentId);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const handleLikeClick = async (commentId, isLike) => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    try {
+      if (isLike) {
+        const response = await axios.delete(`https://gunwoo.store/api/comment/${commentId}/like`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (response.data.success) {
+          setComments(prevComments => prevComments.map(comment => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                isLike: false,
+                likeCount: comment.likeCount - 1
+              };
+            }
+            return comment;
+          }));
+        }
+      } else {
+        const response = await axios.post(`https://gunwoo.store/api/comment/${commentId}/like`, {}, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (response.data.success) {
+          setComments(prevComments => prevComments.map(comment => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                isLike: true,
+                likeCount: comment.likeCount + 1
+              };
+            }
+            return comment;
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
+  const handleReplyLikeClick = async (commentId, isLike, parentId) => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    setComments(prevComments => prevComments.map(comment => {
+      if (comment.id === parentId) {
+        return {
+          ...comment,
+          replies: comment.replies.map(reply => {
+            if (reply.id === commentId) {
+              return {
+                ...reply,
+                isLike: !isLike,
+                likeCount: isLike ? reply.likeCount - 1 : reply.likeCount + 1
+              };
+            }
+            return reply;
+          })
+        };
+      }
+      return comment;
+    }));
+
+    try {
+      if (isLike) {
+        await axios.delete(`https://gunwoo.store/api/comment/${commentId}/like`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } else {
+        await axios.post(`https://gunwoo.store/api/comment/${commentId}/like`, {}, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+      setComments(prevComments => prevComments.map(comment => {
+        if (comment.id === parentId) {
+          return {
+            ...comment,
+            replies: comment.replies.map(reply => {
+              if (reply.id === commentId) {
+                return {
+                  ...reply,
+                  isLike: isLike,
+                  likeCount: isLike ? reply.likeCount + 1 : reply.likeCount - 1
+                };
+              }
+              return reply;
+            })
+          };
+        }
+        return comment;
+      }));
+    }
+  };
+  
+
+  const handleKeyPress = (event, commentId) => {
+    if (event.key === 'Enter') {
+      if (commentId) {
+        handleReplySubmit(commentId);
+      } else {
+        handleNewCommentSubmit();
+      }
+    }
+  };
   const renderComments = (comments) => {
     return comments.map(comment => (
       <div key={comment.id} className="comment">
@@ -152,29 +371,29 @@ const CommentSection = ({ postId }) => {
             <p className="comment-user-name"><strong>{comment.user}</strong></p>
             <p className="comment-text">{comment.text}</p>
             <div className="comment-meta">
-              <p className="comment-date">{comment.date}</p>
+              <p className="comment-date">{timeSince(comment.date)}</p>
               {comment.parentId === null && (
                 <span className="reply-link" onClick={() => handleReplyClick(comment.id)}>답글</span>
               )}
             </div>
-            {replyTo === comment.id && (
-              <div className="reply-section">
-                <input
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="답글을 작성해주세요"
-                />
-                <button
-                  onClick={() => handleReplySubmit(comment.id)}
-                  className="reply-submit-button"
-                >
-                  답글
-                </button>
-              </div>
-            )}
           </div>
+          {comment.user === profileId && (
+            <div className='comment-actions'>
+              <FiMoreHorizontal />
+              <div className="comment-actions-menu">
+                <div className='comment-actions-buttons'>
+                  <button title="수정" onClick={() => handleEditClick(comment.id, comment.text)}><FaEdit /></button>
+                  <button title="삭제" onClick={() => handleDeleteClick(comment.id, comment.parentId)}><FaTrash /></button>
+                </div>
+              </div>
+            </div>
+          )}
           <div className='comment-like-section'>
-            <LuHeart />
+            {comment.isLike ? (
+              <FaHeart onClick={() => handleLikeClick(comment.id, true)} />
+            ) : (
+              <FaRegHeart onClick={() => handleLikeClick(comment.id, false)} />
+            )}
             <div className="like-count">{comment.likeCount}</div>
           </div>
         </div>
@@ -189,6 +408,23 @@ const CommentSection = ({ postId }) => {
               </div>
             )}
           </>
+        )}
+        {replyTo === comment.id && (
+          <div className="reply-section">
+            <input
+              value={replyText}
+              onChange={(e) => setReplyText(e.target.value)}
+              placeholder="답글을 작성해주세요"
+              onKeyPress={(e) => handleKeyPress(e, comment.id)}
+            />
+            <button
+              onClick={() => handleReplySubmit(comment.id)}
+              className="reply-submit-button"
+              disabled={!replyText.trim()}
+            >
+              답글
+            </button>
+          </div>
         )}
       </div>
     ));
@@ -205,10 +441,12 @@ const CommentSection = ({ postId }) => {
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
           placeholder="댓글을 작성해주세요"
+          onKeyPress={handleKeyPress}
         />
         <button
           onClick={handleNewCommentSubmit}
           className="reply-submit-button"
+          disabled={!newCommentText.trim()}
         >
           댓글 달기
         </button>
