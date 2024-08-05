@@ -90,6 +90,7 @@ const UserPage = () => {
 						headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
 					});
 					setUserInfo(res.data.data);
+					console.log(res.data.data);
 					fetchUserPost(res.data.data.id);
 					setProfileNotFound(false);
 				} else {
@@ -265,7 +266,7 @@ const UserPage = () => {
 				<div className="profileWrapper">
 					<div className="profileImg" style={{userSelect:"none"}}>
 						<img
-							src={userInfo.profileImage ? userInfo.profileImage : "../img/profile.jpg"}
+							src={userInfo.profileImage && userInfo.profileImage}
 
 							alt="프로필 이미지"
 						/>
