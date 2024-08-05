@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoPlay, IoGrid, IoGridOutline } from "react-icons/io5";
@@ -24,112 +24,144 @@ const UserPosts = ({
     const [activeCreatedChallengesPosts, setActiveCreatedChallengesPosts] = useState([]);
     const [hiddenCreatedChallenges, setHiddenCreatedChallenges] = useState(null);
     const [hiddenCreatedChallengesPosts, setHiddenCreatedChallengesPosts] = useState(null);
-    const [likedChallenges, setLikedChallenges] = useState(null);
+    const [likedChallenges, setLikedChallenges] = useState([]);
+    
+    const [hasMore, setHasMore] = useState(true);
+    const [currentPage, setCurrentPage] = useState(0);
+    const observer = useRef();
 
     const [postChallengeMode, setPostChallengeMode] = useState("post");
     const [activeSleepMode, setActiveSleepMode] = useState("active");
 
+
 	// const [isHoveringProfile, setIsHoveringProfile] = useState(false);
 
-    useEffect(() => {
-        const fetchChallengesData = async () => {
-            try {
-                const parChalRes = await axios.get(
-                    "https://gunwoo.store/api/challenge/user/participate",
-                    {
-                        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-                    }
-                );
-                setParticipatedChallenges(parChalRes.data.data);
+    const fetchChallengesData = async () => {
+        try {
+            const parChalRes = await axios.get(
+                "https://gunwoo.store/api/challenge/user/participate",
+                {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+                }
+            );
+            setParticipatedChallenges(parChalRes.data.data);
 
-                let resParArr = {};
-                await Promise.all(
-                    parChalRes.data.data.map(async (item) => {
-                        let resPar = { data: [], desc: "" };
-                        const postRes = await axios.get(
-                            `https://gunwoo.store/api/posts/challenges/${item.challengeId}`
-                        );
-                        resPar.data = postRes.data.data.content;
+            let resParArr = {};
+            await Promise.all(
+                parChalRes.data.data.map(async (item) => {
+                    let resPar = { data: [], desc: "" };
+                    const postRes = await axios.get(
+                        `https://gunwoo.store/api/posts/challenges/${item.challengeId}`
+                    );
+                    resPar.data = postRes.data.data.content;
 
-                        const infoRes = await axios.get(
-                            `https://gunwoo.store/api/challenge/info/${item.challengeId}`
-                        );
-                        resPar.desc = infoRes.data.data.description;
+                    const infoRes = await axios.get(
+                        `https://gunwoo.store/api/challenge/info/${item.challengeId}`
+                    );
+                    resPar.desc = infoRes.data.data.description;
 
-                        resParArr[item.challengeId] = resPar;
-                    })
-                );
-                setParticipatedChallengesPosts(resParArr);
+                    resParArr[item.challengeId] = resPar;
+                })
+            );
+            setParticipatedChallengesPosts(resParArr);
 
-                const actCreChalRes = await axios.get(
-                    "https://gunwoo.store/api/challenge/user",
-                    {
-                        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-                    }
-                );
-                setActiveCreatedChallenges(actCreChalRes.data.data);
+            const actCreChalRes = await axios.get(
+                "https://gunwoo.store/api/challenge/user",
+                {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+                }
+            );
+            
+            setActiveCreatedChallenges(actCreChalRes.data.data);
 
-                let resActArr = {};
-                await Promise.all(
-                    actCreChalRes.data.data.map(async (item) => {
-                        let resAct = { data: [], desc: "" };
-                        const postRes = await axios.get(
-                            `https://gunwoo.store/api/posts/challenges/${item.challengeId}`
-                        );
-                        resAct.data = postRes.data.data.content;
+            let resActArr = {};
+            await Promise.all(
+                actCreChalRes.data.data.map(async (item) => {
+                    let resAct = { data: [], desc: "" };
+                    const postRes = await axios.get(
+                        `https://gunwoo.store/api/posts/challenges/${item.challengeId}`
+                    );
+                    resAct.data = postRes.data.data.content;
 
-                        const infoRes = await axios.get(
-                            `https://gunwoo.store/api/challenge/info/${item.challengeId}`
-                        );
-                        resAct.desc = infoRes.data.data.description;
+                    const infoRes = await axios.get(
+                        `https://gunwoo.store/api/challenge/info/${item.challengeId}`
+                    );
+                    resAct.desc = infoRes.data.data.description;
 
-                        resActArr[item.challengeId] = resAct;
-                    })
-                );
-                setActiveCreatedChallengesPosts(resActArr);
+                    resActArr[item.challengeId] = resAct;
+                })
+            );
+            setActiveCreatedChallengesPosts(resActArr);
 
-                const hidCreChalRes = await axios.get(
-                    "https://gunwoo.store/api/challenge/sleep/user",
-                    {
-                        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-                    }
-                );
-                setHiddenCreatedChallenges(hidCreChalRes.data.data);
+            const hidCreChalRes = await axios.get(
+                "https://gunwoo.store/api/challenge/sleep/user",
+                {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+                }
+            );
+            setHiddenCreatedChallenges(hidCreChalRes.data.data);
 
-                let resHidArr = {};
-                await Promise.all(
-                    hidCreChalRes.data.data.map(async (item) => {
-                        let resHid = { data: [], desc: "" };
-                        const postRes = await axios.get(
-                            `https://gunwoo.store/api/posts/challenges/${item.challengeId}`
-                        );
-                        resHid.data = postRes.data.data.content;
+            let resHidArr = {};
+            await Promise.all(
+                hidCreChalRes.data.data.map(async (item) => {
+                    let resHid = { data: [], desc: "" };
+                    const postRes = await axios.get(
+                        `https://gunwoo.store/api/posts/challenges/${item.challengeId}`
+                    );
+                    resHid.data = postRes.data.data.content;
 
-                        const infoRes = await axios.get(
-                            `https://gunwoo.store/api/challenge/info/${item.challengeId}`
-                        );
-                        resHid.desc = infoRes.data.data.description;
+                    const infoRes = await axios.get(
+                        `https://gunwoo.store/api/challenge/info/${item.challengeId}`
+                    );
+                    resHid.desc = infoRes.data.data.description;
 
-                        resHidArr[item.challengeId] = resHid;
-                    })
-                );
-                setHiddenCreatedChallengesPosts(resHidArr);
+                    resHidArr[item.challengeId] = resHid;
+                })
+            );
+            setHiddenCreatedChallengesPosts(resHidArr);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-                const likChalRes = await axios.get(
-                    "https://gunwoo.store/api/posts/users/like",
-                    {
-                        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-                    }
-                );				
-                setLikedChallenges(likChalRes.data.data);
-				console.log(likChalRes.data.data);
-				
-            } catch (err) {
-                console.error(err);
+    const fetchLikedChallengesData = async (page) => {
+        if (!hasMore) return;
+    
+        try {
+          const likChalRes = await axios.get(
+            `https://gunwoo.store/api/posts/users/like?page=${page}`,
+            {
+              headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
             }
-        };
+          );
+          const newChallenges = likChalRes.data.data.content;
+          setLikedChallenges(prev => [...prev, ...newChallenges]);
+          console.log(likChalRes.data.data);
+    
+          if (page + 1 >= likChalRes.data.data.page.totalPages) {
+            setHasMore(false);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      };
+
+    useEffect(() => {
+        fetchLikedChallengesData(currentPage);
         fetchChallengesData();
-    }, []);
+    }, [currentPage]);
+    
+    const lastChallengeElementRef = useCallback(node => {
+        if (observer.current) observer.current.disconnect();
+    
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setCurrentPage(prevPage => prevPage + 1);            
+            }
+        });
+    
+        if (node) observer.current.observe(node);
+      }, [hasMore]);
 
     const handlePostHover = (id) => {
         setSelectedPost(id);
@@ -185,9 +217,9 @@ const UserPosts = ({
             <div className="profilePosts">
                 {nowSelected === 0 ? (
                     postChallengeMode === "post" ? (
-                        userPostInfo ? (
-                            userPostInfo.content.length > 0 ? (
-                                userPostInfo.content.map((item) => (
+                        userPostInfo !== null ? (
+                            userPostInfo.length > 0 ? (
+                                userPostInfo.map((item) => (
                                     <div key={item.id} className="profilePost">
                                         <img
                                             className="profilePostThumbnail"
@@ -410,9 +442,12 @@ const UserPosts = ({
                     )
                 ) : (
                     likedChallenges ? (
-                        likedChallenges.content.length > 0 ? (
-                            likedChallenges.content.map((item) => (
-                                <div key={item.id} className="profilePost">
+                        likedChallenges.length > 0 ? (
+                            likedChallenges.map((item, index) => (
+                                <div 
+                                    ref={likedChallenges.length === index + 1 ? lastChallengeElementRef : null} 
+                                    key={item.id} className="profilePost"
+                                >
                                     <img
                                         className="profilePostThumbnail"
                                         src={item.fileType === "VIDEO" ? item.fileUrls[1] : item.fileUrls[0]}
