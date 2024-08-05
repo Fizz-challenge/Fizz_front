@@ -90,6 +90,7 @@ const UserPage = () => {
 						headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
 					});
 					setUserInfo(res.data.data);
+					console.log(res.data.data);
 					fetchUserPost(res.data.data.id);
 					setProfileNotFound(false);
 				} else {
@@ -144,7 +145,7 @@ const UserPage = () => {
 	const fetchUserPost = async (id) => {
 		const userPost = await axios.get(`https://gunwoo.store/api/posts/users/${id}`)
 		// setTimeout(() => {
-			setUserPostInfo(userPost.data.data);
+			setUserPostInfo(userPost.data.data.content);
 			console.log(userPost.data.data);
 			
 		// }, 1000);
@@ -265,7 +266,7 @@ const UserPage = () => {
 				<div className="profileWrapper">
 					<div className="profileImg" style={{userSelect:"none"}}>
 						<img
-							src={userInfo.profileImage ? userInfo.profileImage : "../img/profile.jpg"}
+							src={userInfo.profileImage && userInfo.profileImage}
 
 							alt="프로필 이미지"
 						/>
@@ -384,7 +385,7 @@ const UserPage = () => {
 										participatedChallenges.length
 									)} */}
 								{userPostInfo
-									? convertNumber(userPostInfo.content.length)
+									? convertNumber(userPostInfo.length)
 									: "0"}
 							</div>
 						</div>
