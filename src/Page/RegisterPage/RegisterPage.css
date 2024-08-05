@@ -1,6 +1,6 @@
 .registerTitle {
     position: absolute;
-    font-size: 40px;
+    font-size: 30px;
     text-align: center;
     font-family: "NanumSquareNeoBD";
     width: 100%;
@@ -46,7 +46,7 @@
     height: 30px;
     border: none;
     font-size: 16px;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #2DA7FF;
     color: #ffffff;
     font-family: "NanumSquareNeoRG";
@@ -128,8 +128,8 @@
 
 .categoryInput + label {
     display: inline-block;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     background-color: #E1F3FF;
     border-radius: 6px;
     vertical-align: middle;
@@ -146,19 +146,19 @@
 .categoryInput:checked + label::after {
     content: '';
     display: block;
-    width: 10px;
-    height: 18px;
+    width: 8px;
+    height: 15px;
     border: solid white;
-    border-width: 0 4px 4px 0;
+    border-width: 0 3.5px 3.5px 0;
     transform: rotate(45deg);
     position: relative;
-    top: 4px;
+    top: 3px;
     left: 10px;
 }
 
 .categoryInput + label + label {
     user-select: none;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "NanumSquareNeoRG";
     cursor: pointer;
     margin-left: 10px;

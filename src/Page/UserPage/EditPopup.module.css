@@ -126,15 +126,31 @@
     margin-top: 35px;
 }
 
+.setBasic {
+    position: absolute;
+    width: 130px;
+    left: calc(50% - 65px);
+    margin-top: -25px;
+    text-align: center;
+    font-size: 15px;
+    font-family: "NanumSquareNeoRG";
+    color: #777777;
+    cursor: pointer;
+}
+
+.setBasic:hover {
+    text-decoration: underline;
+}
+
 .checkId {
     position: absolute;
     top: 255px;
-    right: 60px;
+    right: 55px;
     width: 80px;
     height: 30px;
     border: none;
     font-size: 16px;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #2DA7FF;
     color: #ffffff;
     font-family: "NanumSquareNeoRG";
@@ -155,7 +171,7 @@
 }
 
 .id {
-    padding-right: 100px;
+    padding-right: 90px;
 }
 
 .id:focus, .name:focus, .desc:focus, .email:focus {
@@ -189,11 +205,11 @@
     background-color: #2DA7FF;
     color: #ffffff;
     width: auto;
-    height: 50px;
-    font-size: 25px;
+    height: 45px;
+    font-size: 20px;
     padding: 0px 20px;
-    border-radius: 20px;
-    line-height: 50px;
+    border-radius: 30px;
+    line-height: 45px;
     cursor: pointer;
     transition: .1s;
     font-family: "NanumSquareNeoBD";

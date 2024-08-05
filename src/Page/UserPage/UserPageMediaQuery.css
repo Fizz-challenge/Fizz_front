@@ -3,6 +3,8 @@
     --contentsMargin: 100px;
     --contentsWidth: calc(((100vw - (var(--headerWidth) + var(--contentsMargin))) / var(--contentCount)) - 10px);
     --ratio: 1.3;
+    --postHeight: calc(var(--contentsWidth) * var(--ratio));
+    --descWidth: calc(var(--contentsWidth) * 0.8);
 }
 
 @media (max-width: 1300px) {

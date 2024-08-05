@@ -91,7 +91,7 @@ const VideoDetail = () => {
       const currentTime = videoRef.current.currentTime;
       localStorage.setItem('videoCurrentTime', currentTime);
     }
-    navigate('/');
+    navigate(-1);
   };
 
   if (!video) return <div>Loading...</div>;
