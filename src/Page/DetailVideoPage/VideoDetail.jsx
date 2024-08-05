@@ -2,11 +2,43 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Hls from 'hls.js';
+import Slider from 'react-slick';
 import './VideoDetail.css';
 import Post from './DetailPost';
 import CommentSection from './Comment';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdArrowBack } from 'react-icons/md';
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+
+const NextArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="image-arrow next-arrow"
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick();
+      }}
+    >
+      <IoIosArrowForward />
+    </div>
+  );
+};
+
+const PrevArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="image-arrow prev-arrow"
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick();
+      }}
+    >
+      <IoIosArrowBack />
+    </div>
+  );
+};
 
 const VideoDetail = () => {
   const { id } = useParams();
@@ -24,17 +56,15 @@ const VideoDetail = () => {
         console.error("Error fetching video data:", error);
       }
     };
+    sessionStorage.setItem('currentVideoId', id);
     loadVideoData();
   }, [id]);
 
   useEffect(() => {
-    if (video && video.fileUrls) {
-      const savedVideoId = localStorage.getItem('currentVideoId');
-      const savedTime = localStorage.getItem('videoCurrentTime');
-      const savedVolume = localStorage.getItem('videoVolume');
-
-      console.log("SavedVideoId:", savedVideoId);
-      console.log("CurrentId:", id);
+    if (video && video.fileType === "VIDEO" && video.fileUrls) {
+      const savedVideoId = sessionStorage.getItem('currentVideoId');
+      const savedTime = sessionStorage.getItem('videoCurrentTime');
+      const savedVolume = sessionStorage.getItem('videoVolume');
 
       if (videoRef.current) {
         const hls = new Hls();
@@ -44,10 +74,9 @@ const VideoDetail = () => {
           hls.attachMedia(videoRef.current);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             if (savedVideoId === id && savedTime) {
-              console.log("어 맞다");
               videoRef.current.currentTime = savedTime;
             }
-            if (savedVolume) {
+            if (savedVolume !== null && !isNaN(parseFloat(savedVolume))) {
               videoRef.current.volume = parseFloat(savedVolume);
             }
             videoRef.current.play().catch((error) => {
@@ -60,7 +89,7 @@ const VideoDetail = () => {
             if (savedVideoId === id && savedTime) {
               videoRef.current.currentTime = savedTime;
             }
-            if (savedVolume) {
+            if (savedVolume !== null && !isNaN(parseFloat(savedVolume))) {
               videoRef.current.volume = parseFloat(savedVolume);
             }
             videoRef.current.play().catch((error) => {
@@ -82,31 +111,62 @@ const VideoDetail = () => {
 
   const handleVolumeChange = () => {
     if (videoRef.current) {
-      localStorage.setItem('videoVolume', videoRef.current.volume);
+      sessionStorage.setItem('videoVolume', videoRef.current.volume);
     }
+  };
+
+  const handleScrollUp = () => {
+    if (parseInt(id, 10) > 1) {
+      navigate(`/video/${parseInt(id, 10) - 1}`);
+    }
+  };
+
+  const handleScrollDown = () => {
+    navigate(`/video/${parseInt(id, 10) + 1}`);
   };
 
   const handleBackClick = () => {
     if (videoRef.current) {
       const currentTime = videoRef.current.currentTime;
-      localStorage.setItem('videoCurrentTime', currentTime);
+      sessionStorage.setItem('videoCurrentTime', currentTime);
     }
     navigate(-1);
   };
 
   if (!video) return <div>Loading...</div>;
 
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: video.fileUrls.length > 1,
+    nextArrow: video.fileUrls.length > 1 ? <NextArrow /> : null,
+    prevArrow: video.fileUrls.length > 1 ? <PrevArrow /> : null
+  };
+
   return (
     <div className='detail-background'>
       <div className='detail-video'>
         <div className="detail-video-section">
           <button className="back-button" onClick={handleBackClick}><MdArrowBack /></button>
-          <video controls className="detail-video-player" autoPlay loop ref={videoRef} playsInline>
-            <source src={video.fileUrls[0]} type="application/vnd.apple.mpegurl" />
-          </video>
+          {video.fileType === "VIDEO" ? (
+            <video controls className="detail-video-player" autoPlay loop ref={videoRef} playsInline>
+              <source src={video.fileUrls[0]} type="application/vnd.apple.mpegurl" />
+            </video>
+          ) : (
+            <Slider {...settings} className='new-image-slider'>
+              {video.fileUrls.map((url, index) => (
+                <div key={index} className="image-wrapper">
+                  <img src={url} alt={`slide ${index}`} />
+                </div>
+              ))}
+            </Slider>
+          )}
           <div className="scroll-buttons">
-            <span className="scroll-button"><FaChevronUp /></span>
-            <span className="scroll-button"><FaChevronDown /></span>
+            <span className="scroll-button" onClick={handleScrollUp}><FaChevronUp /></span>
+            <span className="scroll-button" onClick={handleScrollDown}><FaChevronDown /></span>
           </div>
         </div>
         <div className="content-section">

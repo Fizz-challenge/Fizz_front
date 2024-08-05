@@ -20,9 +20,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: rgba(0, 0, 0, 0.5); 
   backdrop-filter: blur(10px);
   position: relative;
+  height: 100vh;
+}
+
+.new-image-slider.slick-slider{
+  width: auto;
+  max-width: 400px; 
+  height: auto;
+  display: flex;
 }
 
 .detail-video-player{
@@ -43,6 +52,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  background-color: white;
 }
 
 .comments {
