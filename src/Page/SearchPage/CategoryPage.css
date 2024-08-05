@@ -1,5 +1,5 @@
 .category-page-container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 45px auto;
   padding: 20px;
 }
@@ -16,8 +16,8 @@
   margin-right: 10px; /* 아이콘과 텍스트 간격 조정 */
 }
 
-.category-title-container h1{
-  font-family: "NanumSquareNeoEB";
+.category-title-container h1 {
+  font-family: "NanumSquareNeoBD";
   text-align: center;
 }
 
@@ -26,7 +26,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
-  width: 100%;
+  width: 1000px;
 }
 
 .challenge-folder {
@@ -40,6 +40,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
   margin: 10px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .challenge-folder:hover {
@@ -81,16 +82,19 @@
   color: #fff;
   padding: 5px 10px;
   border-radius: 5px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .challenge-title {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
+  font-family: "NanumSquareNeoBD";
 }
 
 .challenge-count {
   font-size: 14px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .no-challenges {
@@ -101,6 +105,7 @@
   height: 50vh;
   text-align: center;
   margin-top: 20px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .no-challenges p {
