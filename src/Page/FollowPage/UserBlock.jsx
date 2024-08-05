@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './UserBlock.css';
-import humanIcon from '../../assets/human.png';
 import { FaUserAltSlash, FaUserPlus } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
