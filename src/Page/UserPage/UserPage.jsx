@@ -265,7 +265,7 @@ const UserPage = () => {
 				<div className="profileWrapper">
 					<div className="profileImg" style={{userSelect:"none"}}>
 						<img
-							src={userInfo.profileImage ? userInfo.profileImage : "../src/assets/profile.jpg"}
+							src={userInfo.profileImage ? userInfo.profileImage : "../img/profile.jpg"}
 
 							alt="프로필 이미지"
 						/>

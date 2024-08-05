@@ -24,7 +24,7 @@ const LoginPage = () => {
 					{/* <div className="loginLogo" onClick={() => navigate("/")}>
 						Fizz!
 					</div> */}
-					<img src="../src/assets/fizz2.png" alt="로고" className="loginLogo" onClick={() => navigate("/")} />
+					<img src="../img/fizz2.png" alt="로고" className="loginLogo" onClick={() => navigate("/")} />
 				</div>
 				<div className="loginWrap">
 					<div className="loginTitle">환영합니다</div>
