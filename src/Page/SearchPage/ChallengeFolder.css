@@ -1,72 +1,68 @@
-.challenge-folder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
-  margin: 20px 0;
+.challengeFolder {
+  cursor: pointer;
+  margin: 10px;
+  display: inline-block;
+  width: 300px;
+  text-align: center;
+  font-family: 'NanumSquareNeoRG';
 }
 
-.challenge-folder:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.image-container {
+.imageContainer {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 0;
+  padding-bottom: 100%; /* 1:1 Aspect Ratio */
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.image-placeholder {
+.largeImage {
   position: absolute;
-  background-color: #d0d0d0;
-  border-radius: 5px;
-}
-
-.large-image {
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
-.small-image {
-  width: 90%;
-  height: 90%;
-  right: -10%;
-  top: 5%;
-  z-index: -1;
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
 }
 
-.challenge-info {
+.challengeInfo {
   position: absolute;
-  bottom: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
-.challenge-title {
-  font-size: 18px;
-  font-family: "NanumSquareNeoBD";
-  margin-bottom: 10px;
-}
-
-.challenge-count {
-  font-size: 16px;
-}
-
-.challenges-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5); /* 배경 색상 반투명 */
+  color: #ffffff; /* 텍스트 색상 하얀색 */
+  font-family: 'NanumSquareNeoRG';
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 0;
+}
+
+.challengeTitle {
+  font-size: 20px;
+  margin-bottom: 5px;
+  font-family: "NanumSquareNeoBD";
+}
+
+.challengeCount {
+  font-size: 14px;
+  color: #ffffff;
+  font-family: 'NanumSquareNeoRG';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-Icon {
+  margin-right: 5px;
+  color: #ffffff;
 }

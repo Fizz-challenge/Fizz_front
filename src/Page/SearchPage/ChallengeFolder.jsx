@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
 import './ChallengeFolder.css';
 
 const ChallengeFolder = ({ title, count, challengeId }) => {
@@ -15,7 +16,9 @@ const ChallengeFolder = ({ title, count, challengeId }) => {
         }
         const result = await response.json();
         if (result.success && result.data.content.length > 0) {
-          setThumbnailUrl(result.data.content[0].fileUrls[1]);
+          const firstPost = result.data.content[0];
+          const thumbnail = firstPost.fileType === 'VIDEO' ? firstPost.fileUrls[1] : firstPost.fileUrls[0];
+          setThumbnailUrl(thumbnail);
         }
       } catch (error) {
         console.error('Error fetching first post thumbnail:', error);
@@ -30,16 +33,18 @@ const ChallengeFolder = ({ title, count, challengeId }) => {
   };
 
   return (
-    <div className="challenge-folder" onClick={handleClick}>
-      <div className="image-container">
+    <div className="challengeFolder" onClick={handleClick}>
+      <div className="imageContainer">
         {thumbnailUrl ? (
-          <img src={thumbnailUrl} alt={title} className="large-image" />
+          <img src={thumbnailUrl} alt={title} className="largeImage" />
         ) : (
-          <div className="image-placeholder large-image"></div>
+          <div className="imagePlaceholder largeImage"></div>
         )}
-        <div className="challenge-info">
-          <p className="challenge-title">{title}</p>
-          <p className="challenge-count">{count}명 참여</p>
+        <div className="challengeInfo">
+          <p className="challengeTitle">#{title}</p>
+          <p className="challengeCount">
+            <FaUser className="user-Icon" /> {count}명 참여
+          </p>
         </div>
       </div>
     </div>
