@@ -144,7 +144,7 @@ const UserPage = () => {
 	const fetchUserPost = async (id) => {
 		const userPost = await axios.get(`https://gunwoo.store/api/posts/users/${id}`)
 		// setTimeout(() => {
-			setUserPostInfo(userPost.data.data);
+			setUserPostInfo(userPost.data.data.content);
 			console.log(userPost.data.data);
 			
 		// }, 1000);
@@ -384,7 +384,7 @@ const UserPage = () => {
 										participatedChallenges.length
 									)} */}
 								{userPostInfo
-									? convertNumber(userPostInfo.content.length)
+									? convertNumber(userPostInfo.length)
 									: "0"}
 							</div>
 						</div>
