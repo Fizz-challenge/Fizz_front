@@ -193,8 +193,7 @@ const EditPopup = ({ setIsEditPopupVisible, userInfo }) => {
 					/>
 				</div>
 				<div className={styles.setBasic} onClick={setBasicProfile}>
-					{userInfo.profileImage ||
-						(imagePreview && !isBasicProfile && "이미지 삭제")}
+				{userInfo.profileImage || imagePreview ? (!isBasicProfile ? "이미지 삭제" : "") : ""}
 				</div>
 				<input
 					type="text"

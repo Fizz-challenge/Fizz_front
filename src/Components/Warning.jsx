@@ -8,7 +8,7 @@ const Warning = ({ message }) => {
             <div className="noTitle">{message ? message : "잘못된 접근입니다⚠️"}</div>
             <div
                 className="goHomeBtn hoverBtns"
-                onClick={() => navigate("/")}
+                onClick={() => navigate(-1)}
             >
                 돌아가기
             </div>

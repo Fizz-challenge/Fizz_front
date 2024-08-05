@@ -185,7 +185,7 @@ const RegisterPage = () => {
 										<>
 											<FaQuestionCircle />
 											<div className="categoryContactInfo">
-												회원가입 후 [문의하기] {">"} [카테고리 추가]
+												회원가입 후 [문의] {">"} [카테고리 추가]
 											</div>
 										</>
 									) : (

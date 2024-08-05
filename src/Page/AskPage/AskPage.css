@@ -1,0 +1,138 @@
+.askChat,
+.askList {
+    position: absolute;
+    height: 70%;
+    top: 15%;
+    background-color: #E1F3FF;
+    border-radius: 20px;
+    box-shadow: #00000030 0px 3px 5px inset;
+}
+
+.askChat {
+    width: 40%;
+    left: calc(20% - 10px);
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.askList {
+    width: 20%;
+    left: calc(60% + 10px);
+    padding: 20px;
+}
+
+.askList button {
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #2DA7FF;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 15px;
+    width: 100%;
+    box-shadow: #00000030 0px 3px 5px;
+    word-break: keep-all;
+    font-family: "NanumSquareNeoRG";
+}
+
+.askBubble {
+    margin: 10px 0;
+    padding: 10px;
+    max-width: 60%;
+    font-size: 18px;
+    box-shadow: #00000030 0px 3px 5px;
+    word-break: keep-all;
+    font-family: "NanumSquareNeoRG";
+}
+
+.askBubble.askBubbleUser {
+    align-self: flex-end;
+    background-color: #2DA7FF;
+    color: #ffffff;
+    border-radius: 15px 0px 15px 15px;
+    animation: bubbleUserFadein .2s forwards;
+}
+
+.askBubble.askBubbleBot {
+    align-self: flex-start;
+    background-color: #ffffff;
+    border-radius: 0px 15px 15px 15px;
+    animation: bubbleBotFadein .5s forwards;
+}
+
+@keyframes bubbleUserFadein {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bubbleBotFadein {
+    0% {
+        transform: scale(0);
+    }
+    60% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.categoryAskForm {
+    display: block;
+}
+
+.categoryAskFormTitle {
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-family: "NanumSquareNeoRG";
+    font-size: 16px;
+}
+
+.categoryAskFormDesc {
+    margin-top: 10px;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-family: "NanumSquareNeoRG";
+    font-size: 16px;
+    resize: none;
+}
+
+.categoryAskFormTitle,
+.categoryAskFormDesc {
+    border: none;
+    background-color: #ededed;
+    border-radius: 10px;
+    transition: .05s;
+}
+
+.categoryAskFormTitle:focus,
+.categoryAskFormDesc:focus {
+    outline: 3px solid #2DA7FF;
+}
+
+.categoryAskFormSubmit {
+    position: absolute;
+    margin-top: 65px;
+    margin-left: -65px;
+    width: 60px;
+    height: 40px;
+    padding: 10px;
+    font-family: "NanumSquareNeoBD";
+    font-size: 16px;
+    border: none;
+    background-color: #2DA7FF;
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: #00000050 0px 0px 5px;
+}

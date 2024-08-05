@@ -1,3 +1,4 @@
+import { SiNaver } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../Components/Warning.jsx";
 import axios from "axios";
@@ -37,6 +38,13 @@ const LoginPage = () => {
 					>
 						<img className="kakaoIcon" src="../img/kakao.svg" />
 						카카오 로그인
+					</div>
+					<div
+						className="loginBtn loginNaverBtn hoverBtns"
+						onClick={() => oauth2Login("naver")}
+					>
+						<SiNaver className="naverIcon" />
+						네이버 로그인
 					</div>
 					<div
 						className="loginBtn loginGoogleBtn hoverBtns"
