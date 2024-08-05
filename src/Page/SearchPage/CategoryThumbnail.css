@@ -34,11 +34,12 @@
 
 .category-title {
   font-size: 18px;
-  font-weight: bold;
+  font-family: "NanumSquareNeoEB";
   margin-bottom: 5px;
 }
 
 .category-description {
   font-size: 14px;
+  font-family: "NanumSquareNeoRG";
   color: #666;
 }

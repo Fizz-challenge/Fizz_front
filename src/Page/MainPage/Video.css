@@ -61,6 +61,14 @@
   text-decoration: underline;
 }
 
+.video-challenge-name {
+  font-weight: 900;
+}
+
+.video-challenge-name:hover {
+  text-decoration: underline;
+}
+
 .custom-controls {
   visibility: hidden;
   position: absolute;

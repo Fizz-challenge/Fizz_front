@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Modal from 'react-modal';
+import NoticePopup from '../../Components/NoticePopup'; // NoticePopup 컴포넌트 import
 import './UserBlock.css';
-import humanIcon from '../../assets/human.png';
 import { FaUserAltSlash, FaUserPlus } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const UserBlock = ({ userId, userProfileId, username, description, profileImage, isFollowing, onFollowToggle }) => {
   const navigate = useNavigate();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [popupStatus, setPopupStatus] = useState(["", ""]);
+  
   const handleClick = () => {
     navigate(`/profile/${userProfileId}`);
   };
 
-  const openModal = () => {
-    setModalIsOpen(true);
+  const openPopup = () => {
+    setPopupStatus(["정말 언팔로우 하시겠습니까?", "#ff3636"]);
+    setIsPopupVisible(true);
   };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
+  const closePopup = () => {
+    setIsPopupVisible(false);
   };
 
   const confirmUnfollow = async () => {
@@ -42,7 +43,7 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
       console.error('Error unfollowing user:', error);
     } finally {
       setLoading(false);
-      closeModal();
+      closePopup();
     }
   };
 
@@ -80,11 +81,11 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
       className={`followToggleButton ${isFollowing ? 'following' : ''}`}
       onClick={(e) => {
         e.stopPropagation();
-        isFollowing ? openModal() : followRequest();
+        isFollowing ? openPopup() : followRequest();
       }}
     >
       {loading ? (
-        <AiOutlineLoading3Quarters className="loading-icon" />
+        <AiOutlineLoading3Quarters className="loadingIcon" />
       ) : isFollowing ? (
         <FaUserAltSlash />
       ) : (
@@ -107,19 +108,19 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
         </div>
       </div>
       {followButton}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Unfollow Confirmation"
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <h2>정말 취소하시겠습니까?</h2>
-        <div className="modal-buttons">
-          <button onClick={confirmUnfollow} className="confirm-button">네</button>
-          <button onClick={closeModal} className="cancel-button">아니오</button>
-        </div>
-      </Modal>
+      {isPopupVisible && (
+        <NoticePopup
+          setIsPopupVisible={setIsPopupVisible}
+          popupStatus={popupStatus}
+          buttonStatus={{
+            bgcolor: "#ff3636",
+            color: "#ffffff",
+            msg: "네",
+            action: confirmUnfollow,
+          }}
+          noButton={true}
+        />
+      )}
     </div>
   );
 };

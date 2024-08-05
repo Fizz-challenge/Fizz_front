@@ -1,12 +1,24 @@
 .category-page-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1000px;
+  margin: 45px auto;
   padding: 20px;
 }
 
-.category-page-container h1 {
-  text-align: center;
+.category-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
+}
+
+.category-title-container svg {
+  font-size: 40px; /* 아이콘 크기 조정 */
+  margin-right: 10px; /* 아이콘과 텍스트 간격 조정 */
+}
+
+.category-title-container h1 {
+  font-family: "NanumSquareNeoBD";
+  text-align: center;
 }
 
 .challenges-list {
@@ -14,20 +26,21 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
-  width: 100%;
+  width: 1000px;
 }
 
 .challenge-folder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 200px;
+  width: 300px;
   padding: 10px;
   background-color: #f0f0f0;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
   margin: 10px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .challenge-folder:hover {
@@ -69,16 +82,19 @@
   color: #fff;
   padding: 5px 10px;
   border-radius: 5px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .challenge-title {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
+  font-family: "NanumSquareNeoBD";
 }
 
 .challenge-count {
   font-size: 14px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .no-challenges {
@@ -89,19 +105,29 @@
   height: 50vh;
   text-align: center;
   margin-top: 20px;
+  font-family: "NanumSquareNeoRG";
 }
 
-.create-challenge-button {
+.no-challenges p {
+  margin-top: 100px;
+  font-size: 30px;
+  font-family: "NanumSquareNeoBD";
+  text-align: center;
+}
+
+.createChallengeButton {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #2da7ff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
   transition: background-color 0.3s;
+  font-size: 30px;
+  font-family: "NanumSquareNeoBD";
 }
 
-.create-challenge-button:hover {
-  background-color: #0056b3;
+.createChallengeButton:hover {
+  background-color: #2da7ff;
 }
