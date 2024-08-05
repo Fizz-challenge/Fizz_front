@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserBlock from '../FollowPage/UserBlock';
 import "./UserSearchResults.css";
 
 const UserSearchResults = ({ filteredUsers }) => {
   const [users, setUsers] = useState(filteredUsers);
+
+  useEffect(() => {
+    setUsers(filteredUsers);
+  }, [filteredUsers]);
 
   const handleFollowToggle = (userId, isFollowing) => {
     setUsers((prevUsers) =>
