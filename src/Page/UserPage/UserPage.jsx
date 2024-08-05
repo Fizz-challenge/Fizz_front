@@ -361,7 +361,7 @@ const UserPage = () => {
 					<div className="profileStat">
 						<div className="statFollower">
 							팔로워
-							<div onClick={() => navigate("/follow")}>
+							<div onClick={() => navigate("/follow?content=0")}>
 								{userInfo.follower
 									? convertNumber(userInfo.follower.length)
 									: "0"}
@@ -369,7 +369,7 @@ const UserPage = () => {
 						</div>
 						<div className="statFollowing">
 							팔로잉
-							<div onClick={() => navigate("/follow")}>
+							<div onClick={() => navigate("/follow?content=1")}>
 								{userInfo.following
 									? convertNumber(userInfo.following.length)
 									: "0"}
