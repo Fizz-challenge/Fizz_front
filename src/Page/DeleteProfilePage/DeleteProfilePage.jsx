@@ -15,7 +15,7 @@ const DeleteProfile = () => {
 
 	const handleProfileDeletion = () => {
 		const registration = localStorage.getItem("registration");
-		window.location.href = `https://gunwoo.store/api/user/oauth2/${registration}?redirect_uri=http://localhost:5173&mode=unlink`;
+		window.location.href = `https://gunwoo.store/api/user/oauth2/${registration}?redirect_uri=http://fizz-sigma.vercel.app&mode=unlink`;
 		localStorage.removeItem("accessToken");
 		localStorage.removeItem("profileId");
 		localStorage.removeItem("registration");
@@ -36,7 +36,7 @@ const DeleteProfile = () => {
 					noButton={true}
 				/>
 			)}
-			<div className="registerBackBtn" onClick={() => navigate("/profile/my-page")}>
+			<div className="deleteProfileBackBtn" onClick={() => navigate("/profile/my-page")}>
 				<IoChevronBack />
 			</div>
 			<div className="deleteProfileTitle">지금 떠나면 아쉬워요 🥺</div>

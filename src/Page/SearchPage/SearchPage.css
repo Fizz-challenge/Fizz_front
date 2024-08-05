@@ -1,6 +1,6 @@
 .search-page-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 20px;
 }
 
@@ -9,6 +9,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin: 45px auto;
 }
 
 .search-page-search-bar {
@@ -86,4 +87,25 @@
   gap: 20px;
   justify-content: flex-start;
   width: 100%;
+}
+
+.posts-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-card {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.search-results {
+  width: 100%;
+  min-height: 100px;
+  flex-direction: column;
+  justify-content: center;
 }

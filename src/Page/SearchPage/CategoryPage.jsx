@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ChallengeFolder from './ChallengeFolder'; 
+import ChallengeFolder from './ChallengeFolder';
+import iconMapping from './IconMapping';
 import './CategoryPage.css';
 
 const CategoryPage = () => {
@@ -18,7 +19,8 @@ const CategoryPage = () => {
         }
         const data = await response.json();
         if (data.success) {
-          setChallenges(data.data);
+          const sortedChallenges = data.data.sort((a, b) => b.participantCounts - a.participantCounts);
+          setChallenges(sortedChallenges);
         }
       } catch (error) {
         console.error('Error fetching challenges:', error);
@@ -31,12 +33,15 @@ const CategoryPage = () => {
   }, [categoryId]);
 
   const handleCreateChallenge = () => {
-    navigate('/new-post');
+    navigate('/new-challenge');
   };
 
   return (
     <div className="category-page-container">
-      <h1>{categoryName} 챌린지</h1>
+      <div className="category-title-container">
+        {iconMapping[categoryName]}
+        <h1>{categoryName} 챌린지</h1>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : challenges.length > 0 ? (
@@ -47,13 +52,14 @@ const CategoryPage = () => {
               title={challenge.title}
               count={challenge.participantCounts}
               challengeId={challenge.challengeId}
+              icon={iconMapping[categoryName]} // 아이콘 추가
             />
           ))}
         </div>
       ) : (
         <div className="no-challenges">
-          <p>아무도 {categoryName} 챌린지를 시작하지 않았네요... 저희 함께 해봐요!</p>
-          <button className="create-challenge-button" onClick={handleCreateChallenge}>게시물 만들기</button>
+          <p>아무도 {categoryName} 챌린지를 시작하지 않았네요...<br />새로운 챌린지를 만들어봐요!</p>
+          <button className="createChallengeButton" onClick={handleCreateChallenge}>챌린지 만들기</button>
         </div>
       )}
     </div>

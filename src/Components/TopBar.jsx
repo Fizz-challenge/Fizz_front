@@ -9,6 +9,9 @@ const TopBar = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?term=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   return (
@@ -27,4 +30,5 @@ const TopBar = () => {
     </div>
   );
 };
+
 export default TopBar;
