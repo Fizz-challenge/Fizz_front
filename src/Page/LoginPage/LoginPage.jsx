@@ -9,7 +9,7 @@ const LoginPage = () => {
 
 	const oauth2Login = (registration) => {
 		localStorage.setItem("registration", registration);
-		window.location.href = `https://gunwoo.store/api/user/oauth2/${registration}?redirect_uri=http://localhost:5173/oauth2/callback&mode=login`;
+		window.location.href = `https://gunwoo.store/api/user/oauth2/${registration}?redirect_uri=http://fizz-sigma.vercel.app/oauth2/callback&mode=login`;
 	};
 
 	if (localStorage.getItem("accessToken")) {
@@ -21,9 +21,10 @@ const LoginPage = () => {
 			<div className="loginBack"></div>
 			<div className="loginAllWrap">
 				<div className="loginBackWrap">
-					<div className="loginLogo" onClick={() => navigate("/")}>
+					{/* <div className="loginLogo" onClick={() => navigate("/")}>
 						Fizz!
-					</div>
+					</div> */}
+					<img src="../src/assets/fizz2.png" alt="로고" className="loginLogo" onClick={() => navigate("/")} />
 				</div>
 				<div className="loginWrap">
 					<div className="loginTitle">환영합니다</div>
