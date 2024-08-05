@@ -1,6 +1,6 @@
 .category-page-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 45px auto;
   padding: 20px;
 }
 
@@ -12,12 +12,12 @@
 }
 
 .category-title-container svg {
-  font-size: 32px; /* 아이콘 크기 조정 */
+  font-size: 40px; /* 아이콘 크기 조정 */
   margin-right: 10px; /* 아이콘과 텍스트 간격 조정 */
 }
 
-.category-page-container h1 {
-  font-family: "NanumSquareNeoBD";
+.category-title-container {
+  font-family: "NanumSquareNeoRG";
   text-align: center;
 }
 
@@ -103,6 +103,13 @@
   margin-top: 20px;
 }
 
+.no-challenges p {
+  margin-top: 100px;
+  font-size: 30px;
+  font-family: "NanumSquareNeoBD";
+  text-align: center;
+}
+
 .create-challenge-button {
   padding: 10px 20px;
   background-color: #2da7ff;
@@ -112,6 +119,8 @@
   cursor: pointer;
   margin-top: 10px;
   transition: background-color 0.3s;
+  font-size: 30px;
+  font-family: "NanumSquareNeoBD";
 }
 
 .create-challenge-button:hover {
