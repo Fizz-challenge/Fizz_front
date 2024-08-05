@@ -8,6 +8,7 @@ import { FaHeart, FaComment } from "react-icons/fa";
 import { ImPlay2 } from "react-icons/im";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import NoticePopup from '../../Components/NoticePopup.jsx';
 
 const SkeletonItem = () => (
   <div className="challenge-image-item">
@@ -43,6 +44,7 @@ const ChallengePage = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const observer = useRef();
 
   const fetchChallengeData = async () => {
@@ -82,7 +84,12 @@ const ChallengePage = () => {
   }, [challengeData, page]);
 
   const handleJoinChallenge = () => {
-    navigate(`/new-post/${challenge}`);
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      setIsPopupVisible(true);
+    } else {
+      navigate(`/new-post/${challenge}`);
+    }
   };
 
   const lastPostElementRef = useCallback((node) => {
@@ -149,7 +156,7 @@ const ChallengePage = () => {
             const imgSrc = post.fileType === "IMAGE" ? post.fileUrls[0] : post.fileUrls[1];
             const isLastElement = posts.length === index + 1;
             const postElement = (
-              <div key={post.id} className="challenge-image-item">
+              <div key={post.id} className="challenge-image-item" onClick={() => {navigate(`/video/${post.id}`)}}>
                 <img src={imgSrc} alt={post.title} className="challenge-image-preview" />
                 <div className="challenge-image-info">
                   <div className="icon"><FaHeart /><span>{post.likeCount}</span></div>
@@ -157,8 +164,14 @@ const ChallengePage = () => {
                   <div className="icon"><ImPlay2 /><span>{post.viewCount}</span></div>
                 </div>
                 <div className="challenge-user-info">
-                  <img onClick={() => { navigate(`/profile/${post.userInfo.nickname}`) }} src={post.userInfo.profileImage || '/default-profile.png'} alt={post.userInfo.nickname} />
-                  <p onClick={() => { navigate(`/profile/${post.userInfo.nickname}`) }}> {post.userInfo.nickname}</p>
+                  <img onClick={(e) => { 
+                    e.stopPropagation(); 
+                    navigate(`/profile/${post.userInfo.profileId}`); 
+                  }}  src={post.userInfo.profileImage || '../src/assets/profile.jpg'} alt={post.userInfo.nickname} />
+                  <p onClick={(e) => { 
+                    e.stopPropagation(); 
+                    navigate(`/profile/${post.userInfo.profileId}`); 
+                  }}> {post.userInfo.nickname}</p>
                 </div>
               </div>
             );
@@ -166,6 +179,13 @@ const ChallengePage = () => {
           })}
         </div>
       </div>
+      {isPopupVisible && (
+        <NoticePopup
+          setIsPopupVisible={setIsPopupVisible}
+          popupStatus={["로그인이 필요한 서비스입니다.", "#2DA7FF"]}
+          buttonStatus={{ msg: "확인", action: () => navigate('/login') }}
+        />
+      )}
     </div>
   );
 };

@@ -20,6 +20,7 @@ import NewChallengePage from './Page/NewChallengePage/NewChallengePage.jsx';
 import AskPage from './Page/AskPage/AskPage.jsx';
 import Modal from 'react-modal';
 import TopBar from './Components/TopBar.jsx';
+import Warning from './Components/Warning.jsx';
 
 Modal.setAppElement('#root');
 

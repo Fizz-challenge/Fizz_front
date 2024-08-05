@@ -40,7 +40,8 @@ const useWindowSize = () => {
 const UserPage = () => {
 	const params = useParams();
 	const [searchParams] = useSearchParams();
-	const searchParam = searchParams.get("content");
+	const paramContent = searchParams.get("content");
+	// const paramMode = searchParams.get("mode");
 	const navigate = useNavigate();
 
 	const [isLoginPopupVisible, setIsLoginPopupVisible] = useState(false);
@@ -131,11 +132,11 @@ const UserPage = () => {
 			// }, 3000);
 		}
 
-		if (searchParam === "0") {
+		if (paramContent === "0") {
 			joinedRef.current.click();
-		} else if (searchParam === "1") {
+		} else if (paramContent === "1") {
 			createdRef.current.click();
-		} else if (searchParam === "2") {
+		} else if (paramContent === "2") {
 			likedRef.current.click();
 		}
 	}, [navigate, params.userId, isFollowing]);
@@ -144,6 +145,8 @@ const UserPage = () => {
 		const userPost = await axios.get(`https://gunwoo.store/api/posts/users/${id}`)
 		// setTimeout(() => {
 			setUserPostInfo(userPost.data.data);
+			console.log(userPost.data.data);
+			
 		// }, 1000);
 		// console.log(userPost.data.data);
 		
@@ -203,25 +206,6 @@ const UserPage = () => {
 
 	const toLogin = () => navigate("/login");
 
-	const contactCategory = async () => {
-		try {
-			await axios
-				.post(
-					`https://gunwoo.store/api/category/user`,
-					{
-						title: "테스트",
-						description: "테스트요청입니다",
-					},
-					{
-						headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-					}
-				)
-				.catch((err) => console.error(err));
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
 	const removePost = async () => {
         try {
             const res = await axios.delete(
@@ -279,9 +263,10 @@ const UserPage = () => {
 					/>
 				)}
 				<div className="profileWrapper">
-					<div className="profileImg">
+					<div className="profileImg" style={{userSelect:"none"}}>
 						<img
 							src={userInfo.profileImage ? userInfo.profileImage : "../src/assets/profile.jpg"}
+
 							alt="프로필 이미지"
 						/>
 					</div>
@@ -377,7 +362,7 @@ const UserPage = () => {
 					<div className="profileStat">
 						<div className="statFollower">
 							팔로워
-							<div>
+							<div onClick={() => navigate("/follow")}>
 								{userInfo.follower
 									? convertNumber(userInfo.follower.length)
 									: "0"}
@@ -385,7 +370,7 @@ const UserPage = () => {
 						</div>
 						<div className="statFollowing">
 							팔로잉
-							<div>
+							<div onClick={() => navigate("/follow")}>
 								{userInfo.following
 									? convertNumber(userInfo.following.length)
 									: "0"}
@@ -416,6 +401,7 @@ const UserPage = () => {
 				)}
 				<UserPosts
 					nowSelected={nowSelected}
+					setNowSelected={setNowSelected}
 					userPostInfo={userPostInfo}
 					convertNumber={convertNumber}
 					width={width}

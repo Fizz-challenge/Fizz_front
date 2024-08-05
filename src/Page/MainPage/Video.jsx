@@ -222,7 +222,12 @@ const Video = ({ video, isActive, onVolumeChange, fileType }) => {
 
   const handleUserClick = (e) => {
     e.stopPropagation();
-    navigate(`/profile/${video.userInfo.nickname}`);
+    navigate(`/profile/${video.userInfo.profileId}`);
+  };
+
+  const handleChallengeClick = (e) => {
+    e.stopPropagation();
+    navigate(`/challenge/${video.challengeInfo.title}`);
   };
 
   if (fileType === "VIDEO") {
@@ -239,7 +244,7 @@ const Video = ({ video, isActive, onVolumeChange, fileType }) => {
           <div className="video-content-info">
             <div className="video-content-title">{video.title}</div>
             <div className="video-details">
-              <span className="video-user-name"onClick={handleUserClick}>{video.userInfo.nickname}</span> · <span>조회수 {video.viewCount}회</span>
+              <span className="video-user-name" onClick={handleUserClick}>{video.userInfo.nickname}</span> · <span>조회수 {video.viewCount}회</span> · <span className="video-challenge-name" onClick={handleChallengeClick}>#{video.challengeInfo.title}</span>
               <p>{video.content}</p>
             </div>
           </div>
@@ -285,7 +290,7 @@ const Video = ({ video, isActive, onVolumeChange, fileType }) => {
           <div className="video-content-info">
             <div className="video-content-title">{video.title}</div>
             <div className="video-details">
-              <span className="video-user-name" onClick={handleUserClick}>{video.userInfo.nickname}</span> · <span>조회수 {video.viewCount}회</span>
+              <span className="video-user-name" onClick={handleUserClick}>{video.userInfo.nickname}</span> · <span>조회수 {video.viewCount}회</span> · <span className="video-challenge-name" onClick={handleChallengeClick}>#{video.challengeInfo.title}</span>
               <p>{video.content}</p>
             </div>
           </div>

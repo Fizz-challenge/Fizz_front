@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa';
 import { ImPlay2 } from "react-icons/im";
 import axios from 'axios';
+import NoticePopup from '../../Components/NoticePopup';
 
 const Buttons = ({ id, likes, comments, views }) => {
   const [animate, setAnimate] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(likes); // likes 상태 추가
+  const [likeCount, setLikeCount] = useState(likes);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const token = localStorage.getItem('accessToken');
   const navigate = useNavigate();
 
@@ -23,7 +25,6 @@ const Buttons = ({ id, likes, comments, views }) => {
 
         if (response.data.success) {
           setIsLiked(response.data.data.isLiked);
-          console.log(response.data);
         }
       } catch (error) {
         console.error('Error fetching like status:', error);
@@ -34,14 +35,17 @@ const Buttons = ({ id, likes, comments, views }) => {
   }, [id]);
 
   const handleCommentClick = (event) => {
-    event.stopPropagation(); // 부모 요소 클릭 접근 제한
+    event.stopPropagation();
     navigate(`/video/${id}`);
   };
 
   const handleLikeClick = async (event) => {
     event.stopPropagation();
+    if (!token) {
+      setIsPopupVisible(true);
+      return;
+    }
     setAnimate(true);
-
     try {
       if (isLiked) {
         await axios.delete(`https://gunwoo.store/api/posts/${id}/likes`, {
@@ -49,20 +53,18 @@ const Buttons = ({ id, likes, comments, views }) => {
             'Authorization': `Bearer ${token}`
           }
         });
-        console.log("123");
-        setLikeCount(prevCount => prevCount - 1); // 좋아요 취소 시 likes 감소
+        setLikeCount(prevCount => prevCount - 1);
       } else {
         await axios.post(`https://gunwoo.store/api/posts/${id}/likes`, {}, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        setLikeCount(prevCount => prevCount + 1); // 좋아요 추가 시 likes 증가
+        setLikeCount(prevCount => prevCount + 1);
       }
       setIsLiked(!isLiked);
     } catch (error) {
       console.error('Error updating like status:', error);
-      // 요청 실패 시 상태 복원
       setIsLiked(!isLiked);
     }
 
@@ -70,6 +72,7 @@ const Buttons = ({ id, likes, comments, views }) => {
   };
 
   return (
+    <>
     <div className="buttons-container">
       <div className={`button-item ${animate ? 'animate' : ''}`} onClick={handleLikeClick}>
         {isLiked ? <FaHeart className="svg-icon icon-fill" /> : <FaRegHeart className="svg-icon icon-fill" />}
@@ -77,7 +80,7 @@ const Buttons = ({ id, likes, comments, views }) => {
           <div className="fill"></div>
         </div>
       </div>
-      <span>{likeCount}</span> {/* 업데이트된 likes 상태 사용 */}
+      <span>{likeCount}</span>
       <div className="button-item" onClick={handleCommentClick}>
         <FaComment />
       </div>
@@ -86,7 +89,15 @@ const Buttons = ({ id, likes, comments, views }) => {
         <ImPlay2 />
       </div>
       <span>{views}</span>
-    </div>
+      </div>
+            {isPopupVisible && (
+        <NoticePopup
+          setIsPopupVisible={setIsPopupVisible}
+          popupStatus={["로그인이 필요한 서비스입니다.", "#2DA7FF"]}
+          buttonStatus={{ msg: "확인", action: () => navigate('/login') }}
+        />
+      )}
+          </>
   );
 };
 

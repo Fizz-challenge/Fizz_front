@@ -43,7 +43,7 @@ const PostText = ({ text, type }) => {
 	}, [text]);
 
 	const goChallenge = () => {
-		navigate(`/challenge/${text}`);
+		navigate(`/challenge/${text.substring(1)}`);
 	}
 
 	return (

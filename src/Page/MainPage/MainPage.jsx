@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './MainPage.css';
 import Video from './Video';
@@ -7,6 +7,7 @@ import Buttons from './Buttons';
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const mainPageRef = useRef(null);
   const isScrollingRef = useRef(false);
   const isFetchingRef = useRef(false);
@@ -19,21 +20,18 @@ const MainPage = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const loadVideos = async (page) => {
-    if (isFetchingRef.current) return;
-    isFetchingRef.current = true; 
     try {
-      const response = await axios.get(`https://gunwoo.store/api/posts?page=${page}&size=10`);
-      console.log(`API response for page ${page}:`, response.data);
+      const response = await axios.get(`https://gunwoo.store/api/posts?page=${page}&size=20`);
       const fetchedVideos = response.data.data.content;
+      setVideos(prevVideos => [...prevVideos, ...fetchedVideos]);
       const totalElements = response.data.data.page.totalElements;
       const totalPage = Math.ceil(totalElements / 10);
+      console.log(`API response for page ${page}:`, response.data);
       console.log(`Total pages: ${totalPage}`);
-      setVideos(prevVideos => [...prevVideos, ...fetchedVideos]);
+
       setTotalPages(totalPage);
     } catch (error) {
       console.error("Error fetching videos:", error);
-    } finally {
-      isFetchingRef.current = false;
     }
   };
 
@@ -43,7 +41,7 @@ const MainPage = () => {
 
   useEffect(() => {
     const ensureCurrentVideoLoaded = async () => {
-      if (currentVideoIndex >= videos.length && page < totalPages) {
+      if (currentVideoIndex >= videos.length - 10  && page <= totalPages) {
         await loadVideos(page);
         setPage(page + 1);
       }
@@ -52,15 +50,19 @@ const MainPage = () => {
   }, [currentVideoIndex, videos, page, totalPages]);
 
   useEffect(() => {
-    if (videos.length > 0) {
-      const savedIndex = sessionStorage.getItem('currentVideoIndex');
-      if (savedIndex !== null && parseInt(savedIndex, 10) !== currentVideoIndex) {
-        setCurrentVideoIndex(parseInt(savedIndex, 10));
-      } else if (videos[currentVideoIndex]) {
-        navigate(`/${videos[currentVideoIndex].id}`);
-      }
+    const savedIndex = sessionStorage.getItem('currentVideoIndex');
+    if (savedIndex !== null && parseInt(savedIndex, 10) !== currentVideoIndex) {
+      setCurrentVideoIndex(parseInt(savedIndex, 10));
+    } else if (videos.length > 0 && videos[currentVideoIndex]) {
+      navigate(`/${videos[currentVideoIndex].id}`, { replace: true });
     }
   }, [currentVideoIndex, videos, navigate]);
+
+  useEffect(() => {
+    if (location.state?.currentVideoIndex !== undefined) {
+      setCurrentVideoIndex(location.state.currentVideoIndex);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const handleScroll = (event) => {
@@ -77,12 +79,10 @@ const MainPage = () => {
             newIndex = 0;
           }
           sessionStorage.setItem('currentVideoIndex', newIndex);
-          console.log(`New index: ${newIndex}`);
           if (videos[newIndex]) {
-            navigate(`/${videos[newIndex].id}`);
+            navigate(`/${videos[newIndex].id}`, { replace: true });
           }
           if (newIndex >= videos.length - 5 && page < totalPages) {
-            console.log(`Reached threshold, loading next page: ${page + 1}`);
             setPage(prevPage => prevPage + 1);
           }
           return newIndex;
@@ -92,7 +92,7 @@ const MainPage = () => {
           const newIndex = prevIndex - 1;
           sessionStorage.setItem('currentVideoIndex', newIndex);
           if (videos[newIndex]) {
-            navigate(`/${videos[newIndex].id}`);
+            navigate(`/${videos[newIndex].id}`, { replace: true });
           }
           return newIndex;
         });
@@ -100,7 +100,7 @@ const MainPage = () => {
 
       setTimeout(() => {
         isScrollingRef.current = false;
-      }, 400);
+      }, 600);
     };
 
     const mainPage = mainPageRef.current;
@@ -124,7 +124,7 @@ const MainPage = () => {
       }
     }
     sessionStorage.setItem('currentVideoIndex', index);
-    navigate(`/video/${videos[index].id}`);
+    navigate(`/video/${videos[index].id}`, { state: { videos, currentVideoIndex: index } });
   };
 
   const handleVolumeChange = (event) => {
@@ -143,8 +143,8 @@ const MainPage = () => {
           className={`video-wrapper ${index === currentVideoIndex ? 'active' : index < currentVideoIndex ? 'hidden' : ''}`}
         >
           <div className="video-buttons-wrapper">
-            <div  onClick={() => handleVideoClick(index)}>
-            <Video video={video} isActive={index === currentVideoIndex} onVolumeChange={handleVolumeChange} fileType={video.fileType} />
+            <div onClick={() => handleVideoClick(index)}>
+              <Video video={video} isActive={index === currentVideoIndex} onVolumeChange={handleVolumeChange} fileType={video.fileType} />
             </div>
             <div className="buttons-container">
               <Buttons

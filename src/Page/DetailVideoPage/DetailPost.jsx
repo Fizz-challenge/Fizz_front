@@ -4,12 +4,14 @@ import './DetailPost.css';
 import { FaInstagram, FaFacebook, FaTwitter, FaLink, FaHeart, FaRegHeart } from 'react-icons/fa';
 import axios from 'axios';
 import timeSince from './utils';
+import NoticePopup from '../../Components/NoticePopup';
 
 const DetailPost = ({ video }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
   const navigate = useNavigate();
   const token = localStorage.getItem('accessToken');
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   useEffect(() => {
     const checkIfLiked = async () => {
@@ -38,6 +40,10 @@ const DetailPost = ({ video }) => {
   };
 
   const handleLikeClick = async () => {
+    if (!token) {
+      setIsPopupVisible(true);
+      return;
+    }
     try {
       if (isLiked) {
         const response = await axios.delete(`https://gunwoo.store/api/posts/${video.id}/likes`, {
@@ -66,9 +72,9 @@ const DetailPost = ({ video }) => {
     <>
       <div className="post-section">
         <div className="post-header">
-          <img src={video.userInfo.profileImage} alt={`${video.userInfo.nickname} 프로필`} className="profile-img" />
+          <img onClick={() => {navigate(`/profile/${video.userInfo.profileId}`)}} src={video.userInfo.profileImage || '../src/assets/profile.jpg'} alt={`${video.userInfo.nickname} 프로필`} className="profile-img" />
           <div className="user-info">
-            <h3>{video.userInfo.nickname}</h3>
+            <h3 onClick={() => {navigate(`/profile/${video.userInfo.profileId}`)}}>{video.userInfo.nickname}</h3>
             <p>조회수 {video.viewCount}</p>
             <p>{timeSince(video.createdAt)}</p>
           </div>
@@ -107,6 +113,13 @@ const DetailPost = ({ video }) => {
       />
     </div>
       </div>
+      {isPopupVisible && (
+        <NoticePopup
+          setIsPopupVisible={setIsPopupVisible}
+          popupStatus={["로그인이 필요한 서비스입니다.", "#2DA7FF"]}
+          buttonStatus={{ msg: "확인", action: () => navigate('/login') }}
+        />
+      )}
     </>
   );
 };
