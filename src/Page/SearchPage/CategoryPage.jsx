@@ -46,10 +46,9 @@ const CategoryPage = () => {
       </div>
       {loading ? (
         <div className="skeleton-container">
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: 1 }).map((_, index) => (
             <div key={index} className="skeleton-item">
-              <Skeleton height={150} />
-              <Skeleton height={20} width={100} />
+              <Skeleton height={300} width={300} />
             </div>
           ))}
         </div>
