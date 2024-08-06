@@ -62,6 +62,20 @@ function App() {
     navigate(`/search?term=${term}`);
   };
 
+  const [isScroll, setIsScroll] = useState(false);
+
+  const handleScroll = (event) => {
+    // console.log(event.target.scrollTop);
+    
+    if (event.target.scrollTop !== 0) {
+      console.log(1);
+      
+      setIsScroll(true);
+    } else {
+      setIsScroll(false);
+    }
+  } 
+
   return (
     <>
       {isLogoutPopupVisible && (
@@ -79,12 +93,12 @@ function App() {
           <Header />
         </>
       )}
-      <div className={`content-wrapper ${(location.pathname === "/login" || location.pathname === "/register") ? "noHeader" : ""}`}>
+      <div className={`content-wrapper ${(location.pathname === "/login" || location.pathname === "/register") ? "noHeader" : ""}`} onScroll={handleScroll}>
         <Routes>
           <Route exact path="/" element={<MainPage />} />
           <Route path="/video/:id" element={<VideoDetail />} />
           <Route path="/follow" element={<FollowPage />} />
-          <Route path="/search" element={<SearchPage searchTerm={searchTerm} />} />
+          <Route path="/search" element={<SearchPage searchTerm={searchTerm} handleScroll={handleScroll} isScroll={isScroll}/>} />
           <Route path="/profile/:userId" element={<UserPage />} />
           <Route path="/new-post/:challenge" element={<NewPost />} />
           <Route path="/challenge/:challenge" element={<ChallengePage />} />
