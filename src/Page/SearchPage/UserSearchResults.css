@@ -8,7 +8,7 @@
   margin: 0 auto;
   margin-top: 100px;
   position: relative;
-  min-height: 400px; /* To ensure the container has a height when empty */
+  min-height: 400px;
   
 }
 

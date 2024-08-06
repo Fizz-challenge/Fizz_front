@@ -27,7 +27,6 @@ const CategoryPage = () => {
       } catch (error) {
         console.error('Error fetching challenges:', error);
       } finally {
-        // Set a timeout of 0.3 seconds before hiding the skeleton
         setTimeout(() => {
           setLoading(false);
         }, 300);

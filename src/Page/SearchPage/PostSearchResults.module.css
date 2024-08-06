@@ -1,6 +1,6 @@
 .postsContainer {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns layout */
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   justify-content: center;
   width: 100%;
@@ -26,12 +26,12 @@
 .thumbnailWrapper {
   position: relative;
   width: 100%;
-  height: 100%; /* Fill the height of the postCard */
+  height: 100%;
 }
 
 .postThumbnail {
   width: 100%;
-  height: 320px; /* Fill the height of the thumbnailWrapper */
+  height: 320px;
   object-fit: cover;
   transition: filter 0.3s ease;
   border-radius: 15px;
@@ -110,7 +110,7 @@
 .postTextContainer {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 50px); /* Adjust width based on profile image size */
+  width: calc(100% - 50px);
 }
 
 .postTitle {

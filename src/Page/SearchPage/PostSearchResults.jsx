@@ -4,7 +4,6 @@ import { IoPlay } from "react-icons/io5";
 import { FaComment, FaHeart } from "react-icons/fa6";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import PostText from "../UserPage/PostText.jsx";
 import styles from "./PostSearchResults.module.css";
 
 const PostSearchResults = ({ filteredPosts, loading }) => {
