@@ -58,9 +58,15 @@ const NewPost = () => {
     };
 
     checkChallengeExists();
+    subscribeToNotifications();
   }, [challenge, token]);
 
   const subscribeToNotifications = useCallback(() => {
+    if (eventSourceRef.current) {
+      console.log("EventSource already connected");
+      return;
+    }
+
     const eventSource = new EventSourcePolyfill('https://gunwoo.store/api/notify/subscribe', {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -88,31 +94,15 @@ const NewPost = () => {
       }
     };
 
-    const handleError = (error) => {
-      console.error('EventSource failed:', error);
-      eventSource.close();
-    };
-
     eventSource.onopen = handleOpen;
     eventSource.addEventListener("file-encoding-event", handleFileEncodingEvent);
-    eventSource.onerror = handleError;
 
     eventSourceRef.current = eventSource;
 
     return () => {
       eventSource.removeEventListener("file-encoding-event", handleFileEncodingEvent);
-      eventSource.close();
     };
   }, [token]);
-
-  useEffect(() => {
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-        console.log("EventSource disconnected");
-      }
-    };
-  }, []);
 
   useEffect(() => {
     if (hlsUrl) {
@@ -155,8 +145,6 @@ const NewPost = () => {
       console.log("1단계");
       setUploadProgress(20);
       await getPresignedUrl(data.uploadId, data.key, file);
-
-      subscribeToNotifications();
 
     } catch (error) {
       console.error('Error initiating upload:', error);
@@ -321,10 +309,6 @@ const NewPost = () => {
   });
 
   const handleCancel = () => {
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-      console.log("EventSource closed");
-    }
     setUploadProgress(0);
     setUploadComplete(false);
     setVideo(null);
