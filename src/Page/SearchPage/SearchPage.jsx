@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './SearchPage.css';
 import CategoryThumbnail from './CategoryThumbnail';
 import SlideBar from '../../Components/SlideBar';
@@ -155,11 +157,11 @@ const SearchPage = () => {
 
   const renderContent = () => {
     if (nowSelected === 0) {
-      return <PostSearchResults filteredPosts={filteredPosts} />;
+      return <PostSearchResults filteredPosts={filteredPosts} loading={loading} />;
     } else if (nowSelected === 1) {
-      return <UserSearchResults filteredUsers={filteredUsers} />;
+      return <UserSearchResults filteredUsers={filteredUsers} loading={loading} />;
     } else if (nowSelected === 2) {
-      return <ChallengeSearchResults filteredChallenges={filteredChallenges} />;
+      return <ChallengeSearchResults filteredChallenges={filteredChallenges} loading={loading} />;
     }
   };
 
@@ -175,7 +177,14 @@ const SearchPage = () => {
         {!showSlideBar && (
           <div className="categories-grid">
             {loading ? (
-              <p>Loading...</p>
+              <>
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <div key={index} className="category-thumbnail">
+                    <Skeleton height={150} />
+                    <Skeleton height={20} width={100} />
+                  </div>
+                ))}
+              </>
             ) : (
               categoryData.data.map((category, index) => (
                 <CategoryThumbnail key={index} category={category} />

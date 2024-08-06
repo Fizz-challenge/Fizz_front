@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import ChallengeFolder from './ChallengeFolder';
 import iconMapping from './IconMapping';
 import './CategoryPage.css';
@@ -43,7 +45,14 @@ const CategoryPage = () => {
         <h1>{categoryName} 챌린지</h1>
       </div>
       {loading ? (
-        <p>Loading...</p>
+        <div className="skeleton-container">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="skeleton-item">
+              <Skeleton height={150} />
+              <Skeleton height={20} width={100} />
+            </div>
+          ))}
+        </div>
       ) : challenges.length > 0 ? (
         <div className="challenges-list">
           {challenges.map((challenge) => (
@@ -52,7 +61,7 @@ const CategoryPage = () => {
               title={challenge.title}
               count={challenge.participantCounts}
               challengeId={challenge.challengeId}
-              icon={iconMapping[categoryName]} // 아이콘 추가
+              icon={iconMapping[categoryName]}
             />
           ))}
         </div>
