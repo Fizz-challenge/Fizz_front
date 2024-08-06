@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import "./UserPage.css";
 import "./UserPageMediaQuery.css";
+import Skeleton from "react-loading-skeleton";
 import EditPopup from "./EditPopup.jsx";
 import SlideNav from "./SlideNav.jsx";
 import UserPosts from "./UserPosts.jsx";
@@ -48,7 +49,7 @@ const UserPage = () => {
 	const [isRemovePostPopupVisible, setIsRemovePostPopupVisible] = useState(false);
 	
 	const [userInfo, setUserInfo] = useState({});
-	const [userPostInfo, setUserPostInfo] = useState();
+	const [userPostInfo, setUserPostInfo] = useState(null);
 	const [profileNotFound, setProfileNotFound] = useState(false);
 	
 	const [nowSelected, setNowSelected] = useState(0);
@@ -72,15 +73,14 @@ const UserPage = () => {
 	}, [contentCount]);
 
 	useEffect(() => {		
+		if (
+			params.userId === "my-page" &&
+			!localStorage.getItem("accessToken")
+		) {
+			navigate("/login");
+			return;
+		}
 		const fetchUserData = async () => {
-			if (
-				params.userId === "my-page" &&
-				!localStorage.getItem("accessToken")
-			) {
-				navigate("/login");
-				return;
-			}
-
 			try {
 				let res;
 				if (params.userId === "my-page") {
@@ -88,7 +88,7 @@ const UserPage = () => {
 						headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
 					});
 					setUserInfo(res.data.data);
-					console.log(res.data.data);
+					// console.log(res.data.data);
 					fetchUserPost(res.data.data.id);
 					setProfileNotFound(false);
 				} else {
@@ -126,9 +126,9 @@ const UserPage = () => {
 		if (params.userId === localStorage.getItem("profileId")) {
 			navigate("/profile/my-page");
 		} else {
-			// setTimeout(() => {
+			setTimeout(() => {
 				fetchUserData();
-			// }, 3000);
+			}, 1000);
 		}
 
 		if (paramContent === "0") {
@@ -140,14 +140,20 @@ const UserPage = () => {
 		}
 	}, [navigate, params.userId, isFollowing]);
 
+	useEffect(() => {
+		setUserInfo({})
+		setUserPostInfo(null);
+	}, [navigate])
+
 
 	const fetchUserPost = async (id) => {
-		setTimeout(async () => {
-			setUserPostInfo([]);
+		// setUserPostInfo(null);
+		// setTimeout(async () => {
 			try {
 				let page = 0;
-				let test = true;
-				while (test) {
+				let getMore = true;
+				let allPost = []
+				while (getMore) {
 					const userPost = await axios.get(
 						`https://gunwoo.store/api/posts/users/${id}?page=${page}`,
 						{
@@ -159,20 +165,29 @@ const UserPage = () => {
 						}
 					);
 					const newChallenges = userPost.data.data.content;
-					setUserPostInfo((prev) => [...prev, ...newChallenges]);
-					console.log(userPost.data.data);
+					// console.log(userPost.data.data.content, id);
+					
+					// if (userPostInfo !== null && userPostInfo[0].userInfo.id === id) {
+					// 	console.log(123);
+						
+					// 	setUserPostInfo((prev) => [...prev, ...newChallenges]);
+					// } else {
+					// 	setUserPostInfo(newChallenges);
+					// }
+					allPost.push(...newChallenges)
 					page++;
 					if (
-						userPost.data.data.page.totalPages <= page + 1 ||
+						userPost.data.data.page.totalPages < page + 1 ||
 						userPost.data.data.page.totalPages === 0
 					) {
-						test = false;
+						getMore = false;
 					}
 				}
+				setUserPostInfo(allPost)
 			} catch (err) {
 				console.error(err);
 			}
-		}, 1000);
+		// }, 1000);
 	};
 
 	const showEditPopup = () => setIsEditPopupVisible(true);
@@ -251,10 +266,7 @@ const UserPage = () => {
 				{isRemovePostPopupVisible && (
 					<NoticePopup
 						setIsPopupVisible={setIsRemovePostPopupVisible}
-						popupStatus={[
-							"정말 삭제하시겠습니까?",
-							"#ff3636",
-						]}
+						popupStatus={["정말 삭제하시겠습니까?", "#ff3636"]}
 						buttonStatus={{
 							bgcolor: "#ff3636",
 							color: "#ffffff",
@@ -286,12 +298,15 @@ const UserPage = () => {
 					/>
 				)}
 				<div className="profileWrapper">
-					<div className="profileImg" style={{userSelect:"none"}}>
-						<img
-							src={userInfo.profileImage && userInfo.profileImage}
-
-							alt="프로필 이미지"
-						/>
+					<div className="profileImg" style={{ userSelect: "none" }}>
+						{userInfo.profileImage ? (
+							<img
+								src={userInfo.profileImage}
+								alt="프로필 이미지"
+							/>
+						) : (
+							<Skeleton className="profileImgSkeleton" width="150px" height="150px" borderRadius="50%" />
+						)}
 					</div>
 					{userInfo.nickname ? (
 						<>
@@ -346,11 +361,12 @@ const UserPage = () => {
 						</>
 					) : (
 						<>
-							{/* <div className="profileNameSkeleton"></div>
-							<div className="profileDescSkeleton"></div> */}
+							<Skeleton className="profileNameSkeleton" width="150px" height="40px" borderRadius="5px" />
+							<Skeleton className="profileDescSkeleton" width="200px" height="20px" borderRadius="5px" />
 						</>
 					)}
-					<div className="profileDynamicBtn">
+					{userInfo.nickname ? (
+						<div className="profileDynamicBtn">
 						{location.pathname === "/profile/my-page" ? (
 							<>
 								<div
@@ -382,13 +398,16 @@ const UserPage = () => {
 							</div>
 						)}
 					</div>
+					) : (
+						<Skeleton className="profileDynamicBtnSkeleton" width="80px" height="30px" borderRadius="20px"/>
+					)}
 					<div className="profileStat">
 						<div className="statFollower">
 							팔로워
 							<div onClick={() => navigate("/follow?content=0")}>
 								{userInfo.follower
 									? convertNumber(userInfo.follower.length)
-									: "0"}
+									: <Skeleton width="50px" borderRadius="50px" />}
 							</div>
 						</div>
 						<div className="statFollowing">
@@ -396,7 +415,7 @@ const UserPage = () => {
 							<div onClick={() => navigate("/follow?content=1")}>
 								{userInfo.following
 									? convertNumber(userInfo.following.length)
-									: "0"}
+									: <Skeleton width="50px" borderRadius="50px" />}
 							</div>
 						</div>
 						<div className="statChallenges">
@@ -408,7 +427,7 @@ const UserPage = () => {
 									)} */}
 								{userPostInfo
 									? convertNumber(userPostInfo.length)
-									: "0"}
+									: <Skeleton width="50px" borderRadius="50px" />}
 							</div>
 						</div>
 					</div>
