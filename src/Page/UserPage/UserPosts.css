@@ -1,12 +1,16 @@
 .profilePosts {
-    width: calc(100% - var(--contentsMargin));
-    margin: 50px auto;
+    position: absolute;
+    width: calc(var(--contentCount) * 260px);
+    left: 50%;
+    transform: translateX(-50%);
+    /* background-color: red; */
+    margin: 50px 0;
 }
 
 .profilePost {
     display: inline-block;
-    width: var(--contentsWidth);
-    height: calc(var(--contentsWidth) * var(--ratio));
+    width: 250px;
+    height: 325px;
     background-color: #d9d9d9;
     margin: 5px;
     margin-bottom: 100px;
@@ -17,8 +21,8 @@
 .profilePostCard1,
 .profilePostCard2 {
     position: absolute;
-    width: var(--contentsWidth);
-    height: calc(var(--contentsWidth) * var(--ratio));
+    width: 250px;
+    height: 325px;
     background-color: #d9d9d9;
     object-fit: cover;
     border-radius: 15px;
@@ -27,18 +31,18 @@
 }
 
 .profilePostCardHover:hover ~ .profilePostCard1 {
-    width: calc(var(--contentsWidth) * 0.96);
-    height: calc((var(--contentsWidth) * var(--ratio)) * 0.96);
-    margin-left: calc(var(--contentsWidth) * 0.02);
-    margin-top: calc((var(--contentsWidth) * var(--ratio)) * -0.06);;
+    width: calc(250px * 0.96);
+    height: calc(325px * 0.96);
+    margin-left: calc(250px * 0.02);
+    margin-top: calc(325px * -0.06);;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
 }
 
 .profilePostCardHover:hover ~ .profilePostCard2 {
-    width: calc(var(--contentsWidth) * 0.98);
-    height: calc((var(--contentsWidth) * var(--ratio)) * 0.98);
-    margin-left: calc(var(--contentsWidth) * 0.01);
-    margin-top: calc((var(--contentsWidth) * var(--ratio)) * -0.03);;
+    width: calc(250px * 0.98);
+    height: calc(325px * 0.98);
+    margin-left: calc(250px * 0.01);
+    margin-top: calc(325px * -0.03);;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
 }
 
@@ -50,18 +54,18 @@
     display: block;
     opacity: 0;
     position: absolute;
-    width: var(--contentsWidth);
-    height: calc(var(--contentsWidth) * var(--ratio));
+    width: 250px;
+    height: 325px;
     border-radius: 15px;
     background-color: #00000050;
     text-align: center;
-    padding-top: calc(calc(var(--contentsWidth) * var(--ratio)) / 2);
+    padding-top: calc(325px / 2);
 }
 
 .profilePostThumbnail {
     position: absolute;
-    width: var(--contentsWidth);
-    height: calc(var(--contentsWidth) * var(--ratio));
+    width: 250px;
+    height: 325px;
     object-fit: cover;
     border-radius: 15px;
     z-index: 0;
@@ -91,7 +95,7 @@
 .profilePostViewCount {
     position: absolute;
     margin-left: 30px;
-    margin-top: calc(var(--contentsWidth) * var(--ratio) - 30px);
+    margin-top: 295px;
 }
 
 .profilePostLikeCount,
@@ -121,12 +125,12 @@
 .profilePostHover {
     display: none;
     position: absolute;
-    width: var(--contentsWidth);
-    height: calc(var(--contentsWidth) * var(--ratio));
+    width: 250px;
+    height: 325px;
     border-radius: 15px;
     background-color: #00000050;
     text-align: center;
-    padding-top: calc(calc(var(--contentsWidth) * var(--ratio)) / 2);
+    padding-top: calc(325px / 2);
 }
 
 .profilePostThumbnail:hover ~ .profilePostHover,
@@ -138,7 +142,7 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    margin-top: calc(var(--contentsWidth) * var(--ratio) + 10px);
+    margin-top: 335px;
     border-radius: 50px;
     object-fit: cover;
     background-color: #d9d9d9;
@@ -151,7 +155,7 @@
     line-height: 30px;
     font-family: "NanumSquareNeoBD";
     padding: 0px 10px;
-    margin-top: calc(var(--contentsWidth) * var(--ratio) + 15px);
+    margin-top: 340px;
     margin-left: 50px;
     border-radius: 10px;
     background-color: #ffffff;
@@ -171,28 +175,28 @@
 .profilePostChallengeMini,
 .profilePostDesc {
     position: absolute;
-    width: var(--contentsWidth);
+    width: 325px;
     /* background-color: red; */
     font-family: "NanumSquareNeoBD";
 }
 
 .profilePostTitleMini,
 .profilePostChallengeMini {
-    width: calc(var(--contentsWidth) - 50px);
+    width: 200px;
     margin-left: 50px;
 }
 
 .profilePostTitle,
 .profilePostTitleMini {
     font-size: 18px;
-    margin-top: calc(var(--contentsWidth) * var(--ratio) + 10px);
+    margin-top: 335px;
 }
 
 .profilePostChallenge,
 .profilePostChallengeMini,
 .profilePostDesc {
     font-size: 15px;
-    margin-top: calc(var(--contentsWidth) * var(--ratio) + 35px);;
+    margin-top: 360px;
     color: #646464;
 }
 
@@ -259,6 +263,24 @@
     position: absolute;
     left: 2.5px;
     top: 2.5px;
+}
+
+.profilePostSkeletonWrap {
+    display: inline-block;
+}
+
+.profilePostSkeleton {
+    margin: 5px;
+    /* margin-bottom: 100px; */
+}
+
+.profilePostTitleSkeleton {
+    margin: 0px 5px;
+}
+
+.profilePostChallengeSkeleton {
+    margin: 0px 5px;
+    margin-bottom: 50px;
 }
 
 /* .profilePostSkeleton {
