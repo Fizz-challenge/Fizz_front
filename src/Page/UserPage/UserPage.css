@@ -9,7 +9,7 @@
     position: absolute;
     width: 150px;
     height: 150px;
-    background-color: #d9d9d9;
+    /* background-color: #d9d9d9; */
     border-radius: 50%;
 }
 
@@ -22,12 +22,23 @@
     -webkit-user-drag: none;
 }
 
+.profileImgSkeleton {
+    position: absolute;
+    top: -2.5px;
+}
+
 .profileName {
     position: absolute;
     margin-top: 20px;
     margin-left: 170px;
     font-size: 35px;
     font-family: "NanumSquareNeoBD";
+}
+
+.profileNameSkeleton {
+    /* position: absolute; */
+    margin-top: 20px;
+    margin-left: 170px;
 }
 
 .profileInfoIcon {
@@ -66,9 +77,15 @@
     font-family: "NanumSquareNeoRG";
 }
 
+.profileDescSkeleton {
+    /* position: absolute; */
+    margin-top: 5px;
+    margin-left: 170px;
+}
+
 .profileStat {
     position: absolute;
-    margin-top: 30px;
+    top: 130px;
     right: calc(50% - 500px);
     text-align: center;
 }
@@ -96,6 +113,12 @@
 .profileDynamicBtn {
     position: absolute;
     margin-top: 95px;
+    margin-left: 170px;
+}
+
+.profileDynamicBtnSkeleton {
+    /* position: absolute; */
+    margin-top: 10px;
     margin-left: 170px;
 }
 
