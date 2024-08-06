@@ -37,7 +37,7 @@
   width: 100%;
   box-sizing: border-box;
   background-color: #f8f8f8;
-  font-size: 13px;
+  font-family: "NanumSquareNeoRG";
 }
 
 .search-form input:hover {
