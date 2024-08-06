@@ -55,3 +55,21 @@
   text-align: center;
   margin-top: 50px;
 }
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skeletonProfile {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.skeletonText {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
