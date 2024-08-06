@@ -42,8 +42,10 @@ const UserBlock = ({ userId, userProfileId, username, description, profileImage,
     } catch (error) {
       console.error('Error unfollowing user:', error);
     } finally {
-      setLoading(false);
-      closePopup();
+      setTimeout(() => {
+        setLoading(false);
+        closePopup();
+      }, 300);
     }
   };
 
