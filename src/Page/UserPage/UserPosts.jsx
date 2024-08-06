@@ -169,6 +169,10 @@ const UserPosts = ({
             fetchChallengesData();
         }, 1000);
     }, []);
+
+    useEffect(() => {
+        setPostChallengeMode("post");
+    }, [navigate])
     
     const handlePostHover = (id) => {
         setSelectedPost(id);
