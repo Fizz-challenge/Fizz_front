@@ -27,7 +27,10 @@ const CategoryPage = () => {
       } catch (error) {
         console.error('Error fetching challenges:', error);
       } finally {
-        setLoading(false);
+        // Set a timeout of 0.3 seconds before hiding the skeleton
+        setTimeout(() => {
+          setLoading(false);
+        }, 300);
       }
     };
 
@@ -48,8 +51,7 @@ const CategoryPage = () => {
         <div className="skeleton-container">
           {Array.from({ length: 6 }).map((_, index) => (
             <div key={index} className="skeleton-item">
-              <Skeleton height={150} />
-              <Skeleton height={20} width={100} />
+              <Skeleton height={300} width={300} borderRadius={10}/>
             </div>
           ))}
         </div>

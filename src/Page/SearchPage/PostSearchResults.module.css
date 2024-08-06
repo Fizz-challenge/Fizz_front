@@ -11,8 +11,8 @@
 
 .postCard {
   position: relative;
-  width: 250px; /* Fixed width */
-  height: 380px; /* Fixed height */
+  width: 250px;
+  height: 380px;
   background-color: #ffffff;
   overflow: hidden;
   cursor: pointer;
