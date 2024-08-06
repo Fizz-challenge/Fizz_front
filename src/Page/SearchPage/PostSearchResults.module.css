@@ -52,14 +52,14 @@
   border-radius: 15px;
 }
 
-.postCard:hover .overlay {
+.overlay :hover {
   background: rgba(0, 0, 0, 0.3);
 }
 
 .postViewCount {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 20px;
+  left: 15px;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -129,6 +129,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.postChallenge:hover {
+  color: #2DA7FF;
 }
 
 .notFound {

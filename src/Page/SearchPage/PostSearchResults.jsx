@@ -73,7 +73,15 @@ const PostSearchResults = ({ filteredPosts, loading }) => {
               />
               <div className={styles.postTextContainer}>
                 <div className={styles.postTitle}>{post.title}</div>
-                <div className={styles.postChallenge}>{`#${post.challengeInfo.title}`}</div>
+                <div
+                  className={styles.postChallenge}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/challenge/${post.challengeInfo.title}`);
+                  }}
+                >
+                  {`#${post.challengeInfo.title}`}
+                </div>
               </div>
             </div>
           </div>
