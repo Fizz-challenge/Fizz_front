@@ -65,7 +65,9 @@ const FollowPage = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+        setTimeout(() => {
+          setLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+        }, 500);
       }
     };
 
