@@ -68,7 +68,7 @@ function App() {
     // console.log(event.target.scrollTop);
     
     if (event.target.scrollTop !== 0) {
-      console.log(1);
+      // console.log(1);
       
       setIsScroll(true);
     } else {

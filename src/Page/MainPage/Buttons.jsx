@@ -42,7 +42,7 @@ const Buttons = ({ id, likes, comments, views }) => {
   const handleLikeClick = async (event) => {
     event.stopPropagation();
     if (!token) {
-      setIsPopupVisible(true);
+      navigate('/login');
       return;
     }
     setAnimate(true);
@@ -90,8 +90,9 @@ const Buttons = ({ id, likes, comments, views }) => {
       </div>
       <span>{views}</span>
       </div>
-            {isPopupVisible && (
+      {isPopupVisible && (
         <NoticePopup
+          style={{zIndex:"1000"}}
           setIsPopupVisible={setIsPopupVisible}
           popupStatus={["로그인이 필요한 서비스입니다.", "#2DA7FF"]}
           buttonStatus={{ msg: "확인", action: () => navigate('/login') }}
