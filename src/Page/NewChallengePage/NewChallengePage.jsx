@@ -88,7 +88,7 @@ const NewChallengePage = () => {
 			<div className="new-challenge-container">
 				<div className="new-challenge-left">
 					<label>
-						<div className="category-title">카테고리 선택</div>
+						<div className="category-selection-title">카테고리 선택</div>
 						<span className="form-plus form-plus2">
 							<IoInformationCircleOutline />
 							카테고리는 한가지만 선택 가능합니다.
