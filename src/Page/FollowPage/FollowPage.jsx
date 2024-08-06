@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import UserBlock from './UserBlock';
 import SearchBar from '../../Components/SearchBar';
 import './FollowPage.css';
@@ -13,8 +15,10 @@ const FollowPage = () => {
     following: [],
     follower: []
   });
+  const [loading, setLoading] = useState(true); // 추가된 로딩 상태
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 11;
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (!params.has('content')) {
@@ -60,6 +64,10 @@ const FollowPage = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+        }, 500);
       }
     };
 
@@ -177,18 +185,24 @@ const FollowPage = () => {
         </div>
         <div className="userBlockContainer">
           <SearchBar className="followPageSearchBar" onSearch={handleSearch} />
-          {currentUsers.map((user, index) => (
-            <UserBlock
-              key={index}
-              userId={user.id}
-              userProfileId={user.profileId}
-              username={user.nickname}
-              description={user.aboutMe}
-              profileImage={user.profileImage}
-              isFollowing={user.isFollowing || data.following.some(f => f.id === user.id)}
-              onFollowToggle={handleFollowToggle}
-            />
-          ))}
+          {loading ? (
+            Array.from({ length: usersPerPage }).map((_, index) => (
+              <Skeleton key={index} width={500} height={70} borderRadius={8} style={{ padding: '2px 10px', marginBottom: '6px' }} />
+            ))
+          ) : (
+            currentUsers.map((user, index) => (
+              <UserBlock
+                key={index}
+                userId={user.id}
+                userProfileId={user.profileId}
+                username={user.nickname}
+                description={user.aboutMe}
+                profileImage={user.profileImage}
+                isFollowing={user.isFollowing || data.following.some(f => f.id === user.id)}
+                onFollowToggle={handleFollowToggle}
+              />
+            ))
+          )}
         </div>
         <ul className="pageNumbers">
           {getPageNumbers().map((page, index) => (

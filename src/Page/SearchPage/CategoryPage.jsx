@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import ChallengeFolder from './ChallengeFolder';
 import iconMapping from './IconMapping';
 import './CategoryPage.css';
@@ -25,7 +27,10 @@ const CategoryPage = () => {
       } catch (error) {
         console.error('Error fetching challenges:', error);
       } finally {
-        setLoading(false);
+        // Set a timeout of 0.3 seconds before hiding the skeleton
+        setTimeout(() => {
+          setLoading(false);
+        }, 300);
       }
     };
 
@@ -43,7 +48,13 @@ const CategoryPage = () => {
         <h1>{categoryName} 챌린지</h1>
       </div>
       {loading ? (
-        <p>Loading...</p>
+        <div className="skeleton-container">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="skeleton-item">
+              <Skeleton height={300} width={300} borderRadius={10}/>
+            </div>
+          ))}
+        </div>
       ) : challenges.length > 0 ? (
         <div className="challenges-list">
           {challenges.map((challenge) => (
@@ -52,14 +63,14 @@ const CategoryPage = () => {
               title={challenge.title}
               count={challenge.participantCounts}
               challengeId={challenge.challengeId}
-              icon={iconMapping[categoryName]} // 아이콘 추가
+              icon={iconMapping[categoryName]}
             />
           ))}
         </div>
       ) : (
         <div className="no-challenges">
-          <p>아무도 {categoryName} 챌린지를 시작하지 않았네요...<br />새로운 챌린지를 만들어봐요!</p>
-          <button className="createChallengeButton" onClick={handleCreateChallenge}>챌린지 만들기</button>
+          <p>{categoryName} 챌린지를 만들어볼까요? 😉</p>
+          <div className="createChallengeButton hoverBtns" onClick={handleCreateChallenge}>만들기</div>
         </div>
       )}
     </div>

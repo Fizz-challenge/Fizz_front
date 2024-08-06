@@ -129,6 +129,7 @@
 
 .loginGoogleBtn {
     background-color: #ffffff;
-    top: calc(50% + 140px);
+    /* top: calc(50% + 140px); */
+    top: calc(50% + 70px);
     color: #0000008a;
 }

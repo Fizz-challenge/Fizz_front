@@ -3,9 +3,13 @@
     position: absolute;
     height: 70%;
     top: 15%;
-    background-color: #E1F3FF;
-    border-radius: 20px;
-    box-shadow: #00000030 0px 3px 5px inset;
+    background-color: #f0f0f0;
+    border-radius: 30px;
+    transition: .3s;
+}
+
+.askChatScroll {
+    box-shadow: #00000030 0px 3px 3px inset;
 }
 
 .askChat {
@@ -32,19 +36,20 @@
     background-color: #2DA7FF;
     color: #ffffff;
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: 25px;
     width: 100%;
-    box-shadow: #00000030 0px 3px 5px;
+    line-height: 30px;
+    /* box-shadow: #00000030 0px 3px 5px; */
     word-break: keep-all;
-    font-family: "NanumSquareNeoRG";
+    font-family: "NanumSquareNeoBD";
 }
 
 .askBubble {
     margin: 10px 0;
-    padding: 10px;
+    padding: 10px 20px;
     max-width: 60%;
     font-size: 18px;
-    box-shadow: #00000030 0px 3px 5px;
+    /* box-shadow: #00000030 0px 3px 5px; */
     word-break: keep-all;
     font-family: "NanumSquareNeoRG";
 }
@@ -53,14 +58,14 @@
     align-self: flex-end;
     background-color: #2DA7FF;
     color: #ffffff;
-    border-radius: 15px 0px 15px 15px;
+    border-radius: 25px 0px 25px 25px;
     animation: bubbleUserFadein .2s forwards;
 }
 
 .askBubble.askBubbleBot {
     align-self: flex-start;
     background-color: #ffffff;
-    border-radius: 0px 15px 15px 15px;
+    border-radius: 0px 25px 25px 25px;
     animation: bubbleBotFadein .5s forwards;
 }
 
@@ -99,7 +104,7 @@
 }
 
 .categoryAskFormDesc {
-    margin-top: 10px;
+    margin: 10px 0;
     width: 100%;
     height: 100px;
     padding: 10px;
@@ -111,8 +116,8 @@
 .categoryAskFormTitle,
 .categoryAskFormDesc {
     border: none;
-    background-color: #ededed;
-    border-radius: 10px;
+    background-color: #f0f0f0;
+    border-radius: 15px;
     transition: .05s;
 }
 
