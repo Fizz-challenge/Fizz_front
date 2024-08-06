@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import {
 	IoInformationCircleOutline,
@@ -41,7 +41,6 @@ const UserPage = () => {
 	const params = useParams();
 	const [searchParams] = useSearchParams();
 	const paramContent = searchParams.get("content");
-	// const paramMode = searchParams.get("mode");
 	const navigate = useNavigate();
 
 	const [isLoginPopupVisible, setIsLoginPopupVisible] = useState(false);
@@ -49,9 +48,8 @@ const UserPage = () => {
 	const [isRemovePostPopupVisible, setIsRemovePostPopupVisible] = useState(false);
 	
 	const [userInfo, setUserInfo] = useState({});
-	const [userPostInfo, setUserPostInfo] = useState(null);
+	const [userPostInfo, setUserPostInfo] = useState();
 	const [profileNotFound, setProfileNotFound] = useState(false);
-	const [categories, setCategories] = useState([]);
 	
 	const [nowSelected, setNowSelected] = useState(0);
 	const [selectedPost, setSelectedPost] = useState();
@@ -67,13 +65,13 @@ const UserPage = () => {
 	const profileInfoRef = useRef(null);
 	
 	const { width } = useWindowSize();
-	const contentCount = Math.floor(width / 300) >= 2 ? Math.floor(width / 300) : 2;
+	const contentCount = Math.floor(width / 310) >= 2 ? Math.floor(width / 310) : 2;
 
 	useEffect(() => {
 		document.documentElement.style.setProperty('--contentCount', contentCount);
 	}, [contentCount]);
 
-	useEffect(() => {
+	useEffect(() => {		
 		const fetchUserData = async () => {
 			if (
 				params.userId === "my-page" &&
@@ -97,7 +95,7 @@ const UserPage = () => {
 					res = await axios.get(
 						`https://gunwoo.store/api/user/${params.userId}`
 					);
-					fetchUserPost(res.data.data.id);
+					fetchUserPost(res.data.data.id);					
 					setUserInfo(res.data.data);					
 					if (localStorage.getItem("accessToken")) {
 						const myInfo = await axios.get(
@@ -142,16 +140,40 @@ const UserPage = () => {
 		}
 	}, [navigate, params.userId, isFollowing]);
 
+
 	const fetchUserPost = async (id) => {
-		const userPost = await axios.get(`https://gunwoo.store/api/posts/users/${id}`)
-		// setTimeout(() => {
-			setUserPostInfo(userPost.data.data.content);
-			console.log(userPost.data.data);
-			
-		// }, 1000);
-		// console.log(userPost.data.data);
-		
-	}
+		setTimeout(async () => {
+			setUserPostInfo([]);
+			try {
+				let page = 0;
+				let test = true;
+				while (test) {
+					const userPost = await axios.get(
+						`https://gunwoo.store/api/posts/users/${id}?page=${page}`,
+						{
+							headers: {
+								Authorization: `Bearer ${localStorage.getItem(
+									"accessToken"
+								)}`,
+							},
+						}
+					);
+					const newChallenges = userPost.data.data.content;
+					setUserPostInfo((prev) => [...prev, ...newChallenges]);
+					console.log(userPost.data.data);
+					page++;
+					if (
+						userPost.data.data.page.totalPages <= page + 1 ||
+						userPost.data.data.page.totalPages === 0
+					) {
+						test = false;
+					}
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		}, 1000);
+	};
 
 	const showEditPopup = () => setIsEditPopupVisible(true);
 
@@ -405,7 +427,6 @@ const UserPage = () => {
 					setNowSelected={setNowSelected}
 					userPostInfo={userPostInfo}
 					convertNumber={convertNumber}
-					width={width}
 					setIsRemovePostPopupVisible={setIsRemovePostPopupVisible}
 					setSelectedPost={setSelectedPost}
 					contentCount={contentCount}

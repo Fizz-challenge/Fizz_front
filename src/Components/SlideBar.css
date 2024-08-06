@@ -1,5 +1,3 @@
-/* SlideBar.css */
-
 .slide-bar {
   background-color: #f0f0f0;
   width: 500px;
@@ -10,7 +8,12 @@
   align-items: center;
   user-select: none;
   margin: 10px auto;
-  position: relative;
+  margin-top: 60px;
+  position: fixed;
+  top: 10px;
+  left: calc(50% - 155px);
+  z-index: 1;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
 }
 
 .slide-btn {

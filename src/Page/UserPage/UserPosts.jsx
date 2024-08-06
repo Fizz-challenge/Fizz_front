@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import { IoPlay, IoGrid, IoGridOutline } from "react-icons/io5";
 import { FaComment, FaHeart } from "react-icons/fa6";
@@ -11,10 +12,11 @@ import "./UserPosts.css";
 const UserPosts = ({ 
     nowSelected, 
 	setNowSelected,
-    userPostInfo, 
+    userPostInfo,
     convertNumber, 
     setIsRemovePostPopupVisible, 
     setSelectedPost, 
+    contentCount,
 }) => {
     const navigate = useNavigate();
 
@@ -24,12 +26,8 @@ const UserPosts = ({
     const [activeCreatedChallengesPosts, setActiveCreatedChallengesPosts] = useState([]);
     const [hiddenCreatedChallenges, setHiddenCreatedChallenges] = useState(null);
     const [hiddenCreatedChallengesPosts, setHiddenCreatedChallengesPosts] = useState(null);
-    const [likedChallenges, setLikedChallenges] = useState([]);
+    const [likedChallenges, setLikedChallenges] = useState(null);
     
-    const [hasMore, setHasMore] = useState(true);
-    const [currentPage, setCurrentPage] = useState(0);
-    const observer = useRef();
-
     const [postChallengeMode, setPostChallengeMode] = useState("post");
     const [activeSleepMode, setActiveSleepMode] = useState("active");
 
@@ -124,45 +122,42 @@ const UserPosts = ({
         }
     };
 
-    const fetchLikedChallengesData = async (page) => {
-        if (!hasMore) return;
-    
+    const fetchLikedChallengesData = async () => {
+        setLikedChallenges([]);
         try {
-          const likChalRes = await axios.get(
-            `https://gunwoo.store/api/posts/users/like?page=${page}`,
-            {
-              headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-            }
-          );
-          const newChallenges = likChalRes.data.data.content;
-          setLikedChallenges(prev => [...prev, ...newChallenges]);
-          console.log(likChalRes.data.data);
-    
-          if (page + 1 >= likChalRes.data.data.page.totalPages) {
-            setHasMore(false);
-          }
+			let page = 0;
+			let test = true;
+			while (test) {
+				const likChalRes = await axios.get(
+					`https://gunwoo.store/api/posts/users/like?page=${page}`,
+					{
+						headers: {
+							Authorization: `Bearer ${localStorage.getItem(
+								"accessToken"
+							)}`,
+						},
+					}
+				);
+				const newChallenges = likChalRes.data.data.content;
+				setLikedChallenges(prev => [...prev, ...newChallenges]);
+				console.log(likChalRes.data.data);
+				page ++;
+				if (likChalRes.data.data.page.totalPages <= page + 1 || likChalRes.data.data.page.totalPages === 0) {
+					test = false;
+				}
+			}
         } catch (err) {
           console.error(err);
         }
       };
 
     useEffect(() => {
-        fetchLikedChallengesData(currentPage);
-        fetchChallengesData();
-    }, [currentPage]);
+        setTimeout(() => {
+            fetchLikedChallengesData();
+            fetchChallengesData();
+        }, 1000);
+    }, []);
     
-    const lastChallengeElementRef = useCallback(node => {
-        if (observer.current) observer.current.disconnect();
-    
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setCurrentPage(prevPage => prevPage + 1);            
-            }
-        });
-    
-        if (node) observer.current.observe(node);
-      }, [hasMore]);
-
     const handlePostHover = (id) => {
         setSelectedPost(id);
     };
@@ -217,10 +212,12 @@ const UserPosts = ({
             <div className="profilePosts">
                 {nowSelected === 0 ? (
                     postChallengeMode === "post" ? (
-                        userPostInfo !== null ? (
+                        userPostInfo ? (
                             userPostInfo.length > 0 ? (
-                                userPostInfo.map((item) => (
-                                    <div key={item.id} className="profilePost">
+                                userPostInfo.map((item, index) => (
+                                    <div
+                                        key={item.id} className="profilePost"
+                                    >
                                         <img
                                             className="profilePostThumbnail"
                                             src={item.fileType === "VIDEO" ? item.fileUrls[1] : item.fileUrls[0]}
@@ -267,7 +264,13 @@ const UserPosts = ({
                                 )
                             )
                         ) : (
-                            <div></div>
+                             Array.from({ length: contentCount * 2 }, (_, index) => (
+                                <div className="profilePostSkeletonWrap" key={index}>
+                                    <Skeleton className="profilePostSkeleton" width="250px" height="325px" borderRadius="15px" />
+                                    <Skeleton className="profilePostTitleSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                    <Skeleton className="profilePostChallengeSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                </div>
+                            ))
                         )
                     ) : participatedChallenges ? (
                         participatedChallenges.length > 0 ? (
@@ -323,7 +326,13 @@ const UserPosts = ({
                             </div>
                         )
                     ) : (
-                        <div></div>
+                        Array.from({ length: contentCount * 2 }, (_, index) => (
+                            <div className="profilePostSkeletonWrap" key={index}>
+                                <Skeleton className="profilePostSkeleton" width="250px" height="325px" borderRadius="15px" />
+                                <Skeleton className="profilePostTitleSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                <Skeleton className="profilePostChallengeSkeleton" width="250px" height="20px" borderRadius="5px" />
+                            </div>
+                        ))
                     )
                 ) : nowSelected === 1 ? (
                     activeSleepMode === "active" ? (
@@ -383,7 +392,13 @@ const UserPosts = ({
                                 </div>
                             )
                         ) : (
-                            <div></div>
+                            Array.from({ length: contentCount * 2 }, (_, index) => (
+                                <div className="profilePostSkeletonWrap" key={index}>
+                                    <Skeleton className="profilePostSkeleton" width="250px" height="325px" borderRadius="15px" />
+                                    <Skeleton className="profilePostTitleSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                    <Skeleton className="profilePostChallengeSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                </div>
+                            ))
                         )
                     ) : hiddenCreatedChallenges ? (
                         hiddenCreatedChallenges.length > 0 ? (
@@ -438,14 +453,19 @@ const UserPosts = ({
                             </div>
                         )
                     ) : (
-                        <div></div>
+                        Array.from({ length: contentCount * 2 }, (_, index) => (
+                            <div className="profilePostSkeletonWrap" key={index}>
+                                <Skeleton className="profilePostSkeleton" width="250px" height="325px" borderRadius="15px" />
+                                <Skeleton className="profilePostTitleSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                <Skeleton className="profilePostChallengeSkeleton" width="250px" height="20px" borderRadius="5px" />
+                            </div>
+                        ))
                     )
                 ) : (
                     likedChallenges ? (
                         likedChallenges.length > 0 ? (
                             likedChallenges.map((item, index) => (
                                 <div 
-                                    ref={likedChallenges.length === index + 1 ? lastChallengeElementRef : null} 
                                     key={item.id} className="profilePost"
                                 >
                                     <img
@@ -495,7 +515,13 @@ const UserPosts = ({
                             </div>
                         )
                     ) : (
-                        <div></div>
+                        Array.from({ length: contentCount * 2 }, (_, index) => (
+                            <div className="profilePostSkeletonWrap" key={index}>
+                                <Skeleton className="profilePostSkeleton" width="250px" height="325px" borderRadius="15px" />
+                                <Skeleton className="profilePostTitleSkeleton" width="250px" height="20px" borderRadius="5px" />
+                                <Skeleton className="profilePostChallengeSkeleton" width="250px" height="20px" borderRadius="5px" />
+                            </div>
+                        ))
                     )
                 )}
             </div>
