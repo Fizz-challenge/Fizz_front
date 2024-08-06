@@ -10,7 +10,7 @@ import ChallengeSearchResults from './ChallengeSearchResults';
 import UserSearchResults from './UserSearchResults';
 import PostSearchResults from './PostSearchResults';
 
-const SearchPage = () => {
+const SearchPage = ({ handleScroll, isScroll }) => {
   const [loading, setLoading] = useState(true);
   const [nowSelected, setNowSelected] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -165,11 +165,14 @@ const SearchPage = () => {
     }
   };
 
+
+
+
   return (
     <div className="search-page-container">
       <div className="SlideBarWrapper">
         {showSlideBar && (
-          <SlideBar nowSelected={nowSelected} setNowSelected={setNowSelected} items={navItems} />
+          <SlideBar nowSelected={nowSelected} setNowSelected={setNowSelected} items={navItems} isScroll={isScroll} />
         )}
       </div>
       <div className="search-page-main-content">
