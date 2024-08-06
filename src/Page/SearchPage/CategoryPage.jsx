@@ -69,8 +69,8 @@ const CategoryPage = () => {
         </div>
       ) : (
         <div className="no-challenges">
-          <p>아무도 {categoryName} 챌린지를 시작하지 않았네요...<br />새로운 챌린지를 만들어봐요!</p>
-          <button className="createChallengeButton" onClick={handleCreateChallenge}>챌린지 만들기</button>
+          <p>{categoryName} 챌린지를 만들어볼까요? 😉</p>
+          <div className="createChallengeButton hoverBtns" onClick={handleCreateChallenge}>만들기</div>
         </div>
       )}
     </div>
