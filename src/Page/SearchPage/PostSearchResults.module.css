@@ -9,6 +9,22 @@
   margin-top: 100px;
 }
 
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.skeletonProfile {
+  display: flex;
+  align-items: left;
+  margin-top: 10px;
+}
+
+.skeletonText {
+  margin-left: 10px;
+}
+
 .postCard {
   position: relative;
   width: 250px;
