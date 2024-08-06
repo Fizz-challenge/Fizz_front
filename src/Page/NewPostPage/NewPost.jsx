@@ -58,51 +58,66 @@ const NewPost = () => {
     };
 
     checkChallengeExists();
-    subscribeToNotifications();
   }, [challenge, token]);
 
   const subscribeToNotifications = useCallback(() => {
-    if (eventSourceRef.current) {
-      console.log("EventSource already connected");
-      return;
-    }
-
     const eventSource = new EventSourcePolyfill('https://gunwoo.store/api/notify/subscribe', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
-
+  
     const handleOpen = () => {
       console.log("EventSource connected");
     };
-
+  
     const handleFileEncodingEvent = (event) => {
       try {
         const eventData = event.data;
         console.log("Received message:", eventData);
-
+  
         if (eventData.includes("ENCODING_FINISH")) {
           const parsedData = JSON.parse(eventData);
           setHlsUrl(parsedData.videoUrl);
           setThumbnail(parsedData.thumbnailUrl);
           setIsLoading(false);
+          eventSource.close();
         }
       } catch (error) {
-        console.error("Failed to handle event data:", error);
-        console.error("Event data received:", event.data);
+        eventSource.close();
+        handleCancel();
       }
     };
-
+  
+    const handleError = (error) => {
+      if (eventSource) {
+        setPopupMessage('영상 불러오기 실패. 다시 시도 해주세요.');
+        setIsPopupVisible(true);
+        eventSource.close();
+        handleCancel();
+      }
+    };
+  
     eventSource.onopen = handleOpen;
     eventSource.addEventListener("file-encoding-event", handleFileEncodingEvent);
-
+    eventSource.onerror = handleError;
+  
     eventSourceRef.current = eventSource;
-
+  
     return () => {
       eventSource.removeEventListener("file-encoding-event", handleFileEncodingEvent);
+      eventSource.close();
     };
   }, [token]);
+  
+  useEffect(() => {
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        console.log("EventSource disconnected");
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (hlsUrl) {
@@ -145,6 +160,8 @@ const NewPost = () => {
       console.log("1단계");
       setUploadProgress(20);
       await getPresignedUrl(data.uploadId, data.key, file);
+
+      subscribeToNotifications();
 
     } catch (error) {
       console.error('Error initiating upload:', error);
@@ -308,7 +325,7 @@ const NewPost = () => {
     },
   });
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setUploadProgress(0);
     setUploadComplete(false);
     setVideo(null);
@@ -319,7 +336,7 @@ const NewPost = () => {
     setImageUrls([]);
     setIsLoading(false);
     setErrorMessage('');
-  };
+  }, []);
 
   const handleTitleChange = useCallback((event) => {
     const value = event.target.value;
