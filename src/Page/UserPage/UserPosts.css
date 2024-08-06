@@ -27,7 +27,7 @@
     object-fit: cover;
     border-radius: 15px;
     z-index: -1;
-    /* transition: .3s; */
+    transition: .3s;
 }
 
 .profilePostCardHover:hover ~ .profilePostCard1 {
@@ -60,6 +60,7 @@
     background-color: #00000050;
     text-align: center;
     padding-top: calc(325px / 2);
+    transition: opacity .1s;
 }
 
 .profilePostThumbnail {
@@ -98,6 +99,15 @@
     margin-top: 295px;
 }
 
+.profilePostType {
+    position: absolute;
+    margin-left: 15px;
+    margin-top: 15px;
+    font-size: 20px;
+    color: #ffffff;
+    filter: drop-shadow(0px 0px 5px #000000);
+}
+
 .profilePostLikeCount,
 .profilePostCommentCount {
     display: inline-block;
@@ -123,7 +133,6 @@
 }
 
 .profilePostHover {
-    display: none;
     position: absolute;
     width: 250px;
     height: 325px;
@@ -131,11 +140,13 @@
     background-color: #00000050;
     text-align: center;
     padding-top: calc(325px / 2);
+    transition: opacity .1s;
+    opacity: 0;
 }
 
-.profilePostThumbnail:hover ~ .profilePostHover,
 .profilePost .profilePostHover:hover  {
-    display: block;
+    /* display: block; */
+    opacity: 1;
 }
 
 .profilePostImg {
@@ -175,7 +186,7 @@
 .profilePostChallengeMini,
 .profilePostDesc {
     position: absolute;
-    width: 325px;
+    width: 250px;
     /* background-color: red; */
     font-family: "NanumSquareNeoBD";
 }

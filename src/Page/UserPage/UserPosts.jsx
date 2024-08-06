@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import { IoPlay, IoGrid, IoGridOutline } from "react-icons/io5";
-import { FaComment, FaHeart } from "react-icons/fa6";
+import { FaComment, FaHeart, FaHashtag } from "react-icons/fa6";
 import { HiMiniTrash } from "react-icons/hi2";
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
+import { BsPlayBtnFill, BsImageFill } from "react-icons/bs";
 import PostText from "./PostText.jsx";
 import "./UserPosts.css";
 
@@ -238,6 +239,9 @@ const UserPosts = ({
                                             <IoPlay className="profilePostIcon" />
                                             {convertNumber(item.viewCount)}
                                         </div>
+                                        <div className="profilePostType">
+                                            {item.fileType === "VIDEO" ? <BsPlayBtnFill /> : <BsImageFill />}
+                                        </div>
                                         <div
                                             className="profilePostHover"
                                             onClick={() => navigate(`/video/${item.id}`)}
@@ -305,6 +309,10 @@ const UserPosts = ({
                                                 alt="썸네일"
                                             />
                                         )}
+                                    <div className="profilePostType">
+                                        <FaHashtag />                                        
+                                    </div>
+
 									<div
 										className="profilePostCardHover"
 										onClick={() => navigate(`/challenge/${item.title}`)}
@@ -370,6 +378,10 @@ const UserPosts = ({
                                                     alt="썸네일"
                                                 />
                                             )}
+                                        <div className="profilePostType">
+                                            <FaHashtag />                                        
+                                        </div>
+
 										<div
 											className="profilePostCardHover"
 											onClick={() => navigate(`/challenge/${item.title}`)}
@@ -433,6 +445,9 @@ const UserPosts = ({
                                                 alt="썸네일"
                                             />
                                         )}
+                                    <div className="profilePostType">
+                                        <FaHashtag />                                        
+                                    </div>
 									<div
 										className="profilePostCardHover"
 										onClick={() => navigate(`/challenge/${item.title}`)}
@@ -488,6 +503,10 @@ const UserPosts = ({
                                         <IoPlay className="profilePostIcon" />
                                         {convertNumber(item.viewCount)}
                                     </div>
+                                    <div className="profilePostType">
+                                        {item.fileType === "VIDEO" ? <BsPlayBtnFill /> : <BsImageFill />}
+                                    </div>
+
                                     <div
                                         className="profilePostHover"
                                         onClick={() => navigate(`/video/${item.id}`)}
