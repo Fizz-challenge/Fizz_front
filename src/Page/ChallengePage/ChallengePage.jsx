@@ -15,11 +15,6 @@ const SkeletonItem = () => (
   <div className="challenge-image-item">
     <Skeleton className="skeleton-image" />
     <Skeleton className="skeleton-text" />
-    <Skeleton className="skeleton-text" />
-    <div className="skeleton-user-info">
-      <Skeleton circle className="skeleton-avatar" />
-      <Skeleton className="skeleton-text" />
-    </div>
   </div>
 );
 
@@ -53,7 +48,7 @@ const ChallengePage = () => {
     try {
       const response = await axios.get(`https://gunwoo.store/api/challenge/info?title=${challenge}`);
       if (response.data.success === 'false' && response.data.code === 'CH001') {
-        setWarningMessage("존재하지 않는 챌린지 입니다⚠️"); // 경고 메시지 업데이트
+        setWarningMessage("존재하지 않는 챌린지 입니다⚠️");
         setIsLoading(false);
         return;
       }
