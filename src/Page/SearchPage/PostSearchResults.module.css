@@ -110,7 +110,7 @@
 .postTextContainer {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 50px);
+  max-width: calc(100% - 50px);
 }
 
 .postTitle {
