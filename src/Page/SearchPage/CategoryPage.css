@@ -8,17 +8,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 20px 0px;
+  font-family: "NanumSquareNeoEB";
+  text-align: center;
+  font-size: 20px;
 }
 
 .category-title-container svg {
   font-size: 40px; /* 아이콘 크기 조정 */
   margin-right: 10px; /* 아이콘과 텍스트 간격 조정 */
-}
-
-.category-title-container h1 {
-  font-family: "NanumSquareNeoBD";
-  text-align: center;
 }
 
 .challenges-list {
@@ -130,4 +128,17 @@
 
 .createChallengeButton:hover {
   background-color: #2da7ff;
+}
+
+.skeleton-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 20px;
+}
+
+.skeleton-item {
+  width: 300px; /* Set width */
+  height: 300px; /* Set height */
+  margin: 10px; /* Set margin */
+  border-radius: 15px;  
 }

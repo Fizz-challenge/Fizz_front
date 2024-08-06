@@ -123,11 +123,12 @@ const UserPosts = ({
     };
 
     const fetchLikedChallengesData = async () => {
-        setLikedChallenges([]);
+        // setLikedChallenges(null);
         try {
 			let page = 0;
-			let test = true;
-			while (test) {
+			let getMore = true;
+            let allPost = [];
+			while (getMore) {
 				const likChalRes = await axios.get(
 					`https://gunwoo.store/api/posts/users/like?page=${page}`,
 					{
@@ -139,19 +140,29 @@ const UserPosts = ({
 					}
 				);
 				const newChallenges = likChalRes.data.data.content;
-				setLikedChallenges(prev => [...prev, ...newChallenges]);
-				console.log(likChalRes.data.data);
+				// setLikedChallenges(prev => [...prev, ...newChallenges]);
+				// console.log("likChalRes", likChalRes.data.data);
+                
+                // if (likedChallenges !== null) {
+                //     setLikedChallenges((prev) => [...prev, ...newChallenges]);
+                // } else {
+                //     setLikedChallenges(newChallenges);
+                // }
+                allPost.push(...newChallenges)
+                
 				page ++;
-				if (likChalRes.data.data.page.totalPages <= page + 1 || likChalRes.data.data.page.totalPages === 0) {
-					test = false;
+				if (likChalRes.data.data.page.totalPages < page + 1 || likChalRes.data.data.page.totalPages === 0) {
+                    getMore = false;
 				}
 			}
+            setLikedChallenges(allPost);
         } catch (err) {
           console.error(err);
         }
       };
 
     useEffect(() => {
+        setLikedChallenges(null);
         setTimeout(() => {
             fetchLikedChallengesData();
             fetchChallengesData();
