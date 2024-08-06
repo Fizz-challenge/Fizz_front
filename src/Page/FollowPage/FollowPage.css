@@ -16,18 +16,16 @@
   width: 500px;
 }
 
-/* SlideBar 관련 스타일 */
-
 .slideBar-Wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 320px; /* 가로 크기 고정 */
+  width: 320px;
 }
 .slideBar {
   background-color: #f0f0f0;
-  width: 320px; /* 가로 크기 고정 */
-  height: 60px; /* 세로 크기 고정 */
+  width: 320px;
+  height: 60px;
   border-radius: 25px;
   display: flex;
   justify-content: space-around;
@@ -39,7 +37,7 @@
 
 .slideBtn {
   position: absolute;
-  width: 150px; /* 각 버튼의 크기에 맞게 조정 */
+  width: 150px;
   height: 50px;
   background-color: #ffffff;
   border-radius: 20px;
@@ -47,7 +45,7 @@
 }
 
 .slideBarBtn {
-  width: 150px; /* 각 버튼의 크기에 맞게 조정 */
+  width: 150px;
   height: 50px;
   border-radius: 20px;
   text-align: center;
@@ -74,7 +72,7 @@
 }
 
 .Select1 {
-  left: 250px; /* 160px + 5px */
+  left: 250px;
 }
 
 .list {

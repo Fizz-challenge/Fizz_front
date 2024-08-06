@@ -15,7 +15,7 @@ const FollowPage = () => {
     following: [],
     follower: []
   });
-  const [loading, setLoading] = useState(true); // 추가된 로딩 상태
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 11;
 
@@ -66,7 +66,7 @@ const FollowPage = () => {
         console.error('Error fetching data:', error);
       } finally {
         setTimeout(() => {
-          setLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+          setLoading(false);
         }, 500);
       }
     };
@@ -75,7 +75,7 @@ const FollowPage = () => {
   }, [navigate, location.search]);
 
   useEffect(() => {
-    handleSearch(""); // Clear search when viewType changes
+    handleSearch("");
   }, [viewType]);
 
   const handleSearch = (searchTerm) => {

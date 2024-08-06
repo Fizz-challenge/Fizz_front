@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NoticePopup from '../../Components/NoticePopup'; // NoticePopup 컴포넌트 import
+import NoticePopup from '../../Components/NoticePopup';
 import './UserBlock.css';
 import { FaUserAltSlash, FaUserPlus } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
