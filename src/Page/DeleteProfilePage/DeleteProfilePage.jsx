@@ -45,7 +45,7 @@ const DeleteProfile = () => {
 			</div>
 			<div className="deleteProfileNotice">
 				<div>
-					- 게시물, 프로필 등 활동했던 모든 정보가{" "}
+					- 챌린지, 게시물, 프로필 등 활동했던 모든 정보가{" "}
 					<span style={{ color: "#ff0000" }}>영원히 삭제</span>됩니다.
 				</div>
 				<div>

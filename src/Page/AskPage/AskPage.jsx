@@ -4,6 +4,8 @@ import "./AskPage.css";
 import NoticePopup from "../../Components/NoticePopup";
 
 const AskPage = () => {
+	const [isScroll, setIsScroll] = useState(false);
+
 	const [messages, setMessages] = useState([]);
 
     const [isNoticePopupVisible, setIsNoticePopupVisible] = useState(false);
@@ -71,12 +73,21 @@ const AskPage = () => {
 		},
 	];
 
+	const handleScroll = (event) => {
+		// console.log(event.target.scrollTop);
+		if (event.target.scrollTop !== 0) {
+			setIsScroll(true);
+		} else {
+			setIsScroll(false);
+		}
+	}
+
 	return (
 		<>
             {isNoticePopupVisible && (
                 <NoticePopup setIsPopupVisible={setIsNoticePopupVisible} popupStatus={noticePopupStatus} />
             )}
-			<div className="askChat">
+			<div className={`askChat ${isScroll ? "askChatScroll" : ""}`} onScroll={handleScroll}>
 				{messages.map((msg, index) => (
 					<div key={index} className={`askBubble ${msg.sender}`}>
 						{msg.text}
